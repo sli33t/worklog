@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>工作日志</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../static/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">工作日志</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/user/toUserList" th:text="'用户管理 (' + ${userCount} + ')'" target="iframe">(</a></li>
+            <li class="layui-nav-item"><a href="/lesson/toLessonList" th:text="'课程管理 (' + ${lessonCount} + ')'" target="iframe"></a></li>
+            <li class="layui-nav-item"><a href="/subscription/toSubscriptionList" th:text="'订阅管理 (' + ${subscriptionCount} + ')'" target="iframe"></a></li>
+        </ul>-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" th:text="${user.username}"></a>
+            </li>
+            <li class="layui-nav-item"><a href="/logout">注销</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+
+                <!--th:if="${user.userType} eq '0'"-->
+                <li class="layui-nav-item layui-nav-itemed" >
+                    <a href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/user/toUserList" target="iframe">用户管理</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="/role/toRoleList" target="iframe">角色管理</a></dd>
+                    </dl>
+                </li>
+
+                <!--th:if="${user.userType} eq '1'"-->
+                <li class="layui-nav-item layui-nav-itemed" >
+                    <a href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/customer/toCustomerList" target="iframe">客户管理</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">文档管理</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">客户反馈单</a></dd>
+                    </dl>
+                </li>
+
+                <!--th:if="${user.userType} eq '2'"-->
+                <li class="layui-nav-item layui-nav-itemed" >
+                    <a href="javascript:;">开发管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">任务分配</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">开发完成</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">测试完成</a></dd>
+                    </dl>
+
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" target="iframe">工时统计</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <iframe id="iframe" name="iframe" style="overflow:visible;" scrolling="auto"
+                frameborder="no" height="900px;" width="100%" src="/home"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © linbin.com
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>工作日志</title>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../static/css/layui.css">
+
+    <style type="text/css">
+        .center{
+            text-align: center;
+            width: 50%;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <blockquote class="layui-elem-quote layui-text">
+        欢迎访问工作日志后台管理系统
+    </blockquote>
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <fieldset class="layui-elem-field layui-field-title center" style="margin-top: 200px; border-color: #8D8D8D;">
+                <legend>登录</legend>
+            </fieldset>
+
+            <form action="" method="" class="layui-form layui-form-pane form-horizontal center">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-block">
+                        <input type="tel" name="telNo" style="width: 90%" required  lay-verify="required|phone" placeholder="请输入电话" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" style="width: 90%" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <button type="submit" class="layui-btn layui-btn-lg" style="margin-top: 100px;" lay-submit="" lay-filter="login">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../static/layui.all.js"></script>
+    <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script>
+        layui.use(['form', 'layedit'], function(){
+            var form = layui.form
+                ,layer = layui.layer;
+
+            form.verify({
+
+            });
+
+            //监听提交
+            form.on('submit(login)', function(data){
+                var json = data.field;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: json,
+                    success: function(data){
+                        if (data.result){
+                            location.href = "/toIndex";
+                        }else {
+                            layer.alert(data.msg, {
+                                title: '登录警告'
+                            })
+                        }
+                    },
+                    error: function (data) {
+                        layer.alert(data.msg, {
+                            title: '登录警告'
+                        })
+                    }
+                });
+
+                /*layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })*/
+                return false;
+            });
+        });
+    </script>
+
+</body>
+</html>

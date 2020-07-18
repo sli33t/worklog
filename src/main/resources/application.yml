@@ -1,0 +1,31 @@
+server:
+  port: 9090
+
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+  mvc:
+    static-path-pattern: /static/**
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///worklog
+    username: root
+    password: 123456
+
+  aop:
+    auto: true
+    proxy-target-class: true
+
+mybatis-plus:
+  configuration:
+    #还是把结果日志打印出来，方便查询bug
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #因为有LbMap，所以null的全部显示
+    call-setters-on-nulls: true
