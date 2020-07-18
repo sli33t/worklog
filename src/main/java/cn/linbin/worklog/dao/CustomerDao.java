@@ -19,7 +19,7 @@ public interface CustomerDao extends BaseMapper<Customer>{
 
     @Select("<script>" +
             "SELECT TB_CUSTOMER.CUSTOMER_ID, TB_CUSTOMER.CUSTOMER_NAME, TB_CUSTOMER.TEL_NO, TB_CUSTOMER.ADDRESS, " +
-            "TB_CUSTOMER.AREA_ID, TB_AREA.AREA_NAME, " +
+            "TB_CUSTOMER.AREA_ID, TB_AREA.AREA_NAME, TB_CUSTOMER.EMAIL, " +
             "TB_CUSTOMER.DELETE_FLAG, TB_CUSTOMER.DELETE_DATE, TB_CUSTOMER.CREATE_TIME, TB_CUSTOMER.ROW_VERSION " +
             "FROM TB_CUSTOMER INNER JOIN TB_AREA ON TB_CUSTOMER.AREA_ID = TB_AREA.AREA_ID " +
             "WHERE COALESCE(TB_CUSTOMER.DELETE_FLAG, 0) = 0 " +
@@ -33,5 +33,5 @@ public interface CustomerDao extends BaseMapper<Customer>{
             "</if>" +
 
             "</script>")
-    List<Customer> findAll(@Param("param") LbMap param);
+    List<LbMap> findAll(@Param("param") LbMap param);
 }

@@ -1,7 +1,6 @@
 package cn.linbin.worklog.controller.system;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.Role;
 import cn.linbin.worklog.service.system.SelectService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
@@ -48,7 +47,7 @@ public class SelectController extends BaseController{
     @GetMapping(value = "/findArea")
     public LbMap findArea(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
         try {
-            PageInfo<Role> pages = selectService.findArea(pageIndex, pageSize);
+            PageInfo<LbMap> pages = selectService.findArea(pageIndex, pageSize);
             logger.info("findArea查询成功");
             return LbMap.successResult("findArea查询成功", pages.getList(), pages.getSize());
         }catch (Exception e){

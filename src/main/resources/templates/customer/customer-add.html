@@ -33,21 +33,21 @@
             <div class="layui-form-item left">
                 <label class="layui-form-label">客户名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="customerName" lay-verify="required" placeholder="请输入客户名称" autocomplete="off" class="layui-input">
+                    <input type="text" name="customerName" lay-verify="required" placeholder="请输入客户名称" autocomplete="off" class="layui-input" th:value="客户A">
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <label class="layui-form-label">联系电话</label>
                 <div class="layui-input-inline">
-                    <input type="tel" name="telNo" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="请输入联系电话">
+                    <input type="tel" name="telNo" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="请输入联系电话" th:value="18801031984">
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <label class="layui-form-label">联系地址</label>
                 <div class="layui-input-block" style="width: 80%">
-                    <input type="text" name="address" lay-verify="required" placeholder="请输入联系地址" autocomplete="off" class="layui-input">
+                    <input type="text" name="address" lay-verify="required" placeholder="请输入联系地址" autocomplete="off" class="layui-input" th:value="客户A北京">
                 </div>
             </div>
 
@@ -55,7 +55,8 @@
                 <label class="layui-form-label">所属区域</label>
                 <div class="layui-input-inline">
                     <span>
-                        <input type="text" name="areaName" id="name" lay-verify="required" placeholder="请输入区域" autocomplete="off" class="layui-input layui-disabled">
+                        <!---->
+                        <input type="text" id="name" placeholder="请输入区域" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
                         <input type="hidden" name="areaId" id="id">
                     </span>
                 </div>
@@ -69,7 +70,7 @@
             <div class="layui-form-item left">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input" placeholder="请输入邮箱">
+                    <input type="email" name="email" autocomplete="off" class="layui-input" placeholder="请输入邮箱">
                 </div>
             </div>
 
@@ -91,14 +92,11 @@
             var layer = layui.layer;
             var $ = layui.$;
 
-            //自定义验证规则
-            form.verify({
-
-            });
-
             //监听提交
             form.on('submit(customer)', function(data){
                 var json = data.field;
+
+                console.log(json);
 
                 $.ajax({
                     type: 'POST',
@@ -128,9 +126,8 @@
                 return false;
             });
         });
-        
+
         function areaFilter() {
-            var $ = layui.$;
             layer.open({
                 type: 2,
                 area: ['1000px', '600px'],
@@ -139,6 +136,7 @@
                 content: ['/select/toSelectTable?tableUrl=findArea', 'no']
             });
         }
+
     </script>
 </body>
 </html>

@@ -44,7 +44,7 @@ public class CustomerController extends BaseController {
     public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
-            PageInfo<Customer> pages = customerService.findAll(pageIndex, pageSize, map);
+            PageInfo<LbMap> pages = customerService.findAll(pageIndex, pageSize, map);
             logger.info("查询成功");
             return LbMap.successResult("客户查询成功", pages.getList(), pages.getSize());
         }catch (Exception e){
@@ -65,37 +65,11 @@ public class CustomerController extends BaseController {
     }
 
     /**
-     * 通过编号查询客户信息
-     * @param customerId
-     * @return
-     */
-    @GetMapping(value = "/toUpdate")
-    public ModelAndView toUpdate(String customerId){
-        ModelAndView mv = new ModelAndView();
-        try {
-            if (customerId.equals("")){
-                throw new Exception("没有找到客户编号");
-            }
-
-            Customer customer = customerService.findById(customerId);
-            mv.addObject("customer", customer);
-            mv.setViewName("customer/customer-update");
-            logger.info("查询成功");
-            return mv;
-        }catch (Exception e){
-            mv.setViewName("system/error");
-            mv.addObject("errorMsg", e.getMessage());
-            logger.info("查询成功");
-            return mv;
-        }
-    }
-
-    /**
      * 新增和修改
      * @param customer
      * @return
      */
-    @PostMapping(value = "/edit")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public LbMap edit(Customer customer) {
         try {
             if (customer.getCustomerName().equals("")){
@@ -135,6 +109,34 @@ public class CustomerController extends BaseController {
             return LbMap.failResult("客户编辑失败，"+e.getMessage());
         }
     }
+
+    /**
+     * 通过编号查询客户信息
+     * @param customerId
+     * @return
+     */
+    @GetMapping(value = "/toUpdate")
+    public ModelAndView toUpdate(String customerId){
+        ModelAndView mv = new ModelAndView();
+        try {
+            if (customerId.equals("")){
+                throw new Exception("没有找到客户编号");
+            }
+
+            Customer customer = customerService.findById(customerId);
+            mv.addObject("customer", customer);
+            mv.setViewName("customer/customer-update");
+            logger.info("查询成功");
+            return mv;
+        }catch (Exception e){
+            mv.setViewName("system/error");
+            mv.addObject("errorMsg", e.getMessage());
+            logger.info("查询成功");
+            return mv;
+        }
+    }
+
+
 
     /**
      * 删除

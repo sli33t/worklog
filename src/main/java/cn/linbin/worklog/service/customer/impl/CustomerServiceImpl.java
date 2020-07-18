@@ -23,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
 
     @Override
-    public PageInfo<Customer> findAll(int pageIndex, int pageSize, LbMap param) {
+    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
         PageHelper.startPage(pageIndex, pageSize);
         /*QueryWrapper<Customer> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("CREATE_TIME");
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         List<Customer> list = customerDao.selectList(wrapper);*/
 
-        List<Customer> list = customerDao.findAll(param);
+        List<LbMap> list = customerDao.findAll(param);
         return new PageInfo(list);
     }
 

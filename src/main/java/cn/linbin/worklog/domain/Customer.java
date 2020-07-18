@@ -27,7 +27,7 @@ public class Customer implements Serializable{
     private String email;
 
     @TableField(value = "AREA_ID")
-    private Integer areaId;
+    private String areaId;
 
     @TableField(value = "DELETE_FLAG")
     private Integer deleteFlag;
@@ -41,11 +41,11 @@ public class Customer implements Serializable{
     @TableField(value = "ROW_VERSION")
     private Integer rowVersion;
 
-    public Integer getAreaId() {
+    public String getAreaId() {
         return areaId;
     }
 
-    public void setAreaId(Integer areaId) {
+    public void setAreaId(String areaId) {
         this.areaId = areaId;
     }
 

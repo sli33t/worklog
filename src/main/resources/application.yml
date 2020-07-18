@@ -3,7 +3,7 @@ server:
 
 spring:
   thymeleaf:
-    mode: LEGACYHTML5
+    mode: HTML
     encoding: UTF-8
     cache: false
     prefix: classpath:/templates/
