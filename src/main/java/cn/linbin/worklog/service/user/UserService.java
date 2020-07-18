@@ -58,4 +58,11 @@ public interface UserService {
      * @return
      */
     PageInfo<LbMap> findByRoleId(int pageIndex, int pageSize, String roleId);
+
+    /**
+     * 通过用户查岗位
+     * @param userId
+     * @return
+     */
+    List<LbMap> findRoleByUserId(String userId);
 }

@@ -17,6 +17,9 @@ public class Role implements Serializable{
     @TableField(value = "ROLE_NAME")
     private String roleName;
 
+    /**
+     * 角色类型：0-管理，1-员工
+     */
     @TableField(value = "ROLE_TYPE")
     private Integer roleType;
 

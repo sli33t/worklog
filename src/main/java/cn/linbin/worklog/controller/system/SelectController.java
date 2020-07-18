@@ -54,4 +54,24 @@ public class SelectController extends BaseController{
             return LbMap.failResult("findArea查询失败，"+e.getMessage());
         }
     }
+
+
+    /**
+     * 跳转文件上传
+     * @return
+     */
+    @GetMapping(value = "/toFileUpload")
+    public ModelAndView toFileUpload(){
+        ModelAndView mv = new ModelAndView();
+        try {
+            mv.setViewName("common/fileUpload");
+            logger.info("查询成功");
+            return mv;
+        }catch (Exception e){
+            mv.setViewName("system/error");
+            mv.addObject("errorMsg", e.getMessage());
+            logger.info("查询失败");
+            return mv;
+        }
+    }
 }

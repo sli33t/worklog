@@ -141,4 +141,14 @@ public class UserServiceImpl implements UserService {
         List<LbMap> list = userDao.findByRoleId(roleId);
         return new PageInfo(list);
     }
+
+    /**
+     * 通过用户ID查询角色
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<LbMap> findRoleByUserId(String userId) {
+        return userDao.findRoleByUserId(userId);
+    }
 }

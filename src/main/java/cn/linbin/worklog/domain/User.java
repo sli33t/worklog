@@ -38,6 +38,9 @@ public class User implements Serializable {
     @TableField(value = "CREATE_TIME")
     private Date createTime;
 
+    /**
+     * 用户类型：0-超级管理员，1-员工
+     */
     @TableField(value = "USER_TYPE")
     private Integer userType;
 
