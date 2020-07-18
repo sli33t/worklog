@@ -1,6 +1,8 @@
 package cn.linbin.worklog.service.customer.impl;
 
+import cn.linbin.worklog.dao.AreaDao;
 import cn.linbin.worklog.dao.CustomerDao;
+import cn.linbin.worklog.domain.Area;
 import cn.linbin.worklog.domain.Customer;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.utils.LbMap;
@@ -21,6 +23,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerDao customerDao;
+
+    @Autowired
+    private AreaDao areaDao;
 
     @Override
     public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
@@ -45,7 +50,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findById(String customerId) {
-        return customerDao.selectById(customerId);
+        Customer customer = customerDao.selectById(customerId);
+
+        Area area = areaDao.selectById(customer.getAreaId());
+        if (area!=null){
+            customer.setAreaName(area.getAreaName());
+        }
+
+        return customer;
     }
 
     @Override

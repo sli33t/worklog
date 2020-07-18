@@ -41,6 +41,17 @@ public class Customer implements Serializable{
     @TableField(value = "ROW_VERSION")
     private Integer rowVersion;
 
+    @TableField(exist = false)
+    private String areaName;
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
     public String getAreaId() {
         return areaId;
     }
@@ -134,6 +145,7 @@ public class Customer implements Serializable{
                 ", rowVersion=" + rowVersion +
                 ", email=" + email +
                 ", areaId=" + areaId +
+                ", areaName=" + areaName +
                 '}';
     }
 }

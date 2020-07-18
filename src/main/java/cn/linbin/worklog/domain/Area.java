@@ -1,6 +1,8 @@
 package cn.linbin.worklog.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -9,7 +11,7 @@ import java.util.Date;
 @TableName(value = "TB_AREA")
 public class Area implements Serializable {
 
-    @TableField(value = "AREA_ID")
+    @TableId(value = "AREA_ID", type = IdType.ID_WORKER_STR)
     private String areaId;
 
     @TableField(value = "AREA_NAME")
