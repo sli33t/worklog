@@ -20,14 +20,113 @@ public class Feedback implements Serializable {
     @TableField(value = "PROBLEM_TEXT")
     private String problemText;
 
-    @TableField(value = "USER_ID")
-    private String userId;
+    @TableField(value = "CREATE_USER_ID")
+    private String createUserId;
 
     @TableField(value = "CUSTOMER_ID")
     private String customerId;
 
     @TableField(value = "CREATE_TIME")
     private Date createTime;
+
+    @TableField(value = "MODIFY_USER_ID")
+    private String modifyUserId;
+
+    @TableField(value = "MODIFY_TIME")
+    private Date modifyTime;
+
+    @TableField(value = "ROW_VERSION")
+    private Integer rowVersion;
+
+    @TableField(exist = false)
+    private String customerName;
+
+    @TableField(exist = false)
+    private String telNo;
+
+    @TableField(exist = false)
+    private String address;
+
+    @TableField(exist = false)
+    private String email;
+
+    @TableField(exist = false)
+    private String areaName;
+
+    @TableField(exist = false)
+    private String versionName;
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public Integer getRowVersion() {
+        return rowVersion;
+    }
+
+    public void setRowVersion(Integer rowVersion) {
+        this.rowVersion = rowVersion;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getTelNo() {
+        return telNo;
+    }
+
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public String getModifyUserId() {
+        return modifyUserId;
+    }
+
+    public void setModifyUserId(String modifyUserId) {
+        this.modifyUserId = modifyUserId;
+    }
 
     public String getFeedbackId() {
         return feedbackId;
@@ -53,12 +152,12 @@ public class Feedback implements Serializable {
         this.problemText = problemText;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getCreateUserId() {
+        return createUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 
     public String getCustomerId() {
@@ -83,9 +182,12 @@ public class Feedback implements Serializable {
                 "feedbackId='" + feedbackId + '\'' +
                 ", problemType=" + problemType +
                 ", problemText='" + problemText + '\'' +
-                ", userId='" + userId + '\'' +
+                ", createUserId='" + createUserId + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", createTime=" + createTime +
+                ", modifyUserId=" + modifyUserId +
+                ", modifyTime=" + modifyTime +
+                ", rowVersion=" + rowVersion +
                 '}';
     }
 }

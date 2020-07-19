@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.baomidou.mybatisplus.core.toolkit.Sequence;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 生成ID的工具类，通过mybatis plus抽取
@@ -31,6 +32,8 @@ public class IdWorker {
      * 秒格式化时间
      */
     public static final DateTimeFormatter SECOND = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+    public static final DateTimeFormatter HOUR = DateTimeFormatter.ofPattern("MMddHH");
 
     public static long getId() {
     	long nextId = WORKER.nextId();
@@ -73,34 +76,36 @@ public class IdWorker {
         
         return sb.toString();
     }
-    
+
+    public static String getNum4(){
+        String current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9999));
+        switch (current.length()) {
+            case 4:
+                break;
+            case 3:
+                current = current + String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
+                break;
+            case 2:
+                current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) +
+                        current + String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
+                break;
+            case 1:
+                current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) +
+                        String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) + current +
+                        String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
+                break;
+            default:
+                break;
+        }
+        return current;
+    }
     
     /**
      * 18位数字随机
      * @return
      */
-    public static String getNumId18(){
-    	String current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9999));
-    	switch (current.length()) {
-			case 4:
-				break;
-			case 3:
-				current = current + String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
-				break;
-			case 2:
-				current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) + 
-						current + String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
-				break;
-			case 1:
-				current = String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) + 
-						String.valueOf(ThreadLocalRandom.current().nextLong(1, 9)) + current + 
-						String.valueOf(ThreadLocalRandom.current().nextLong(1, 9));
-				break;
-			default:
-                break;
-		}
-    	
-    	return getSecond()+current;
+    public static synchronized String getNumId18(){
+    	return getSecond()+getNum4();
     }
     
 
@@ -120,12 +125,20 @@ public class IdWorker {
         return LocalDateTime.now().format(SECOND);
     }
 
+    public static String getHour(){
+        return LocalDateTime.now().format(HOUR);
+    }
+
     /**
      * 时间 ID = Time + ID
      * <p>例如：可用于商品订单 ID</p>
      */
     public static String getTimeId() {
         return getMillisecond() + getId();
+    }
+
+    public static String getHourId(){
+        return getHour() + getNum4();
     }
 
     /**
@@ -148,7 +161,7 @@ public class IdWorker {
     
     public static void main(String[] args) {
     	for (int i = 0; i <= 100; i++) {
-    		System.out.println(IdWorker.getIdStr());
+    		System.out.println(IdWorker.getHourId());
 		}
 	}
     

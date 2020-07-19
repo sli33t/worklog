@@ -134,9 +134,9 @@ public class UserController extends BaseController {
     public LbMap edit(User user) {
         try {
             if (user.getUsername().equals("")){
-                LbMap.failResult("用户编辑失败，用户名称不能为空！");
+                return LbMap.failResult("用户编辑失败，用户名称不能为空！");
             }else if (user.getTelNo().equals("")){
-                LbMap.failResult("用户编辑失败，用户电话不能为空！");
+                return LbMap.failResult("用户编辑失败，用户电话不能为空！");
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

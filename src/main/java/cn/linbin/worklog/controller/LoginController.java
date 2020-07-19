@@ -59,7 +59,7 @@ public class LoginController {
     @PostMapping(value = "/login")
     public LbMap login(String telNo, String password, HttpSession session) {
         if (StringUtils.isEmpty(telNo)||StringUtils.isEmpty(password)){
-            LbMap.failResult("用户名或者密码不能为空！");
+            return LbMap.failResult("用户名或者密码不能为空！");
         }
 
         try {

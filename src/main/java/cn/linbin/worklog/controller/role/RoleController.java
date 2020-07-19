@@ -102,7 +102,7 @@ public class RoleController extends BaseController {
     public LbMap edit(Role role) {
         try {
             if (role.getRoleName().equals("")){
-                LbMap.failResult("岗位编辑失败，岗位名称不能为空！");
+                return LbMap.failResult("岗位编辑失败，岗位名称不能为空！");
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

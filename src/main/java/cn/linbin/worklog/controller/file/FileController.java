@@ -115,11 +115,11 @@ public class FileController extends BaseController{
 
 
             if (file.getFileName().equals("")){
-                LbMap.failResult("文件编辑失败，文件名称不能为空，请重新上传");
+                return LbMap.failResult("文件编辑失败，文件名称不能为空，请重新上传");
             }
 
             if (file.getFileUrl().equals("")){
-                LbMap.failResult("文件编辑失败，文件路径不能为空，请重新上传");
+                return LbMap.failResult("文件编辑失败，文件路径不能为空，请重新上传");
             }
 
 

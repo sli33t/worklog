@@ -442,6 +442,10 @@ public class LbMap extends LinkedHashMap<String, Object> implements Comparator<L
 		return successResult(msg, 0);
 	}
 
+	public static LbMap successResult(String msg, int code, int count){
+		return setResult(true, code, msg, null, count);
+	}
+
 	public static LbMap successResult(String msg, int count){
 		return successResult(msg, null, count);
 	}

@@ -29,12 +29,14 @@
 
     <div>
         <form class="layui-form layui-form-pane" action="" style="margin-top: 10px;">
+            <input type="hidden" id="userId" name="feedbackId" th:value="${feedback.feedbackId}">
+            <input type="hidden" id="rowVersion" name="rowVersion" th:value="${feedback.rowVersion}">
 
             <div class="layui-form-item left" style="margin-top: 50px;">
                 <label class="layui-form-label">客户名称</label>
                 <div class="layui-input-inline" style="width: 1020px;">
-                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
-                    <input type="hidden" id="id" name="customerId">
+                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.customerName}">
+                    <input type="hidden" id="id" name="customerId" th:value="${feedback.customerId}">
                 </div>
                 <div class="layui-input-inline">
                     <span>
@@ -47,7 +49,7 @@
                 <div class="layui-block">
                     <label class="layui-form-label">联系电话</label>
                     <div class="layui-input-block width">
-                        <input type="text" id="telNo" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                        <input type="text" id="telNo" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.telNo}">
                     </div>
                 </div>
             </div>
@@ -56,7 +58,7 @@
                 <div class="layui-block">
                     <label class="layui-form-label">所属区域</label>
                     <div class="layui-input-block width">
-                        <input type="text" id="areaName" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                        <input type="text" id="areaName" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.areaName}">
                     </div>
                 </div>
             </div>
@@ -64,36 +66,36 @@
             <div class="layui-form-item left">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-block width">
-                    <input type="text" id="email" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                    <input type="text" id="email" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.email}">
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <label class="layui-form-label">程序版本</label>
                 <div class="layui-input-block width">
-                    <input type="text" id="version" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                    <input type="text" id="version" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.versionName}">
                 </div>
             </div>
 
             <div class="layui-form-item left" pane="" style="width: 1230px;">
                 <label class="layui-form-label">问题类型</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="problemType" value="0" title="需求">
-                    <input type="radio" name="problemType" value="1" title="bug" checked="">
+                    <input type="radio" name="problemType" lay-verify="required" value="0" title="需求" th:field="${feedback.problemType}">
+                    <input type="radio" name="problemType" lay-verify="required" value="1" title="bug" th:field="${feedback.problemType}" checked="">
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text left" style="width: 72.4%;">
                 <label class="layui-form-label">反馈内容</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入内容" class="layui-textarea" style="height: 300px;" name="problemText"></textarea>
+                    <textarea placeholder="请输入内容" class="layui-textarea" lay-verify="required" style="height: 300px;" name="problemText" th:text="${feedback.problemText}"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <div class="layui-input-block">
                     <button type="submit" class="layui-btn" lay-submit="" lay-filter="feedback">提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
                 </div>
             </div>
 
@@ -120,9 +122,22 @@
                     data: json,
                     success: function(data){
                         if (data.result){
-                            window.parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                            parent.layer.close(index);
+                            /*$("#id").val();
+                            $("#name").val();
+                            $("#telNo").val();
+                            $("#areaName").val();
+                            $("#email").val();
+                            $("#version").val();
+                            $("#problemText").val();*/
+
+                            if (data.code==100){
+                                layer.alert("客户反馈单添加成功");
+                                $("#reset").click();
+                            }else if (data.code==200){
+                                window.parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                                parent.layer.close(index);
+                            }
                         }else {
                             layer.alert(data.msg, {
                                 title: '新增客户'

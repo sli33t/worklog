@@ -80,9 +80,9 @@ public class CustomerController extends BaseController {
     public LbMap edit(Customer customer) {
         try {
             if (customer.getCustomerName().equals("")){
-                LbMap.failResult("客户编辑失败，客户名称不能为空！");
+                return LbMap.failResult("客户编辑失败，客户名称不能为空！");
             }else if (customer.getTelNo().equals("")){
-                LbMap.failResult("客户编辑失败，客户电话不能为空！");
+                return LbMap.failResult("客户编辑失败，客户电话不能为空！");
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

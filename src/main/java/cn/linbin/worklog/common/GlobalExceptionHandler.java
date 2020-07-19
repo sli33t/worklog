@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         if (e instanceof UndeclaredThrowableException){
             mv.addObject("errorMsg", e.getCause().getMessage());
         }else if (e instanceof LoginException){
-            mv.setViewName("system/login");
+            mv.setViewName("/system/login");
         }else {
             mv.addObject("errorMsg", e.getMessage());
         }
