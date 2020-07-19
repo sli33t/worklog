@@ -78,6 +78,17 @@
             </div>
 
             <div class="layui-form-item left">
+                <label class="layui-form-label">使用版本</label>
+                <div class="layui-input-block" style="width: 80%">
+                    <select name="versionId" lay-filter="version" th:field="${customer.versionId}">
+                        <div th:each="version: ${versionList}">
+                            <option th:value="${version.getVersionId()}" th:text="${version.getVersionName()}"></option>
+                        </div>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item left">
                 <div class="layui-input-block">
                     <button type="submit" class="layui-btn" lay-submit="" lay-filter="customer">提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>

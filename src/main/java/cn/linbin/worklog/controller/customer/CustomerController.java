@@ -2,7 +2,9 @@ package cn.linbin.worklog.controller.customer;
 
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.domain.Customer;
+import cn.linbin.worklog.domain.Version;
 import cn.linbin.worklog.service.customer.CustomerService;
+import cn.linbin.worklog.service.system.SelectService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class CustomerController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private SelectService selectService;
 
     /**
      * 跳转列表页面
@@ -61,6 +66,8 @@ public class CustomerController extends BaseController {
     public ModelAndView toAdd(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("customer/customer-add");
+        List<Version> versionList = selectService.findVersion();
+        mv.addObject("versionList", versionList);
         return mv;
     }
 
@@ -123,9 +130,14 @@ public class CustomerController extends BaseController {
                 throw new Exception("没有找到客户编号");
             }
 
+            mv.setViewName("customer/customer-update");
+
             Customer customer = customerService.findById(customerId);
             mv.addObject("customer", customer);
-            mv.setViewName("customer/customer-update");
+
+            List<Version> versionList = selectService.findVersion();
+            mv.addObject("versionList", versionList);
+
             logger.info("查询成功");
             return mv;
         }catch (Exception e){

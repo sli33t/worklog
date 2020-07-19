@@ -85,34 +85,44 @@
                     var jsonStr = JSON.stringify({ids: ids, names: names});
                     console.log(jsonStr);
 
-                    parent.$("#name").val(names);
-                    parent.$("#id").val(ids);
+                    if (parent.$("#name").length>0){
+                        parent.$("#name").val(names);
+                    }
+
+                    if (parent.$("#id").length>0){
+                        parent.$("#id").val(ids);
+                    }
+
+                    if (parent.$("#telNo").length>0){
+                        var telNo = $.map(data, function (d) {
+                            return d.telNo;
+                        });
+                        parent.$("#telNo").val(telNo);
+                    }
+
+                    if (parent.$("#areaName").length>0){
+                        var areaName = $.map(data, function (d) {
+                            return d.areaName;
+                        });
+                        parent.$("#areaName").val(areaName);
+                    }
+
+                    if (parent.$("#email").length>0){
+                        var email = $.map(data, function (d) {
+                            return d.email;
+                        });
+                        parent.$("#email").val(email);
+                    }
+
+                    if (parent.$("#version").length>0){
+                        var version = $.map(data, function (d) {
+                            return d.versionName;
+                        });
+                        parent.$("#version").val(version);
+                    }
 
                     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                     parent.layer.close(index);
-
-                    /*$.ajax({
-                        type: 'POST',
-                        url: '/role/updateUserRole',
-                        data: {jsonStr: jsonStr},
-                        success: function(data){
-                            if (data.result){
-                                window.parent.$("#name").val(names);
-                                window.parent.$("#id").val(ids);
-                                var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                                parent.layer.close(index);
-                            }else {
-                                layer.alert(data.msg, {
-                                    title: '分配用户'
-                                })
-                            }
-                        },
-                        error: function (data) {
-                            layer.alert(data.msg, {
-                                title: '分配岗位警告'
-                            })
-                        }
-                    });*/
                 }
             });
         });

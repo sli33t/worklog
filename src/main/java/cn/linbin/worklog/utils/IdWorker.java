@@ -148,7 +148,7 @@ public class IdWorker {
     
     public static void main(String[] args) {
     	for (int i = 0; i <= 100; i++) {
-    		System.out.println(IdWorker.getNumId18());
+    		System.out.println(IdWorker.getIdStr());
 		}
 	}
     

@@ -57,6 +57,23 @@ public class SelectController extends BaseController{
 
 
     /**
+     * 查询区域
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/findCustomer")
+    public LbMap findCustomer(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+        try {
+            PageInfo<LbMap> pages = selectService.findCustomer(pageIndex, pageSize);
+            logger.info("findCustomer查询成功");
+            return LbMap.successResult("findCustomer查询成功", pages.getList(), pages.getSize());
+        }catch (Exception e){
+            return LbMap.failResult("findCustomer查询失败，"+e.getMessage());
+        }
+    }
+
+    /**
      * 跳转文件上传
      * @return
      */

@@ -26,6 +26,9 @@ public class Customer implements Serializable{
     @TableField(value = "EMAIL")
     private String email;
 
+    @TableField(value = "VERSION_ID")
+    private String versionId;
+
     @TableField(value = "AREA_ID")
     private String areaId;
 
@@ -43,6 +46,14 @@ public class Customer implements Serializable{
 
     @TableField(exist = false)
     private String areaName;
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
 
     public String getAreaName() {
         return areaName;
@@ -145,6 +156,7 @@ public class Customer implements Serializable{
                 ", rowVersion=" + rowVersion +
                 ", email=" + email +
                 ", areaId=" + areaId +
+                ", versionId=" + versionId +
                 ", areaName=" + areaName +
                 '}';
     }

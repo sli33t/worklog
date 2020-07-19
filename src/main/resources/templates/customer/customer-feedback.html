@@ -14,10 +14,9 @@
     <link rel="stylesheet" href="../static/css/layui.css">
 
     <style type="text/css">
-        .center{
-
+        .width{
+            width: 70%;
         }
-
         .left{
             margin-left: 100px;
         }
@@ -25,70 +24,75 @@
 </head>
 <body>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 5px;">
-        <legend>新增客户</legend>
+        <legend>客户反馈单</legend>
     </fieldset>
 
-    <div class="center">
+    <div>
         <form class="layui-form layui-form-pane" action="" style="margin-top: 10px;">
-            <div class="layui-form-item left">
+
+            <div class="layui-form-item left" style="margin-top: 50px;">
                 <label class="layui-form-label">客户名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="customerName" lay-verify="required" placeholder="请输入客户名称" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item left">
-                <label class="layui-form-label">联系电话</label>
-                <div class="layui-input-inline">
-                    <input type="tel" name="telNo" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="请输入联系电话">
-                </div>
-            </div>
-
-            <div class="layui-form-item left">
-                <label class="layui-form-label">联系地址</label>
-                <div class="layui-input-block" style="width: 80%">
-                    <input type="text" name="address" lay-verify="required" placeholder="请输入联系地址" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item left">
-                <label class="layui-form-label">所属区域</label>
-                <div class="layui-input-inline">
-                    <span>
-                        <!---->
-                        <input type="text" id="name" placeholder="请点击选择区域" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
-                        <input type="hidden" name="areaId" id="id">
-                    </span>
+                <div class="layui-input-inline" style="width: 1020px;">
+                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                    <input type="hidden" id="id" name="customerId">
                 </div>
                 <div class="layui-input-inline">
                     <span>
-                        <button type="button" class="layui-btn" lay-filter="areaFilter" onclick="areaFilter()">选择区域</button>
+                        <button type="button" class="layui-btn" lay-filter="customerFilter" onclick="customerFilter()">选择客户</button>
                     </span>
+                </div>
+            </div>
+
+            <div class="layui-form-item left">
+                <div class="layui-block">
+                    <label class="layui-form-label">联系电话</label>
+                    <div class="layui-input-block width">
+                        <input type="text" id="telNo" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item left">
+                <div class="layui-block">
+                    <label class="layui-form-label">所属区域</label>
+                    <div class="layui-input-block width">
+                        <input type="text" id="areaName" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                    </div>
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <label class="layui-form-label">邮箱</label>
-                <div class="layui-input-inline">
-                    <input type="email" name="email" autocomplete="off" class="layui-input" placeholder="请输入邮箱">
+                <div class="layui-input-block width">
+                    <input type="text" id="email" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
                 </div>
             </div>
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">使用版本</label>
-                <div class="layui-input-block" style="width: 80%">
-                    <select name="versionId" lay-filter="version">
-                        <option value=""></option>
-                        <div th:each="version: ${versionList}">
-                            <option th:value="${version.getVersionId()}" th:text="${version.getVersionName()}"></option>
-                        </div>
-                    </select>
+                <label class="layui-form-label">程序版本</label>
+                <div class="layui-input-block width">
+                    <input type="text" id="version" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item left" pane="" style="width: 1230px;">
+                <label class="layui-form-label">问题类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="problemType" value="0" title="需求">
+                    <input type="radio" name="problemType" value="1" title="bug" checked="">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text left" style="width: 72.4%;">
+                <label class="layui-form-label">反馈内容</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" class="layui-textarea" style="height: 300px;" name="problemText"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <div class="layui-input-block">
-                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="customer">提交</button>
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="feedback">提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -105,14 +109,14 @@
             var $ = layui.$;
 
             //监听提交
-            form.on('submit(customer)', function(data){
+            form.on('submit(feedback)', function(data){
                 var json = data.field;
 
                 console.log(json);
 
                 $.ajax({
                     type: 'POST',
-                    url: '/customer/edit',
+                    url: '/feedback/edit',
                     data: json,
                     success: function(data){
                         if (data.result){
@@ -139,13 +143,13 @@
             });
         });
 
-        function areaFilter() {
+        function customerFilter() {
             layer.open({
                 type: 2,
                 area: ['1000px', '600px'],
                 fixed: false,
                 maxmin: true,
-                content: ['/select/toSelectTable?tableUrl=findArea', 'no']
+                content: ['/select/toSelectTable?tableUrl=findCustomer', 'no']
             });
         }
 
