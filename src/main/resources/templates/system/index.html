@@ -24,7 +24,10 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item">
-                <a href="">我的任务<span class="layui-badge">9</span></a>
+                <a href="">开发任务<span class="layui-badge">9</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="">测试任务<span class="layui-badge">1</span></a>
             </li>
             <!--<li class="layui-nav-item">
                 <a href="" th:text="${user.username}"><span class="layui-badge-dot"></span></a>
@@ -36,7 +39,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img"><span th:text="${user.username}"></span></a>
             </li>
-            <li class="layui-nav-item"><a href="javascript:;">修改密码</a></li>
+            <li class="layui-nav-item"><a href="/select/toChangePassword" target="iframe">修改密码</a></li>
             <li class="layui-nav-item"><a href="/logout">注销</a></li>
 
             <!--<li class="layui-nav-item" lay-unselect="">
@@ -111,7 +114,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <iframe id="iframe" name="iframe" style="overflow:visible;" scrolling="auto"
-                frameborder="no" height="900px;" width="100%" src="/home"></iframe>
+                frameborder="no" height="97%;" width="100%" src="/home"></iframe>
     </div>
 
     <div class="layui-footer">

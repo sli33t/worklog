@@ -35,6 +35,8 @@ public interface UserService {
      */
     void update(User user) throws Exception;
 
+    void update(User user, boolean useRowVersion) throws Exception;
+
     /**
      * 删除用户信息
      * @param userId
@@ -64,5 +66,5 @@ public interface UserService {
      * @param userId
      * @return
      */
-    List<LbMap> findRoleByUserId(String userId);
+    List<LbMap> findRoleByUserId(String userId);;
 }

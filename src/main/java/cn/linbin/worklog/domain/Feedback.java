@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,8 +18,20 @@ public class Feedback implements Serializable {
     @TableField(value = "PROBLEM_TYPE")
     private Integer problemType;
 
+    //反馈类型：内部反馈-0，客户反馈-1
+    @TableField(value = "FEEDBACK_TYPE")
+    private Integer feedbackType;
+
+    //优先级别：紧急-0，高-1，中-2，低-3
+    @TableField(value = "PRIORITY")
+    private Integer priority;
+
     @TableField(value = "PROBLEM_TEXT")
     private String problemText;
+
+    @TableField(value = "REQUIRE_DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date requireDate;
 
     @TableField(value = "CREATE_USER_ID")
     private String createUserId;
@@ -38,6 +51,18 @@ public class Feedback implements Serializable {
     @TableField(value = "ROW_VERSION")
     private Integer rowVersion;
 
+    @TableField(value = "FINISHED")
+    private Integer finished;
+
+    @TableField(value = "FINISH_DATE")
+    private Date finishDate;
+
+    @TableField(value = "FINISH_TIME")
+    private Date finishTime;
+
+    @TableField(value = "STATUS")
+    private Integer status;
+
     @TableField(exist = false)
     private String customerName;
 
@@ -55,6 +80,62 @@ public class Feedback implements Serializable {
 
     @TableField(exist = false)
     private String versionName;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Integer finished) {
+        this.finished = finished;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Date getRequireDate() {
+        return requireDate;
+    }
+
+    public void setRequireDate(Date requireDate) {
+        this.requireDate = requireDate;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public Integer getFeedbackType() {
+        return feedbackType;
+    }
+
+    public void setFeedbackType(Integer feedbackType) {
+        this.feedbackType = feedbackType;
+    }
 
     public String getAreaName() {
         return areaName;
@@ -181,13 +262,26 @@ public class Feedback implements Serializable {
         return "Feedback{" +
                 "feedbackId='" + feedbackId + '\'' +
                 ", problemType=" + problemType +
+                ", feedbackType=" + feedbackType +
+                ", priority=" + priority +
                 ", problemText='" + problemText + '\'' +
+                ", requireDate=" + requireDate +
                 ", createUserId='" + createUserId + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", createTime=" + createTime +
-                ", modifyUserId=" + modifyUserId +
+                ", modifyUserId='" + modifyUserId + '\'' +
                 ", modifyTime=" + modifyTime +
                 ", rowVersion=" + rowVersion +
+                ", finished=" + finished +
+                ", finishDate=" + finishDate +
+                ", finishTime=" + finishTime +
+                ", customerName='" + customerName + '\'' +
+                ", telNo='" + telNo + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", areaName='" + areaName + '\'' +
+                ", versionName='" + versionName + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

@@ -69,6 +69,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void update(User user) throws Exception {
+        update(user, true);
+    }
+
     /**
      * 更新用户信息
      * @param user
@@ -76,11 +81,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(User user) throws Exception{
+    public void update(User user, boolean useRowVersion) throws Exception{
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("USER_ID", user.getUserId());
-        wrapper.eq("ROW_VERSION", user.getRowVersion());
-        user.setRowVersion(user.getRowVersion()+1);
+        if (useRowVersion){
+            wrapper.eq("ROW_VERSION", user.getRowVersion());
+            user.setRowVersion(user.getRowVersion()+1);
+        }
         int count = userDao.update(user, wrapper);
         if (count<=0){
             throw new Exception("用户更新失败，数据已被他人修改，请重新刷新！");

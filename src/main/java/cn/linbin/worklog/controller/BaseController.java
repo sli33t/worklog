@@ -27,6 +27,7 @@ public class BaseController {
     protected String telNo;
     protected List<LbMap> roleList;
     protected Integer roleType;
+    protected User user;
 
     @Autowired
     private UserService userService;
@@ -46,6 +47,7 @@ public class BaseController {
             this.userId = user.getUserId();
             this.username = user.getUsername();
             this.telNo = user.getTelNo();
+            this.user = user;
 
             this.roleList = userService.findRoleByUserId(this.userId);
 

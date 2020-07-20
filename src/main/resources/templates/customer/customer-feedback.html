@@ -14,8 +14,11 @@
     <link rel="stylesheet" href="../static/css/layui.css">
 
     <style type="text/css">
+        .color{
+            color: #666666 !important;
+        }
         .width{
-            width: 70%;
+            width: 76%;
         }
         .left{
             margin-left: 100px;
@@ -34,8 +37,8 @@
 
             <div class="layui-form-item left" style="margin-top: 50px;">
                 <label class="layui-form-label">客户名称</label>
-                <div class="layui-input-inline" style="width: 1020px;">
-                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.customerName}">
+                <div class="layui-input-inline" style="width: 60%">
+                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.customerName}">
                     <input type="hidden" id="id" name="customerId" th:value="${feedback.customerId}">
                 </div>
                 <div class="layui-input-inline">
@@ -46,46 +49,104 @@
             </div>
 
             <div class="layui-form-item left">
+                <div class="layui-col-xs4">
+                    <div class="layui-block">
+                        <label class="layui-form-label">联系电话</label>
+                        <div class="layui-input-block width">
+                            <input type="text" id="telNo" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.telNo}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs4">
+                    <div class="layui-block">
+                        <label class="layui-form-label">所属区域</label>
+                        <div class="layui-input-block width">
+                            <input type="text" id="areaName" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.areaName}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item left">
+                <div class="layui-col-xs4">
+                    <div class="layui-block">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block width">
+                            <input type="text" id="email" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.email}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs4">
+                    <div class="layui-block">
+                        <label class="layui-form-label">程序版本</label>
+                        <div class="layui-input-block width">
+                            <input type="text" id="version" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.versionName}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item left">
+                <div class="layui-col-xs4">
+                    <!--<div class="layui-block">
+                        <label class="layui-form-label">问题类型</label>
+                        <div class="layui-input-block width">
+                            <input type="radio" name="problemType" lay-verify="required" value="0" title="需求" th:field="${feedback.problemType}" style="width: 60%">
+                            <input type="radio" name="problemType" lay-verify="required" value="1" title="bug" th:field="${feedback.problemType}" checked="" style="width: 60%">
+                        </div>
+                    </div>-->
+
+                    <div class="layui-block">
+                        <label class="layui-form-label">问题类型</label>
+                        <div class="layui-input-block layui-form width"><!--筛选条件下拉主要要有 layui-form-->
+                            <select name="problemType" lay-verify="required" lay-search="" id="problemType" th:field="${feedback.problemType}">
+                                <!--<option value="">直接选择或搜索选择</option>-->
+                                <option th:selected="${feedback.problemType=='0'}" value="0">需求</option>
+                                <option th:selected="${feedback.problemType=='1'}" value="1" selected="selected">bug</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs4">
+                    <div class="layui-block">
+                        <label class="layui-form-label">反馈类型</label>
+                        <div class="layui-input-block layui-form width"><!--筛选条件下拉主要要有 layui-form-->
+                            <select name="feedbackType" lay-verify="required" lay-search="" id="feedbackType" th:field="${feedback.feedbackType}">
+                                <!--<option value="">直接选择或搜索选择</option>-->
+                                <option th:selected="${feedback.feedbackType=='0'}" value="0" selected="selected">内部反馈</option>
+                                <option th:selected="${feedback.feedbackType=='1'}" value="1">客户反馈</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item left" pane="" style="width: 62%;">
                 <div class="layui-block">
-                    <label class="layui-form-label">联系电话</label>
+                    <label class="layui-form-label">优先级别</label>
                     <div class="layui-input-block width">
-                        <input type="text" id="telNo" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.telNo}">
+                        <input type="radio" name="priority" lay-verify="required" value="0" title="紧急" th:field="${feedback.priority}">
+                        <input type="radio" name="priority" lay-verify="required" value="1" title="高" th:field="${feedback.priority}" checked="">
+                        <input type="radio" name="priority" lay-verify="required" value="2" title="中" th:field="${feedback.priority}">
+                        <input type="radio" name="priority" lay-verify="required" value="3" title="低" th:field="${feedback.priority}">
                     </div>
                 </div>
             </div>
 
             <div class="layui-form-item left">
                 <div class="layui-block">
-                    <label class="layui-form-label">所属区域</label>
-                    <div class="layui-input-block width">
-                        <input type="text" id="areaName" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.areaName}">
+                    <label class="layui-form-label">要求日期</label>
+                    <div class="layui-input-inline">
+                        <!-- -->
+                        <input type="text" name="requireDate" id="requireDate" lay-verify="date" placeholder="请选择要求完成日期" autocomplete="off" class="layui-input" th:value="${#dates.format(feedback.requireDate, 'yyyy-MM-dd')}">
                     </div>
                 </div>
             </div>
 
-            <div class="layui-form-item left">
-                <label class="layui-form-label">邮箱</label>
-                <div class="layui-input-block width">
-                    <input type="text" id="email" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.email}">
-                </div>
-            </div>
-
-            <div class="layui-form-item left">
-                <label class="layui-form-label">程序版本</label>
-                <div class="layui-input-block width">
-                    <input type="text" id="version" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${feedback.versionName}">
-                </div>
-            </div>
-
-            <div class="layui-form-item left" pane="" style="width: 1230px;">
-                <label class="layui-form-label">问题类型</label>
-                <div class="layui-input-block">
-                    <input type="radio" name="problemType" lay-verify="required" value="0" title="需求" th:field="${feedback.problemType}">
-                    <input type="radio" name="problemType" lay-verify="required" value="1" title="bug" th:field="${feedback.problemType}" checked="">
-                </div>
-            </div>
-
-            <div class="layui-form-item layui-form-text left" style="width: 72.4%;">
+            <div class="layui-form-item layui-form-text left" style="width: 70%;">
                 <label class="layui-form-label">反馈内容</label>
                 <div class="layui-input-block">
                     <textarea placeholder="请输入内容" class="layui-textarea" lay-verify="required" style="height: 300px;" name="problemText" th:text="${feedback.problemText}"></textarea>
@@ -105,10 +166,15 @@
     <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
 
     <script>
-        layui.use(['form', 'layedit'], function(){
+        layui.use(['form', 'layedit', 'laydate'], function(){
             var form = layui.form;
             var layer = layui.layer;
             var $ = layui.$;
+            var laydate = layui.laydate;
+
+            laydate.render({
+                elem: '#requireDate'
+            });
 
             //监听提交
             form.on('submit(feedback)', function(data){

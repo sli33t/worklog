@@ -1,5 +1,6 @@
 package cn.linbin.worklog.controller.customer;
 
+import cn.linbin.worklog.constant.FeedbackConstant;
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.domain.Feedback;
 import cn.linbin.worklog.service.customer.FeedbackService;
@@ -47,11 +48,17 @@ public class FeedbackController extends BaseController {
     public LbMap edit(Feedback feedback) {
         try {
             if (feedback.getCustomerId().equals("")){
-                return LbMap.failResult("客反编辑失败，客户名称不能为空！");
+                return LbMap.failResult("客反编辑失败，客户名称不能为空");
             }else if (feedback.getProblemText().equals("")){
-                return LbMap.failResult("客反编辑失败，反馈内容不能为空！");
+                return LbMap.failResult("客反编辑失败，反馈内容不能为空");
             }else if (feedback.getProblemType()==null){
-                return LbMap.failResult("客反编辑失败，问题类型不能为空！");
+                return LbMap.failResult("客反编辑失败，问题类型不能为空，请选择需求还是bug");
+            }else if (feedback.getFeedbackType()==null){
+                return LbMap.failResult("客反编辑失败，反馈类型不能为空，请选择内部反馈还是客户反馈");
+            }else if (feedback.getRequireDate()==null){
+                return LbMap.failResult("客反编辑失败，要求完成日期不能为空");
+            }else if (feedback.getPriority()==null){
+                return LbMap.failResult("客反编辑失败，优先级别不能为空");
             }
 
             int code;
@@ -65,6 +72,7 @@ public class FeedbackController extends BaseController {
                 feedback.setCreateTime(dateFormat.parse(dateFormat.format(new Date())));
 
                 feedback.setRowVersion(0);
+                feedback.setStatus(FeedbackConstant.FEEDBACK_STATUS_1);
 
                 //ID为空的为新增
                 feedbackService.save(feedback);

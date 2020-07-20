@@ -19,28 +19,78 @@
     </fieldset>
 
     <div class="dataTable" style="margin-left: 15px !important;">
-        <label>反馈单号：</label>
-        <div class="layui-inline">
-            <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off">
-        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">问题类型</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="problemType" lay-verify="required" lay-search="" id="problemType">
+                        <option value="">问题类型筛选</option>
+                        <option value="0">需求</option>
+                        <option value="1">bug</option>
+                    </select>
+                </div>
+            </div>
 
-        <label>客户名称：</label>
-        <div class="layui-inline">
-            <input class="layui-input" name="customerName" id="customerName" autocomplete="off">
-        </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">反馈类型</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="feedbackType" lay-verify="required" lay-search="" id="feedbackType">
+                        <option value="">反馈类型筛选</option>
+                        <option value="0">内部反馈</option>
+                        <option value="1">客户反馈</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="layui-inline">
-            <label class="layui-form-label">问题类型</label>
-            <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
-                <select name="problemType" lay-verify="required" lay-search="" id="problemType">
-                    <option value="">直接选择或搜索选择</option>
-                    <option value="0">需求</option>
-                    <option value="1">bug</option>
-                </select>
+            <div class="layui-inline">
+                <label>反馈单号：</label>
+                <div class="layui-inline">
+                    <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off" placeholder="反馈单号模糊筛选">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label>客户名称：</label>
+                <div class="layui-inline">
+                    <input class="layui-input" name="customerName" id="customerName" autocomplete="off" placeholder="客户名称模糊筛选">
+                </div>
             </div>
         </div>
 
-        <button class="layui-btn" data-type="reload" id="reload">搜索</button>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">优先级别</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="priority" lay-verify="required" lay-search="" id="priority">
+                        <option value="">优先级别筛选</option>
+                        <option value="0">紧急</option>
+                        <option value="1">高</option>
+                        <option value="2">中</option>
+                        <option value="3">低</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">客反状态</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="status" lay-verify="required" lay-search="" id="status">
+                        <option value="">优先级别筛选</option>
+                        <option value="1">已经登记</option>
+                        <option value="2">分配开发</option>
+                        <option value="3">开发退回</option>
+                        <option value="4">重新分配开发</option>
+                        <option value="5">开发完成</option>
+                        <option value="6">分配测试</option>
+                        <option value="7">测试完成</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <button class="layui-btn" data-type="reload" id="reload">搜索</button>
+            </div>
+        </div>
     </div>
 
     <table class="layui-hide" id="feedbackList" lay-filter="feedbackList"></table>
@@ -84,21 +134,66 @@
                             return '<a href="javascript:;"> '+res.customerName+' </a>';
                         }}
                         ,{field:'versionName', title:'程序版本', width:150, sort:true}
-                        ,{field:'problemType', title:'问题类型', width:100, templet: function (res) {
-                            if (res.problemType==0){
-                                return '<em> 需求 </em>';
-                            }else if (res.problemType==1){
-                                return '<em> bug </em>';
+                        ,{field:'priority', title:'优先级别', width:100, sort:true, templet: function (res) {
+                            if (res.priority==0){
+                                return '<em> 紧急 </em>';
+                            }else if (res.priority==1){
+                                return '<em> 高 </em>';
+                            }else if (res.priority==2){
+                                return '<em> 中 </em>';
+                            }else if (res.priority==3){
+                                return '<em> 低 </em>';
+                            }else{
+                                return '<em> </em>';
                             }
                         }}
-                        ,{field:'problemText', title:'反馈内容', width:200, sort:true, style:"color:red;", templet:function (res) {
-                            return '<a lay-event="viewText"> '+res.problemText+' </a>';
+                        ,{field:'status', title:'客反状态', width:100, sort:true, templet: function (res) {
+                            if (res.status==1){
+                                return '<em> 已经登记 </em>';
+                            }else if (res.status==2){
+                                return '<em> 分配开发 </em>';
+                            }else if (res.status==3){
+                                return '<em> 开发退回 </em>';
+                            }else if (res.status==4){
+                                return '<em> 重新分配 </em>';
+                            }else if (res.status==5){
+                                return '<em> 开发完成 </em>';
+                            }else if (res.status==6){
+                                return '<em> 分配测试 </em>';
+                            }else if (res.status==7){
+                                return '<em> 测试完成 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'feedbackType', title:'反馈类型', width:100, sort:true, templet: function (res) {
+                            if (res.feedbackType==0){
+                                return '<em> 内部反馈 </em>';
+                            }else if (res.feedbackType==1){
+                                return '<em> 客户反馈 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'feedbackType', title:'客反状态', width:100, sort:true, templet: function (res) {
+                            if (res.feedbackType==0){
+                                return '<em> 内部反馈 </em>';
+                            }else if (res.feedbackType==1){
+                                return '<em> 客户反馈 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'problemText', title:'反馈内容', width:200, sort:true, templet:function (res) {
+                            return '<a lay-event="viewText" style="color: #B22222; cursor=\'pointer !important\';"> '+res.problemText+' </a>';
                         }}
                         ,{field:'createUser', title:'创建人', width:100, sort:true}
+                        ,{field:'requireDate', title:'要求完成日期', width:200, sort: true, templet: function (res) {
+                            return util.toDateString(res.requireDate, "yyyy-MM-dd");}}
                         ,{field:'createTime', title:'创建日期', width:200, sort: true, templet: function (res) {
                             return util.toDateString(res.createTime, "yyyy-MM-dd HH:mm:ss");}}
-                        ,{field:'telNo', title:'电话', width:180, sort:true}
-                        ,{field:'address', title:'地址', width:300, sort:true}
+                        ,{field:'telNo', title:'客户电话', width:180, sort:true}
+                        ,{field:'address', title:'客户地址', width:300, sort:true}
                         ,{field:'modifyUser', title:'修改人', width:100, sort:true}
                         ,{field:'modifyTime', title:'修改日期', width:200, sort: true, templet: function (res) {
                             return util.toDateString(res.modifyTime, "yyyy-MM-dd HH:mm:ss");}}
@@ -110,6 +205,16 @@
                 ]
                 ,page: true
                 ,id: 'dataTable'
+                ,done: function (res, curr, count) {
+                    for (var i in res.data){
+                        var item = res.data[i];
+                        if (item.priority==0){
+                            $("tr[data-index='" + i + "']").attr({"style":"background: #FFDEAD"});
+                        }else if (item.priority==1){
+                            $("tr[data-index='" + i + "']").attr({"style":"background: #FFFFE0"});
+                        }
+                    }
+                }
             });
 
             //头工具栏事件
@@ -130,7 +235,11 @@
                     var feedbackId = $('#feedbackId').val();
                     var customerName = $('#customerName').val();
                     var problemType = $("#problemType").val();
-                    var jsonStr = JSON.stringify({feedbackId: feedbackId, customerName: customerName, problemType: problemType});
+                    var feedbackType = $("#feedbackType").val();
+                    var priority = $("#priority").val();
+                    var status = $("#status").val();
+                    var jsonStr = JSON.stringify({feedbackId: feedbackId, customerName: customerName, problemType: problemType,
+                        feedbackType: feedbackType, priority: priority, status: status});
 
                     console.log(jsonStr);
 
@@ -190,7 +299,7 @@
                         area: ['100%', '100%'],
                         fixed: false,
                         maxmin: true,
-                        content: ['toUpdate?feedbackId='+data.feedbackId, 'no']
+                        content: ['toUpdate?feedbackId='+data.feedbackId]
                     });
                     layer.full(index);
                 } else if(obj.event === 'viewText'){
