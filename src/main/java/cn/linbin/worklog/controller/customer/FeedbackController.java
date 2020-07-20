@@ -107,6 +107,13 @@ public class FeedbackController extends BaseController {
         return mv;
     }
 
+    /**
+     * 查询所有客户反馈单
+     * @param pageIndex
+     * @param pageSize
+     * @param jsonStr
+     * @return
+     */
     @GetMapping(value = "/findAll")
     public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
         try {
@@ -120,6 +127,11 @@ public class FeedbackController extends BaseController {
     }
 
 
+    /**
+     * 跳转更新页面
+     * @param feedbackId
+     * @return
+     */
     @GetMapping(value = "/toUpdate")
     public ModelAndView toUpdate(String feedbackId){
         ModelAndView mv = new ModelAndView();

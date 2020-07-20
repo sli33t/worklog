@@ -2,6 +2,7 @@ package cn.linbin.worklog.service.system.impl;
 
 import cn.linbin.worklog.dao.AreaDao;
 import cn.linbin.worklog.dao.CustomerDao;
+import cn.linbin.worklog.dao.UserDao;
 import cn.linbin.worklog.dao.VersionDao;
 import cn.linbin.worklog.domain.Version;
 import cn.linbin.worklog.service.system.SelectService;
@@ -26,6 +27,9 @@ public class SelectServiceImpl implements SelectService {
     @Autowired
     private VersionDao versionDao;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public PageInfo findArea(int pageIndex, int pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
@@ -46,5 +50,12 @@ public class SelectServiceImpl implements SelectService {
         wrapper.eq("DELETE_FLAG", 0);
         List<Version> list = versionDao.selectList(wrapper);
         return list;
+    }
+
+    @Override
+    public PageInfo<LbMap> findUser(int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<LbMap> list = areaDao.findUser();
+        return new PageInfo(list);
     }
 }

@@ -60,6 +60,24 @@ public class SelectController extends BaseController{
 
 
     /**
+     * 查询用户
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/findUser")
+    public LbMap findUser(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+        try {
+            PageInfo<LbMap> pages = selectService.findUser(pageIndex, pageSize);
+            logger.info("findUser查询成功");
+            return LbMap.successResult("findUser查询成功", pages.getList(), pages.getSize());
+        }catch (Exception e){
+            return LbMap.failResult("findUser查询失败，"+e.getMessage());
+        }
+    }
+
+
+    /**
      * 查询区域
      * @param pageIndex
      * @param pageSize

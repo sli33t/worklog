@@ -13,4 +13,6 @@ public interface SelectService {
     PageInfo<LbMap> findCustomer(int pageIndex, int pageSize);
 
     List<Version> findVersion();
+
+    PageInfo<LbMap> findUser(int pageIndex, int pageSize);
 }

@@ -15,8 +15,9 @@
 </head>
 <body>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>客户反馈单列表</legend>
+        <legend>开发分配列表</legend>
     </fieldset>
+
 
     <div class="dataTable" style="margin-left: 15px !important;">
         <div class="layui-form-item">
@@ -42,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="layui-inline">
+            <div class="layui-inline" style="margin-left: 40px;">
                 <label>反馈单号：</label>
                 <div class="layui-inline">
                     <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off" placeholder="反馈单号模糊筛选">
@@ -88,6 +89,19 @@
             </div>
 
             <div class="layui-inline">
+                <label class="layui-form-label">开发状态</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="devStatus" lay-verify="required" lay-search="" id="devStatus">
+                        <option value="">开发状态筛选</option>
+                        <option value="0" selected="selected">未分配</option>
+                        <option value="1">已分配未接收</option>
+                        <option value="2">已接收未开发完成</option>
+                        <option value="3">已开发完成</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
                 <button class="layui-btn" data-type="reload" id="reload">搜索</button>
             </div>
         </div>
@@ -95,8 +109,21 @@
 
     <hr class="layui-bg-black">
 
-    <table class="layui-hide" id="feedbackList" lay-filter="feedbackList"></table>
+    <div class="layui-col-xs10">
+        <table class="layui-hide" id="devTaskList" lay-filter="devTaskList"></table>
+    </div>
 
+    <div class="layui-col-xs2">
+        <label class="layui-form-label">反馈内容</label>
+        <div class="layui-form-item layui-form-text">
+            <textarea class="layui-textarea" id="problemText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
+        </div>
+
+        <label class="layui-form-label">开发内容</label>
+        <div class="layui-form-item layui-form-text">
+            <textarea class="layui-textarea" id="finishText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
+        </div>
+    </div>
     <!--<script type="text/html" id="toolAdd">
         <div class="layui-btn-container">
             <button class="layui-btn layui-btn-sm" lay-event="addCustomer">新增</button>
@@ -104,7 +131,7 @@
     </script>-->
 
     <script type="text/html" id="toolEdit">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">分配开发</a>
         <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>-->
     </script>
 
@@ -120,8 +147,8 @@
             var util = layui.util;
 
             table.render({
-                elem: '#feedbackList'
-                ,url:'/feedback/findAll'
+                elem: '#devTaskList'
+                ,url:'/devTask/findAll'
                 ,toolbar: '#toolAdd' //开启头部工具栏，并为其绑定左侧模板
                 ,method: 'GET'
                 ,defaultToolbar: ['filter', 'exports', 'print']
@@ -131,12 +158,12 @@
                 ,cols: [
                     [
                         /*{type: 'checkbox', fixed: 'left'},*/
-                        {field:'feedbackId', title:'反馈单号', width:110, fixed: 'left', unresize: true, sort: true}
-                        ,{field:'customerName', title:'客户名称', width:200, sort: true, templet: function (res) {
+                        {field:'feedbackId', title:'反馈单号', width:110, fixed: 'left', unresize: true, sort: true, event: 'viewText'}
+                        ,{field:'customerName', title:'客户名称', width:200, sort: true, event: 'viewText', templet: function (res) {
                             return '<a href="javascript:;"> '+res.customerName+' </a>';
                         }}
-                        ,{field:'versionName', title:'程序版本', width:150, sort:true}
-                        ,{field:'priority', title:'优先级别', width:100, sort:true, templet: function (res) {
+                        ,{field:'versionName', title:'程序版本', width:150, sort:true, event: 'viewText'}
+                        ,{field:'priority', title:'优先级别', width:100, sort:true, event: 'viewText', templet: function (res) {
                             if (res.priority==0){
                                 return '<a style="color: #A52A2A;"> 紧急 </a>';
                             }else if (res.priority==1){
@@ -149,7 +176,7 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'status', title:'客反状态', width:100, sort:true, templet: function (res) {
+                        ,{field:'status', title:'客反状态', width:100, sort:true, event: 'viewText', templet: function (res) {
                             if (res.status==1){
                                 return '<em> 已经登记 </em>';
                             }else if (res.status==2){
@@ -168,7 +195,7 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'feedbackType', title:'反馈类型', width:100, sort:true, templet: function (res) {
+                        ,{field:'feedbackType', title:'反馈类型', width:100, sort:true, event: 'viewText', templet: function (res) {
                             if (res.feedbackType==0){
                                 return '<em> 内部反馈 </em>';
                             }else if (res.feedbackType==1){
@@ -177,7 +204,7 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'problemType', title:'问题类型', width:100, sort:true, templet: function (res) {
+                        ,{field:'problemType', title:'问题类型', width:100, sort:true, event: 'viewText', templet: function (res) {
                             if (res.problemType==0){
                                 return '<em> 需求 </em>';
                             }else if (res.problemType==1){
@@ -186,22 +213,35 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'problemText', title:'反馈内容', width:200, sort:true, templet:function (res) {
-                            return '<a lay-event="viewText" style="color: #778899; cursor=\'pointer !important\';"> '+res.problemText+' </a>';
+                        ,{field:'developer', title:'开发人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'received', title:'是否接收', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.received==1){
+                                return '<em> 已接收 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
                         }}
-                        ,{field:'createUser', title:'创建人', width:100, sort:true}
-                        ,{field:'requireDate', title:'要求完成日期', width:200, sort: true, templet: function (res) {
+                        ,{field:'finished', title:'是否完成', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.finished==1){
+                                return '<em> 已完成 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'devStatus', title:'开发状态', width:100, sort:true, event: 'viewText'}
+                        ,{field:'problemText', title:'反馈内容', width:200, sort:true, event: 'viewText', templet:function (res) {
+                            return '<a lay-event="viewText" style="color: #778899;"> '+res.problemText+' </a>';
+                        }}
+                        ,{field:'createUser', title:'创建人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'finishTime', title:'完成时间', width:200, sort: true, event: 'viewText', templet: function (res) {
+                            if (res.finishTime==null){
+                                return '';
+                            }else {
+                                return util.toDateString(res.finishTime, "yyyy-MM-dd HH:mm:ss");
+                            }
+                        }}
+                        ,{field:'requireDate', title:'要求完成日期', width:200, sort: true, event: 'viewText', templet: function (res) {
                             return util.toDateString(res.requireDate, "yyyy-MM-dd");}}
-                        ,{field:'createTime', title:'创建日期', width:200, sort: true, templet: function (res) {
-                            return util.toDateString(res.createTime, "yyyy-MM-dd HH:mm:ss");}}
-                        ,{field:'telNo', title:'客户电话', width:180, sort:true}
-                        ,{field:'address', title:'客户地址', width:300, sort:true}
-                        ,{field:'modifyUser', title:'修改人', width:100, sort:true}
-                        ,{field:'modifyTime', title:'修改日期', width:200, sort: true, templet: function (res) {
-                            return util.toDateString(res.modifyTime, "yyyy-MM-dd HH:mm:ss");}}
-                        ,{field:'areaName', title:'所属区域', width:150, sort:true}
-                        ,{field:'email', title:'邮箱', width:150, sort: true, templet: function(res){
-                            return '<em>'+ res.email +'</em>'}}
                         ,{fixed: 'right', title:'操作', toolbar: '#toolEdit', width:150}
                     ]
                 ]
@@ -240,8 +280,9 @@
                     var feedbackType = $("#feedbackType").val();
                     var priority = $("#priority").val();
                     var status = $("#status").val();
+                    var devStatus = $("#devStatus").val();
                     var jsonStr = JSON.stringify({feedbackId: feedbackId, customerName: customerName, problemType: problemType,
-                        feedbackType: feedbackType, priority: priority, status: status});
+                        feedbackType: feedbackType, priority: priority, status: status, devStatus: devStatus});
 
                     console.log(jsonStr);
 
@@ -266,49 +307,34 @@
             //监听行工具事件
             table.on('tool()', function(obj){
                 var data = obj.data;
-                if(obj.event === 'delete'){
-                    layer.confirm('您确定要删除该客户反馈吗？', function(index){
-                        //console.log(data);
 
-                        $.ajax({
-                            type: 'POST',
-                            url: '/feedback/delete',
-                            data: {feedbackId: data.feedbackId, rowVersion: data.rowVersion},
-                            success: function(data){
-                                if (data.result){
-                                    layer.close(index);
-                                    location.href = "/feedback/toCustomerList";
-                                    /*var type = $(this).data('type');
-                                    active[type] ? active[type].call(this) : '';*/
-                                }else {
-                                    layer.alert(data.msg, {
-                                        title: '删除客户反馈'
-                                    })
-                                }
-                            },
-                            error: function (data) {
-                                layer.alert(data.msg, {
-                                    title: '删除客户反馈警告'
-                                })
-                            }
-                        });
+                if(obj.event === 'edit'){
+                    var finished = data.finished;
+                    var received = data.received;
+                    var feedbackId = data.feedbackId;
+                    var developer = data.developer;
 
+                    if (received==1){
+                        layer.alert("客反"+feedbackId+"已经由"+developer+"接收，不能进行分配");
+                        return false;
+                    }
 
-                    });
-                } else if(obj.event === 'edit'){
+                    if (finished==1){
+                        layer.alert("客反"+feedbackId+"已经由"+developer+"开发完成，不能进行分配");
+                        return false;
+                    }
+
                     var index = layer.open({
                         type: 2,
-                        area: ['100%', '100%'],
+                        area: ['1000px', '600px'],
                         fixed: false,
                         maxmin: true,
-                        content: ['toUpdate?feedbackId='+data.feedbackId]
+                        content: ['toDevTask?feedbackId='+data.feedbackId, 'no']
                     });
                     layer.full(index);
                 } else if(obj.event === 'viewText'){
-                    layer.msg(data.problemText,  {
-                        time: 60000, //20s后自动关闭
-                        btn: ['关闭']
-                    });
+                    $("#problemText").val(data.problemText);
+                    $("#finishText").val(data.finishText);
                 }
             });
         });
