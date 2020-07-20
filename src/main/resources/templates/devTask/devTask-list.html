@@ -228,11 +228,13 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'devStatus', title:'开发状态', width:100, sort:true, event: 'viewText'}
+                        ,{field:'devStatus', title:'开发状态', width:150, sort:true, event: 'viewText'}
                         ,{field:'problemText', title:'反馈内容', width:200, sort:true, event: 'viewText', templet:function (res) {
                             return '<a lay-event="viewText" style="color: #778899;"> '+res.problemText+' </a>';
                         }}
-                        ,{field:'createUser', title:'创建人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'creatorUser', title:'创建人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'planHour', title:'预计工时', width:100, sort:true, event: 'viewText'}
+                        ,{field:'realHour', title:'实际工时', width:100, sort:true, event: 'viewText'}
                         ,{field:'finishTime', title:'完成时间', width:200, sort: true, event: 'viewText', templet: function (res) {
                             if (res.finishTime==null){
                                 return '';
@@ -309,10 +311,17 @@
                 var data = obj.data;
 
                 if(obj.event === 'edit'){
+                    var devtaskId = data.devtaskId;
                     var finished = data.finished;
                     var received = data.received;
                     var feedbackId = data.feedbackId;
                     var developer = data.developer;
+                    var creatorUser = data.creatorUser;
+
+                    if (devtaskId!=null&&devtaskId!=''&&finished!=2){
+                        layer.alert("客反"+feedbackId+"已经由"+creatorUser+"分配，不能进行分配");
+                        return false;
+                    }
 
                     if (received==1){
                         layer.alert("客反"+feedbackId+"已经由"+developer+"接收，不能进行分配");

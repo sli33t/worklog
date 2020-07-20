@@ -58,7 +58,12 @@ public class FeedbackServiceImpl implements FeedbackService{
     }
 
     @Override
-    public Feedback findById(String feedbackId) {
+    public Feedback findById(Integer feedbackId) {
         return feedbackDao.findById(feedbackId);
+    }
+
+    @Override
+    public int updateStatus(Integer feedbackId, Integer status) {
+        return feedbackDao.updateStatus(feedbackId, status);
     }
 }

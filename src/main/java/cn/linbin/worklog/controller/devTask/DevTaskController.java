@@ -2,6 +2,7 @@ package cn.linbin.worklog.controller.devTask;
 
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.controller.customer.FeedbackController;
+import cn.linbin.worklog.domain.DevTask;
 import cn.linbin.worklog.domain.Feedback;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.service.devTask.DevTaskService;
@@ -10,8 +11,12 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/devTask")
@@ -60,7 +65,7 @@ public class DevTaskController extends BaseController{
      * @return
      */
     @GetMapping(value = "/toDevTask")
-    public ModelAndView toDevTask(String feedbackId){
+    public ModelAndView toDevTask(Integer feedbackId){
         ModelAndView mv = new ModelAndView();
         Feedback feedback = feedbackService.findById(feedbackId);
         mv.addObject("feedback", feedback);
@@ -80,7 +85,34 @@ public class DevTaskController extends BaseController{
     @PostMapping(value = "/edit")
     public LbMap edit(Integer feedbackId, String developUserId, Double planHour, String taskText){
         try {
-            System.out.println(feedbackId+"|"+developUserId+"|"+planHour+"|"+taskText);
+            if (feedbackId<=0){
+                return LbMap.failResult("分配开发任务失败，没有找到客反单号，请刷新重试！");
+            }else if (StringUtils.isEmpty(developUserId)){
+                return LbMap.failResult("分配开发任务失败，没有找到开发人员！");
+            }else if (planHour<=0){
+                return LbMap.failResult("分配开发任务失败，预计开发工时不能小于0或等于0！");
+            }
+
+            //新增
+            DevTask devTask = new DevTask();
+            devTask.setFeedbackId(feedbackId);
+            devTask.setDevelopUserId(developUserId);
+            devTask.setPlanHour(planHour);
+            devTask.setTaskText(taskText);
+
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            devTask.setTaskTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            devTask.setTaskDate(dateFormat.parse(dateFormat.format(new Date())));
+
+            Feedback feedback = feedbackService.findById(feedbackId);
+
+            devTask.setCreateUserId(userId);
+            devTask.setFeedbackTime(feedback.getCreateTime());
+
+            devTaskService.edit(devTask);
+
             logger.info("开发任务分配成功");
             return LbMap.successResult("开发任务分配成功");
         }catch (Exception e){

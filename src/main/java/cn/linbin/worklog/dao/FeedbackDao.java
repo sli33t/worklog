@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -60,5 +61,8 @@ public interface FeedbackDao extends BaseMapper<Feedback>{
             "INNER JOIN TB_AREA ON TB_CUSTOMER.AREA_ID = TB_AREA.AREA_ID " +
             "INNER JOIN TB_VERSION ON TB_CUSTOMER.VERSION_ID = TB_VERSION.VERSION_ID " +
             "WHERE TB_FEEDBACK.FEEDBACK_ID = #{feedbackId}")
-    Feedback findById(String feedbackId);
+    Feedback findById(Integer feedbackId);
+
+    @Update("UPDATE TB_FEEDBACK SET STATUS = #{status} WHERE FEEDBACK_ID = #{feedbackId}")
+    int updateStatus(@Param("feedbackId") Integer feedbackId, @Param("status") Integer status);
 }

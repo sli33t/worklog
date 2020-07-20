@@ -133,7 +133,7 @@ public class FeedbackController extends BaseController {
      * @return
      */
     @GetMapping(value = "/toUpdate")
-    public ModelAndView toUpdate(String feedbackId){
+    public ModelAndView toUpdate(Integer feedbackId){
         ModelAndView mv = new ModelAndView();
         Feedback feedback = feedbackService.findById(feedbackId);
         logger.info(feedback.toString());

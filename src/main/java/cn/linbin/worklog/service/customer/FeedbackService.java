@@ -32,5 +32,13 @@ public interface FeedbackService {
      * @param feedbackId
      * @return
      */
-    Feedback findById(String feedbackId);
+    Feedback findById(Integer feedbackId);
+
+    /**
+     * 更新状态
+     * @param feedbackId
+     * @param status
+     * @return
+     */
+    int updateStatus(Integer feedbackId, Integer status);
 }

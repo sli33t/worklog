@@ -85,8 +85,6 @@ public class CustomerController extends BaseController {
                 return LbMap.failResult("客户编辑失败，客户电话不能为空！");
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            customer.setCreateTime(dateFormat.parse(dateFormat.format(new Date())));
 
             //新增
             if (StringUtils.isEmpty(customer.getCustomerId())){
@@ -99,6 +97,9 @@ public class CustomerController extends BaseController {
                         }
                     }
                 }
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                customer.setCreateTime(dateFormat.parse(dateFormat.format(new Date())));
 
                 //初始化的行版本号为0
                 customer.setRowVersion(0);

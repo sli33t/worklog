@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @TableName(value = "TB_DEVTASK")
 public class DevTask implements Serializable {
@@ -14,7 +15,7 @@ public class DevTask implements Serializable {
     private String devtaskId;
 
     @TableField(value = "FEEDBACK_ID")
-    private String feedbackId;
+    private Integer feedbackId;
 
     @TableField(value = "DEVELOP_USER_ID")
     private String developUserId;
@@ -23,28 +24,28 @@ public class DevTask implements Serializable {
     private Integer received;
 
     @TableField(value = "RECEIVE_TIME")
-    private String receiveTime;
+    private Date receiveTime;
 
     @TableField(value = "RECEIVE_DATE")
-    private String receiveDate;
+    private Date receiveDate;
 
     @TableField(value = "FINISHED")
-    private String finished;
+    private Integer finished;
 
     @TableField(value = "FINISH_DATE")
-    private String finishDate;
+    private Date finishDate;
 
     @TableField(value = "FINISH_TIME")
-    private String finishTime;
+    private Date finishTime;
 
     @TableField(value = "FEEDBACK_TIME")
-    private String feedbackTime;
+    private Date feedbackTime;
 
     @TableField(value = "TASK_DATE")
-    private String taskDate;
+    private Date taskDate;
 
     @TableField(value = "TASK_TIME")
-    private String taskTime;
+    private Date taskTime;
 
     @TableField(value = "CREATE_USER_ID")
     private String createUserId;
@@ -101,19 +102,19 @@ public class DevTask implements Serializable {
         this.received = received;
     }
 
-    public String getTaskDate() {
+    public Date getTaskDate() {
         return taskDate;
     }
 
-    public void setTaskDate(String taskDate) {
+    public void setTaskDate(Date taskDate) {
         this.taskDate = taskDate;
     }
 
-    public String getTaskTime() {
+    public Date getTaskTime() {
         return taskTime;
     }
 
-    public void setTaskTime(String taskTime) {
+    public void setTaskTime(Date taskTime) {
         this.taskTime = taskTime;
     }
 
@@ -133,11 +134,11 @@ public class DevTask implements Serializable {
         this.devtaskId = devtaskId;
     }
 
-    public String getFeedbackId() {
+    public Integer getFeedbackId() {
         return feedbackId;
     }
 
-    public void setFeedbackId(String feedbackId) {
+    public void setFeedbackId(Integer feedbackId) {
         this.feedbackId = feedbackId;
     }
 
@@ -149,51 +150,51 @@ public class DevTask implements Serializable {
         this.developUserId = developUserId;
     }
 
-    public String getReceiveTime() {
+    public Date getReceiveTime() {
         return receiveTime;
     }
 
-    public void setReceiveTime(String receiveTime) {
+    public void setReceiveTime(Date receiveTime) {
         this.receiveTime = receiveTime;
     }
 
-    public String getReceiveDate() {
+    public Date getReceiveDate() {
         return receiveDate;
     }
 
-    public void setReceiveDate(String receiveDate) {
+    public void setReceiveDate(Date receiveDate) {
         this.receiveDate = receiveDate;
     }
 
-    public String getFinished() {
+    public Integer getFinished() {
         return finished;
     }
 
-    public void setFinished(String finished) {
+    public void setFinished(Integer finished) {
         this.finished = finished;
     }
 
-    public String getFinishDate() {
+    public Date getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(String finishDate) {
+    public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
     }
 
-    public String getFinishTime() {
+    public Date getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(String finishTime) {
+    public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
     }
 
-    public String getFeedbackTime() {
+    public Date getFeedbackTime() {
         return feedbackTime;
     }
 
-    public void setFeedbackTime(String feedbackTime) {
+    public void setFeedbackTime(Date feedbackTime) {
         this.feedbackTime = feedbackTime;
     }
 
