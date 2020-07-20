@@ -120,4 +120,73 @@ public class DevTaskController extends BaseController{
         }
     }
 
+
+    /**
+     * 跳转列表页面
+     * @return
+     */
+    @GetMapping(value = "/toDevFinish")
+    public ModelAndView toDevFinish(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("devTask/devTask-finish");
+        return mv;
+    }
+
+
+    /**
+     * 开发完成列表
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/findDevFinishList")
+    public LbMap findDevFinishList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+        try {
+            LbMap param = new LbMap();
+            param.put("developUserId", userId);
+            PageInfo<LbMap> pages = devTaskService.findDevFinish(pageIndex, pageSize, param);
+            logger.info("查询成功");
+            return LbMap.successResult("分配开发查询成功", pages.getList(), pages.getSize());
+        }catch (Exception e){
+            return LbMap.failResult("分配开发查询失败，"+e.getMessage());
+        }
+    }
+
+
+    /**
+     * 更新开发完成
+     * @param devTask
+     * @return
+     */
+    @PostMapping(value = "/updateDevFinish")
+    public LbMap updateDevFinish(DevTask devTask){
+        try {
+            devTaskService.updateDevFinish(devTask);
+            logger.info("开发完成成功");
+            return LbMap.successResult("开发完成成功");
+        }catch (Exception e){
+            return LbMap.failResult("开发完成失败，"+e.getMessage());
+        }
+    }
+
+
+    @PostMapping(value = "/updateDevBack")
+    public LbMap updateDevBack(String devtaskId, Integer feedbackId){
+        try {
+            if (StringUtils.isEmpty(devtaskId)){
+                return LbMap.failResult("开发退回失败，没有找到开发任务编号");
+            }
+
+            if (feedbackId==null||feedbackId<=0){
+                return LbMap.failResult("开发退回失败，没有找到客反单号");
+            }
+
+            devTaskService.updateDevBack(devtaskId, feedbackId);
+            logger.info("开发退回成功");
+            return LbMap.successResult("开发退回成功");
+        }catch (Exception e){
+            return LbMap.failResult("开发退回失败，"+e.getMessage());
+        }
+    }
+
 }

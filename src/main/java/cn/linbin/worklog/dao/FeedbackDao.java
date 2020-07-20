@@ -65,4 +65,7 @@ public interface FeedbackDao extends BaseMapper<Feedback>{
 
     @Update("UPDATE TB_FEEDBACK SET STATUS = #{status} WHERE FEEDBACK_ID = #{feedbackId}")
     int updateStatus(@Param("feedbackId") Integer feedbackId, @Param("status") Integer status);
+
+    @Select("SELECT FEEDBACK_ID FROM TB_DEVTASK WHERE FEEDBACK_ID = #{feedbackId}")
+    List<LbMap> haveDevBack(Integer feedbackId);
 }

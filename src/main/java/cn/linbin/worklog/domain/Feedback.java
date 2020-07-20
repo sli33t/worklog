@@ -13,7 +13,7 @@ import java.util.Date;
 public class Feedback implements Serializable {
 
     @TableId(value = "FEEDBACK_ID", type = IdType.AUTO)
-    private String feedbackId;
+    private Integer feedbackId;
 
     @TableField(value = "PROBLEM_TYPE")
     private Integer problemType;
@@ -209,11 +209,11 @@ public class Feedback implements Serializable {
         this.modifyUserId = modifyUserId;
     }
 
-    public String getFeedbackId() {
+    public Integer getFeedbackId() {
         return feedbackId;
     }
 
-    public void setFeedbackId(String feedbackId) {
+    public void setFeedbackId(Integer feedbackId) {
         this.feedbackId = feedbackId;
     }
 

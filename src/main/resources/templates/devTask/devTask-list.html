@@ -312,13 +312,13 @@
 
                 if(obj.event === 'edit'){
                     var devtaskId = data.devtaskId;
-                    var finished = data.finished;
+                    var devFinished = data.devFinished;
                     var received = data.received;
                     var feedbackId = data.feedbackId;
                     var developer = data.developer;
                     var creatorUser = data.creatorUser;
 
-                    if (devtaskId!=null&&devtaskId!=''&&finished!=2){
+                    if (devtaskId!=null&&devtaskId!=''&&devFinished!=2){
                         layer.alert("客反"+feedbackId+"已经由"+creatorUser+"分配，不能进行分配");
                         return false;
                     }
@@ -328,7 +328,7 @@
                         return false;
                     }
 
-                    if (finished==1){
+                    if (devFinished==1){
                         layer.alert("客反"+feedbackId+"已经由"+developer+"开发完成，不能进行分配");
                         return false;
                     }

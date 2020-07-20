@@ -20,4 +20,25 @@ public interface DevTaskService {
      * @param devTask
      */
     void edit(DevTask devTask) throws Exception;
+
+    /**
+     * 开发完成列表
+     * @param pageIndex
+     * @param pageSize
+     * @param param
+     * @return
+     */
+    PageInfo<LbMap> findDevFinish(int pageIndex, int pageSize, LbMap param);
+
+    /**
+     * 更新开发完成
+     * @param devTask
+     */
+    void updateDevFinish(DevTask devTask) throws Exception;
+
+    /**
+     * 更新开发退回
+     * @param devtaskId
+     */
+    void updateDevBack(String devtaskId, Integer feedbackId) throws Exception;
 }
