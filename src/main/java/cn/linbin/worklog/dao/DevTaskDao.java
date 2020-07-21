@@ -84,4 +84,7 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
             "INNER JOIN TB_DEVTASK ON TB_DEVTASK.FEEDBACK_ID = TB_FEEDBACK.FEEDBACK_ID " +
             "WHERE TB_DEVTASK.DEVELOP_USER_ID = #{param.developUserId} AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 ")
     List<LbMap> findDevFinish(@Param("param") LbMap param);
+
+    @Select("SELECT COALESCE(COUNT(DEVTASK_ID), 0) AS COUNT FROM TB_DEVTASK WHERE TB_DEVTASK.DEVELOP_USER_ID = #{userId} AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0")
+    int findDevFinishCount(String userId);
 }

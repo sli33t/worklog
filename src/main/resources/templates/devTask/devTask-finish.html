@@ -14,8 +14,17 @@
     <link rel="stylesheet" href="../static/css/layui.css">
 
     <style type="text/css">
+        .color{
+            color: #666666 !important;
+        }
+
         .left{
             margin-left: 100px;
+        }
+
+        .font-color{
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -40,22 +49,44 @@
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item left" style="margin-top: 20px;">
             <div class="layui-inline">
-                <label class="layui-form-label">客反单号</label>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <input type="text" name="feedbackId" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" id="feedbackId">
+                <label class="layui-form-label">任务编号</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="devtaskId" lay-verify="required" autocomplete="off" class="layui-input layui-disabled color" id="devtaskId">
                 </div>
             </div>
 
             <div class="layui-inline">
-                <label class="layui-form-label">实际工时</label>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <input type="number" name="realHour" placeholder="实际工时" lay-verify="required" autocomplete="off" class="layui-input" id="realHour">
+                <label class="layui-form-label">客反单号</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="feedbackId" lay-verify="required" autocomplete="off" class="layui-input layui-disabled color" id="feedbackId">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item left">
+            <div class="layui-inline">
+                <label class="layui-form-label font-color">实际工时</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="number" name="realHour" placeholder="请输入实际工时" lay-verify="required" autocomplete="off" class="layui-input" id="realHour">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">BUG引入人</label>
+                <div class="layui-input-inline" style="width: 200px; margin-right: -1px;">
+                    <input type="text" id="name" placeholder="请点击选择引入人" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly">
+                    <input type="hidden" id="id" name="importUserId">
+                </div>
+                <div class="layui-input-inline">
+                    <span>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="userFilter" onclick="userFilter()">选择引入人</button>
+                    </span>
                 </div>
             </div>
         </div>
 
         <div class="layui-form-item layui-form-text left" style="width: 70%;">
-            <label class="layui-form-label">开发内容</label>
+            <label class="layui-form-label font-color">开发内容</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入开发内容" class="layui-textarea" style="height: 100px;" name="finishText"></textarea>
             </div>
@@ -112,6 +143,7 @@
                 console.log(data);
 
                 if(obj.event === 'viewText'){
+                    $("#devtaskId").val(data.devtaskId);
                     $("#feedbackId").val(data.feedbackId);
                     $("#problemText").val(data.problemText);
                 }else if (obj.event === 'devBack'){

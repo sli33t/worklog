@@ -1,6 +1,7 @@
 package cn.linbin.worklog.controller;
 
 import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.service.devTask.DevTaskService;
 import cn.linbin.worklog.utils.LbMap;
 import cn.linbin.worklog.utils.MD5Util;
 import org.apache.shiro.SecurityUtils;
@@ -8,6 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,9 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final static Logger logger = (Logger) LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired
+    private DevTaskService devTaskService;
 
     /**
      * 跳转登录页面
@@ -44,8 +49,12 @@ public class LoginController {
     public ModelAndView toIndex(HttpSession session){
         ModelAndView mv = new ModelAndView();
         User user = (User) session.getAttribute("user");
+
+        int devCount = devTaskService.findDevFinishCount(user.getUserId());
+
         mv.setViewName("system/index");
         mv.addObject("user", user);
+        mv.addObject("devCount", devCount);
         return mv;
     }
 

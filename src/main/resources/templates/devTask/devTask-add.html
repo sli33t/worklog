@@ -21,6 +21,11 @@
         .left{
             margin-left: 100px;
         }
+
+        .font-color{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -32,43 +37,89 @@
         <form class="layui-form layui-form-pane" action="" style="margin-top: 10px;">
 
             <div class="layui-form-item left" style="width: 70%; margin-top: 50px;">
-                <label class="layui-form-label">反馈单号</label>
-                <div class="layui-input-inline">
-                    <input id="feedbackId" name="feedbackId" th:value="${feedback.feedbackId}" class="layui-input layui-disabled color">
+                <div class="layui-inline">
+                    <label class="layui-form-label">反馈单号</label>
+                    <div class="layui-input-inline">
+                        <input id="feedbackId" name="feedbackId" th:value="${feedback.feedbackId}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">客户名称</label>
+                    <div class="layui-input-inline">
+                        <input id="customerName" th:value="${feedback.customerName}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item left" style="width: 70%;">
+                <div class="layui-inline">
+                    <label class="layui-form-label">问题类型</label>
+                    <div class="layui-input-inline">
+                        <input id="problemType" th:value="${feedback.problemType==0?'需求':'bug'}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">反馈类型</label>
+                    <div class="layui-input-inline">
+                        <input id="feedbackType" th:value="${feedback.feedbackType==0?'内部反馈':'客户反馈'}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">优先级</label>
+                    <div class="layui-input-inline">
+                        <input th:if="${feedback.priority} eq 0" th:value="紧急" class="layui-input layui-disabled color">
+                        <input th:if="${feedback.priority} eq 1" th:value="高" class="layui-input layui-disabled color">
+                        <input th:if="${feedback.priority} eq 2" th:value="中" class="layui-input layui-disabled color">
+                        <input th:if="${feedback.priority} eq 3" th:value="低" class="layui-input layui-disabled color">
+                    </div>
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text left" style="width: 70%;">
                 <label class="layui-form-label">反馈内容</label>
                 <div class="layui-input-block">
-                    <textarea class="layui-textarea layui-disabled" style="height: 100px;" th:text="${feedback.problemText}"></textarea>
+                    <textarea class="layui-textarea layui-disabled color" style="height: 100px;" th:text="${feedback.problemText}"></textarea>
                 </div>
             </div>
 
-            <div class="layui-form-item left">
-                <label class="layui-form-label">开发人员</label>
-                <div class="layui-input-inline" style="width: 60%">
-                    <input type="text" id="name" lay-verify="required" placeholder="请点击选择开发" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly">
-                    <input type="hidden" id="id" name="developUserId">
-                </div>
-                <div class="layui-input-inline">
-                    <span>
-                        <button type="button" class="layui-btn" lay-filter="userFilter" onclick="userFilter()">选择开发</button>
-                    </span>
-                </div>
-            </div>
+            <hr class="layui-bg-black" style="margin: 50px 0px 50px 0px;">
 
             <div class="layui-form-item left">
                 <div class="layui-inline">
-                    <label class="layui-form-label">预计工时</label>
-                    <div class="layui-input-inline" style="width: 100px;">
-                        <input type="number" name="planHour" placeholder="预计工时" lay-verify="required" autocomplete="off" class="layui-input" id="planHour">
+                    <label class="layui-form-label font-color">开发人员</label>
+                    <div class="layui-input-inline" style="width: 200px; margin-right: -1px;">
+                        <input type="text" id="name" lay-verify="required" placeholder="请点击选择开发" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly">
+                        <input type="hidden" id="id" name="developUserId">
+                    </div>
+                    <div class="layui-input-inline">
+                        <span>
+                            <button type="button" class="layui-btn layui-btn-normal" lay-filter="userFilter" onclick="userFilter()">选择开发</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label font-color">预计工时</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <input type="number" name="planHour" placeholder="请输入预计工时" lay-verify="required" autocomplete="off" class="layui-input" id="planHour">
                     </div>
                 </div>
             </div>
 
+            <!--<div class="layui-form-item left">
+                <div class="layui-inline">
+                    <label class="layui-form-label font-color">预计工时</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <input type="number" name="planHour" placeholder="请输入预计工时" lay-verify="required" autocomplete="off" class="layui-input" id="planHour">
+                    </div>
+                </div>
+            </div>-->
+
             <div class="layui-form-item layui-form-text left" style="width: 70%;">
-                <label class="layui-form-label">分配内容</label>
+                <label class="layui-form-label font-color">分配内容</label>
                 <div class="layui-input-block">
                     <textarea placeholder="请输入分配内容" class="layui-textarea" style="height: 100px;" name="taskText"></textarea>
                 </div>

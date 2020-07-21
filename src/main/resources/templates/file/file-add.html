@@ -21,6 +21,11 @@
         .left{
             margin-left: 100px;
         }
+
+        .font-color{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -38,7 +43,7 @@
             </div>-->
 
             <div class="layui-form-item left" pane="" style="width: 600px;">
-                <label class="layui-form-label">文件类型</label>
+                <label class="layui-form-label font-color">文件类型</label>
                 <div class="layui-input-block">
                     <input type="radio" name="fileType" value="0" title="管理岗查看">
                     <input type="radio" name="fileType" value="1" title="员工查看">
@@ -47,8 +52,8 @@
             </div>
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">上传文件</label>
-                <div class="layui-input-inline" style="width: 400px;">
+                <label class="layui-form-label font-color">上传文件</label>
+                <div class="layui-input-inline" style="width: 400px; margin-right: -1px;">
                     <span>
                         <input type="text" name="fileName" id="fileName" placeholder="请点击选择文件" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
                         <input type="hidden" name="fileUrl" id="fileUrl">
@@ -56,7 +61,7 @@
                 </div>
                 <div class="layui-input-inline">
                     <span>
-                        <button type="button" class="layui-btn" id="btnFileUpload">选择文件</button>
+                        <button type="button" class="layui-btn layui-btn-normal" id="btnFileUpload">选择文件</button>
                     </span>
                 </div>
             </div>

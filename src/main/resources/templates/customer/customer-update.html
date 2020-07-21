@@ -21,6 +21,11 @@
         .left{
             margin-left: 100px;
         }
+
+        .font-color{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -34,29 +39,29 @@
             <input type="hidden" id="rowVersion" name="rowVersion" th:value="${customer.rowVersion}">
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">客户名称</label>
+                <label class="layui-form-label font-color">客户名称</label>
                 <div class="layui-input-inline">
                     <input type="text" name="customerName" lay-verify="required" placeholder="请输入客户名称" autocomplete="off" class="layui-input" th:value="${customer.customerName}">
                 </div>
             </div>
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">联系电话</label>
+                <label class="layui-form-label font-color">联系电话</label>
                 <div class="layui-input-inline">
                     <input type="tel" name="telNo" lay-verify="required|phone" autocomplete="off" class="layui-input" placeholder="请输入联系电话" th:value="${customer.telNo}">
                 </div>
             </div>
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">联系地址</label>
+                <label class="layui-form-label font-color">联系地址</label>
                 <div class="layui-input-block" style="width: 80%">
                     <input type="text" name="address" lay-verify="required" placeholder="请输入联系地址" autocomplete="off" class="layui-input" th:value="${customer.address}">
                 </div>
             </div>
 
             <div class="layui-form-item left">
-                <label class="layui-form-label">所属区域</label>
-                <div class="layui-input-inline">
+                <label class="layui-form-label font-color">所属区域</label>
+                <div class="layui-input-inline" style="margin-right: -1px;">
                     <span>
                         <!---->
                         <input type="text" id="name" placeholder="请输入区域" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly="readonly" th:value="${customer.areaName}">
@@ -65,7 +70,7 @@
                 </div>
                 <div class="layui-input-inline">
                     <span>
-                        <button type="button" class="layui-btn" lay-filter="areaFilter" onclick="areaFilter()">选择区域</button>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="areaFilter" onclick="areaFilter()">选择区域</button>
                     </span>
                 </div>
             </div>

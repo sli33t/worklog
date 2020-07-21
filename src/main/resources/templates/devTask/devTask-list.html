@@ -93,7 +93,7 @@
                 <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
                     <select name="devStatus" lay-verify="required" lay-search="" id="devStatus">
                         <option value="">开发状态筛选</option>
-                        <option value="0" selected="selected">未分配</option>
+                        <option value="0">未分配</option>
                         <option value="1">已分配未接收</option>
                         <option value="2">已接收未开发完成</option>
                         <option value="3">已开发完成</option>
@@ -230,7 +230,18 @@
                         }}
                         ,{field:'devStatus', title:'开发状态', width:150, sort:true, event: 'viewText'}
                         ,{field:'problemText', title:'反馈内容', width:200, sort:true, event: 'viewText', templet:function (res) {
-                            return '<a lay-event="viewText" style="color: #778899;"> '+res.problemText+' </a>';
+                            if (res.problemText==null||res.problemText==''||res.problemText==undefined){
+                                return '<em> </em>';
+                            }else {
+                                return '<a lay-event="viewText" style="color: #778899;"> '+res.problemText+' </a>';
+                            }
+                        }}
+                        ,{field:'finishText', title:'开发内容', width:200, sort:true, event: 'viewText', templet:function (res) {
+                            if (res.finishText==null||res.finishText==''||res.finishText==undefined){
+                                return '<em> </em>';
+                            }else {
+                                return '<a lay-event="finishText" style="color: #778899;"> ' + res.finishText + ' </a>';
+                            }
                         }}
                         ,{field:'creatorUser', title:'创建人', width:100, sort:true, event: 'viewText'}
                         ,{field:'planHour', title:'预计工时', width:100, sort:true, event: 'viewText'}
@@ -318,8 +329,8 @@
                     var developer = data.developer;
                     var creatorUser = data.creatorUser;
 
-                    if (devtaskId!=null&&devtaskId!=''&&devFinished!=2){
-                        layer.alert("客反"+feedbackId+"已经由"+creatorUser+"分配，不能进行分配");
+                    if (devFinished==1){
+                        layer.alert("客反"+feedbackId+"已经由"+developer+"开发完成，不能进行分配");
                         return false;
                     }
 
@@ -328,8 +339,8 @@
                         return false;
                     }
 
-                    if (devFinished==1){
-                        layer.alert("客反"+feedbackId+"已经由"+developer+"开发完成，不能进行分配");
+                    if (devtaskId!=null&&devtaskId!=''&&devFinished!=2){
+                        layer.alert("客反"+feedbackId+"已经由"+creatorUser+"分配，不能进行分配");
                         return false;
                     }
 

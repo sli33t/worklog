@@ -65,6 +65,14 @@ public class DevTaskServiceImpl implements DevTaskService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateDevFinish(DevTask devTask) throws Exception {
+        devTask.setFinished(1);
+
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        devTask.setFinishTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        devTask.setFinishDate(dateFormat.parse(dateFormat.format(new Date())));
+
         if (devTaskDao.updateById(devTask)!=1){
             throw new Exception("开发完成失败！");
         }
@@ -78,10 +86,7 @@ public class DevTaskServiceImpl implements DevTaskService{
         feedback.setFeedbackId(devTask.getFeedbackId());
         feedback.setFinished(1);
 
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         feedback.setFinishTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         feedback.setFinishDate(dateFormat.parse(dateFormat.format(new Date())));
 
         if (feedbackDao.updateById(feedback)!=1){
@@ -112,5 +117,15 @@ public class DevTaskServiceImpl implements DevTaskService{
         if (feedbackDao.updateStatus(feedbackId, FeedbackConstant.FEEDBACK_STATUS_3)!=1){
             throw new Exception("更新客反状态失败！");
         }
+    }
+
+    /**
+     * 查询当前开发人员的数量
+     * @param userId
+     * @return
+     */
+    @Override
+    public int findDevFinishCount(String userId) {
+        return devTaskDao.findDevFinishCount(userId);
     }
 }

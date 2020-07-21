@@ -41,4 +41,11 @@ public interface DevTaskService {
      * @param devtaskId
      */
     void updateDevBack(String devtaskId, Integer feedbackId) throws Exception;
+
+    /**
+     * 查询当前开发人员的数量
+     * @param userId
+     * @return
+     */
+    int findDevFinishCount(String userId);
 }

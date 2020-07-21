@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/devTask")
@@ -147,6 +148,18 @@ public class DevTaskController extends BaseController{
             PageInfo<LbMap> pages = devTaskService.findDevFinish(pageIndex, pageSize, param);
             logger.info("查询成功");
             return LbMap.successResult("分配开发查询成功", pages.getList(), pages.getSize());
+        }catch (Exception e){
+            return LbMap.failResult("分配开发查询失败，"+e.getMessage());
+        }
+    }
+
+
+    @GetMapping(value = "/findDevFinishCount")
+    public LbMap findDevFinishCount(){
+        try {
+            int count = devTaskService.findDevFinishCount(userId);
+            logger.info("查询成功");
+            return LbMap.successResult("分配开发查询成功", count);
         }catch (Exception e){
             return LbMap.failResult("分配开发查询失败，"+e.getMessage());
         }

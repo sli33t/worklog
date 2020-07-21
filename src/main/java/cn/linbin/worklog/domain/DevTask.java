@@ -62,6 +62,30 @@ public class DevTask implements Serializable {
     @TableField(value = "FINISH_TEXT")
     private String finishText;
 
+    //错误引入人
+    @TableField(value = "IMPORT_USER_ID")
+    private String importUserId;
+
+    //是否是问题，0-不是，1-是
+    @TableField(value = "IS_PROBLEM")
+    private Integer isProblem;
+
+    public Integer getIsProblem() {
+        return isProblem;
+    }
+
+    public void setIsProblem(Integer isProblem) {
+        this.isProblem = isProblem;
+    }
+
+    public String getImportUserId() {
+        return importUserId;
+    }
+
+    public void setImportUserId(String importUserId) {
+        this.importUserId = importUserId;
+    }
+
     public String getTaskText() {
         return taskText;
     }
@@ -202,22 +226,24 @@ public class DevTask implements Serializable {
     public String toString() {
         return "DevTask{" +
                 "devtaskId='" + devtaskId + '\'' +
-                ", feedbackId='" + feedbackId + '\'' +
+                ", feedbackId=" + feedbackId +
                 ", developUserId='" + developUserId + '\'' +
                 ", received=" + received +
-                ", receiveTime='" + receiveTime + '\'' +
-                ", receiveDate='" + receiveDate + '\'' +
-                ", finished='" + finished + '\'' +
-                ", finishDate='" + finishDate + '\'' +
-                ", finishTime='" + finishTime + '\'' +
-                ", feedbackTime='" + feedbackTime + '\'' +
-                ", taskDate='" + taskDate + '\'' +
-                ", taskTime='" + taskTime + '\'' +
+                ", receiveTime=" + receiveTime +
+                ", receiveDate=" + receiveDate +
+                ", finished=" + finished +
+                ", finishDate=" + finishDate +
+                ", finishTime=" + finishTime +
+                ", feedbackTime=" + feedbackTime +
+                ", taskDate=" + taskDate +
+                ", taskTime=" + taskTime +
                 ", createUserId='" + createUserId + '\'' +
                 ", planHour=" + planHour +
                 ", realHour=" + realHour +
-                ", finishText='" + finishText + '\'' +
                 ", taskText='" + taskText + '\'' +
+                ", finishText='" + finishText + '\'' +
+                ", importUserId='" + importUserId + '\'' +
+                ", isProblem=" + isProblem +
                 '}';
     }
 }

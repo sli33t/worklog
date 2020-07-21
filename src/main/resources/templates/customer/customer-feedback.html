@@ -23,6 +23,11 @@
         .left{
             margin-left: 100px;
         }
+
+        .font-color{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -36,14 +41,14 @@
             <input type="hidden" id="rowVersion" name="rowVersion" th:value="${feedback.rowVersion}">
 
             <div class="layui-form-item left" style="margin-top: 50px;">
-                <label class="layui-form-label">客户名称</label>
-                <div class="layui-input-inline" style="width: 60%">
+                <label class="layui-form-label font-color">客户名称</label>
+                <div class="layui-input-inline" style="width: 60%; margin-right: -1px;">
                     <input type="text" id="name" lay-verify="required" placeholder="请点击选择客户" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly" th:value="${feedback.customerName}">
                     <input type="hidden" id="id" name="customerId" th:value="${feedback.customerId}">
                 </div>
                 <div class="layui-input-inline">
                     <span>
-                        <button type="button" class="layui-btn" lay-filter="customerFilter" onclick="customerFilter()">选择客户</button>
+                        <button type="button" class="layui-btn layui-btn-normal" lay-filter="customerFilter" onclick="customerFilter()">选择客户</button>
                     </span>
                 </div>
             </div>
@@ -99,7 +104,7 @@
                     </div>-->
 
                     <div class="layui-block">
-                        <label class="layui-form-label">问题类型</label>
+                        <label class="layui-form-label font-color">问题类型</label>
                         <div class="layui-input-block layui-form width"><!--筛选条件下拉主要要有 layui-form-->
                             <select name="problemType" lay-verify="required" lay-search="" id="problemType" th:field="${feedback.problemType}">
                                 <!--<option value="">直接选择或搜索选择</option>-->
@@ -112,7 +117,7 @@
 
                 <div class="layui-col-xs4">
                     <div class="layui-block">
-                        <label class="layui-form-label">反馈类型</label>
+                        <label class="layui-form-label font-color">反馈类型</label>
                         <div class="layui-input-block layui-form width"><!--筛选条件下拉主要要有 layui-form-->
                             <select name="feedbackType" lay-verify="required" lay-search="" id="feedbackType" th:field="${feedback.feedbackType}">
                                 <!--<option value="">直接选择或搜索选择</option>-->
@@ -126,7 +131,7 @@
 
             <div class="layui-form-item left" pane="" style="width: 62%;">
                 <div class="layui-block">
-                    <label class="layui-form-label">优先级别</label>
+                    <label class="layui-form-label font-color">优先级别</label>
                     <div class="layui-input-block width">
                         <input type="radio" name="priority" lay-verify="required" value="0" title="紧急" th:field="${feedback.priority}">
                         <input type="radio" name="priority" lay-verify="required" value="1" title="高" th:field="${feedback.priority}" checked="">
@@ -138,7 +143,7 @@
 
             <div class="layui-form-item left">
                 <div class="layui-block">
-                    <label class="layui-form-label">要求日期</label>
+                    <label class="layui-form-label font-color">要求日期</label>
                     <div class="layui-input-inline">
                         <!-- -->
                         <input type="text" name="requireDate" id="requireDate" lay-verify="date" placeholder="请选择要求完成日期" autocomplete="off" class="layui-input" th:value="${#dates.format(feedback.requireDate, 'yyyy-MM-dd')}">
@@ -147,7 +152,7 @@
             </div>
 
             <div class="layui-form-item layui-form-text left" style="width: 70%;">
-                <label class="layui-form-label">反馈内容</label>
+                <label class="layui-form-label font-color">反馈内容</label>
                 <div class="layui-input-block">
                     <textarea placeholder="请输入内容" class="layui-textarea" lay-verify="required" style="height: 300px;" name="problemText" th:text="${feedback.problemText}"></textarea>
                 </div>
