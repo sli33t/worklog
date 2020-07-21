@@ -46,14 +46,14 @@
             <div class="layui-inline" style="margin-left: 40px;">
                 <label>反馈单号：</label>
                 <div class="layui-inline">
-                    <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off" placeholder="反馈单号模糊筛选">
+                    <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off" placeholder="反馈单号模糊筛选" style="width: 185px;">
                 </div>
             </div>
 
             <div class="layui-inline">
                 <label>客户名称：</label>
                 <div class="layui-inline">
-                    <input class="layui-input" name="customerName" id="customerName" autocomplete="off" placeholder="客户名称模糊筛选">
+                    <input class="layui-input" name="customerName" id="customerName" autocomplete="off" placeholder="客户名称模糊筛选" style="width: 185px;">
                 </div>
             </div>
         </div>
@@ -114,12 +114,12 @@
     </div>
 
     <div class="layui-col-xs2">
-        <label class="layui-form-label">反馈内容</label>
+        <label class="layui-form-label" id="labelFeedback" style="width: 180px !important; text-align: left;">反馈内容</label>
         <div class="layui-form-item layui-form-text">
             <textarea class="layui-textarea" id="problemText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
         </div>
 
-        <label class="layui-form-label">开发内容</label>
+        <label class="layui-form-label" id="labelDevelop" style="width: 180px !important; text-align: left;">开发内容</label>
         <div class="layui-form-item layui-form-text">
             <textarea class="layui-textarea" id="finishText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
         </div>
@@ -353,6 +353,8 @@
                     });
                     layer.full(index);
                 } else if(obj.event === 'viewText'){
+                    $("#labelFeedback").text("客反 "+data.feedbackId+" 的反馈内容");
+                    $("#labelDevelop").text("客反 "+data.feedbackId+" 的开发内容");
                     $("#problemText").val(data.problemText);
                     $("#finishText").val(data.finishText);
                 }

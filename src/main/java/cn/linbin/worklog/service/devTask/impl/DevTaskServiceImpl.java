@@ -36,6 +36,7 @@ public class DevTaskServiceImpl implements DevTaskService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void edit(DevTask devTask) throws Exception {
+        //检查一下是否存在退回的，如果有就是重新分配
         List<LbMap> list = feedbackDao.haveDevBack(devTask.getFeedbackId());
         if (list!=null&&list.size()>0){
             //更新客反状态为已经分配开发
@@ -127,5 +128,15 @@ public class DevTaskServiceImpl implements DevTaskService{
     @Override
     public int findDevFinishCount(String userId) {
         return devTaskDao.findDevFinishCount(userId);
+    }
+
+    /**
+     * 检查客反是否分配过开发任务
+     * @param feedbackId
+     * @return
+     */
+    @Override
+    public List<LbMap> checkDevTask(Integer feedbackId) {
+        return devTaskDao.checkDevTask(feedbackId);
     }
 }

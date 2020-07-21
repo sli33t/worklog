@@ -4,6 +4,8 @@ import cn.linbin.worklog.domain.DevTask;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface DevTaskService {
 
     /**
@@ -48,4 +50,11 @@ public interface DevTaskService {
      * @return
      */
     int findDevFinishCount(String userId);
+
+    /**
+     * 检查客反是否分配过开发任务
+     * @param feedbackId
+     * @return
+     */
+    List<LbMap> checkDevTask(Integer feedbackId);
 }

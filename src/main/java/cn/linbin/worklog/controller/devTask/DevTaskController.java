@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/devTask")
@@ -91,6 +92,11 @@ public class DevTaskController extends BaseController{
                 return LbMap.failResult("分配开发任务失败，没有找到开发人员！");
             }else if (planHour<=0){
                 return LbMap.failResult("分配开发任务失败，预计开发工时不能小于0或等于0！");
+            }
+
+            List<LbMap> list = devTaskService.checkDevTask(feedbackId);
+            if (list!=null&&list.size()>0){
+                return LbMap.failResult("当前客反"+feedbackId+"已经分配过开发任务，请刷新数据");
             }
 
             //新增

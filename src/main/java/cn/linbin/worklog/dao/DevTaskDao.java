@@ -64,7 +64,7 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
                     " AND (TB_DEVTASK.DEVTASK_ID IS NULL OR TB_DEVTASK.FINISHED = 2) " +
                 "</if>" +
                 "<if test='param.devStatus==1'>" +
-                    " AND TB_DEVTASK.DEVTASK_ID IS NOT NULL AND COALESCE(TB_DEVTASK.RECEIVED, 0) = 0 AND COALESCE(TB_DEVTASK.FINISHED, 0) != 2 " +
+                    " AND TB_DEVTASK.DEVTASK_ID IS NOT NULL AND COALESCE(TB_DEVTASK.RECEIVED, 0) = 0 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 " +
                 "</if>" +
                 "<if test='param.devStatus==2'>" +
                     " AND TB_DEVTASK.RECEIVED = 1 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 " +
@@ -79,12 +79,16 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
             "</script>")
     List<LbMap> findAll(@Param("param") LbMap param);
 
-    @Select("SELECT TB_FEEDBACK.FEEDBACK_ID, TB_DEVTASK.DEVTASK_ID, TB_FEEDBACK.REQUIRE_DATE, TB_FEEDBACK.PROBLEM_TEXT, TB_CUSTOMER.CUSTOMER_NAME, TB_DEVTASK.TASK_TEXT " +
+    @Select("SELECT TB_FEEDBACK.FEEDBACK_ID, TB_DEVTASK.DEVTASK_ID, TB_FEEDBACK.REQUIRE_DATE, TB_FEEDBACK.PROBLEM_TEXT, TB_CUSTOMER.CUSTOMER_NAME, TB_DEVTASK.TASK_TEXT, TB_USER.USER_NAME " +
             "FROM TB_FEEDBACK INNER JOIN TB_CUSTOMER ON TB_FEEDBACK.CUSTOMER_ID = TB_CUSTOMER.CUSTOMER_ID " +
+            "INNER JOIN TB_USER ON TB_FEEDBACK.CREATE_USER_ID = TB_USER.USER_ID "+
             "INNER JOIN TB_DEVTASK ON TB_DEVTASK.FEEDBACK_ID = TB_FEEDBACK.FEEDBACK_ID " +
             "WHERE TB_DEVTASK.DEVELOP_USER_ID = #{param.developUserId} AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 ")
     List<LbMap> findDevFinish(@Param("param") LbMap param);
 
     @Select("SELECT COALESCE(COUNT(DEVTASK_ID), 0) AS COUNT FROM TB_DEVTASK WHERE TB_DEVTASK.DEVELOP_USER_ID = #{userId} AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0")
     int findDevFinishCount(String userId);
+
+    @Select("SELECT DEVTASK_ID FROM TB_DEVTASK WHERE FEEDBACK_ID = #{feedbackId} and COALESCE(TB_DEVTASK.FINISHED, 0) != 2")
+    List<LbMap> checkDevTask(Integer feedbackId);
 }
