@@ -70,6 +70,18 @@ public class DevTask implements Serializable {
     @TableField(value = "IS_PROBLEM")
     private Integer isProblem;
 
+    //前端传入的是 on off
+    @TableField(value = "IS_PROBLEM_TEXT", exist = false)
+    private String isProblemText;
+
+    public String getIsProblemText() {
+        return isProblemText;
+    }
+
+    public void setIsProblemText(String isProblemText) {
+        this.isProblemText = isProblemText;
+    }
+
     public Integer getIsProblem() {
         return isProblem;
     }
@@ -244,6 +256,7 @@ public class DevTask implements Serializable {
                 ", finishText='" + finishText + '\'' +
                 ", importUserId='" + importUserId + '\'' +
                 ", isProblem=" + isProblem +
+                ", isProblemText='" + isProblemText + '\'' +
                 '}';
     }
 }

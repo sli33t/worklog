@@ -99,6 +99,7 @@ public class DevTaskController extends BaseController{
             devTask.setFeedbackId(feedbackId);
             devTask.setDevelopUserId(developUserId);
             devTask.setPlanHour(planHour);
+            devTask.setRealHour(0.0d);
             devTask.setTaskText(taskText);
 
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -174,6 +175,12 @@ public class DevTaskController extends BaseController{
     @PostMapping(value = "/updateDevFinish")
     public LbMap updateDevFinish(DevTask devTask){
         try {
+            if (devTask.getIsProblemText()!=null&&devTask.getIsProblemText().toLowerCase().equals("on")){
+                devTask.setIsProblem(1); //是问题
+            }else {
+                devTask.setIsProblem(0); //不是问题
+            }
+            logger.info(devTask.toString());
             devTaskService.updateDevFinish(devTask);
             logger.info("开发完成成功");
             return LbMap.successResult("开发完成成功");

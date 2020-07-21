@@ -83,6 +83,13 @@
                     </span>
                 </div>
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否是问题</label>
+                <div class="layui-input-block">
+                    <!-- -->
+                    <input type="checkbox" checked="" name="isProblemText" lay-skin="switch" lay-filter="switchTest" lay-text="是问题|不是问题">
+                </div>
+            </div>
         </div>
 
         <div class="layui-form-item layui-form-text left" style="width: 70%;">
@@ -212,6 +219,16 @@
                 return false;
             });
         });
+
+        function userFilter() {
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'],
+                fixed: false,
+                maxmin: true,
+                content: ['/select/toSelectTable?tableUrl=findUser', 'no']
+            });
+        }
     </script>
 </body>
 </html>
