@@ -33,6 +33,17 @@ public class AnalysisController extends BaseController {
         return mv;
     }
 
+    /**
+     * 跳转列表页面
+     * @return
+     */
+    @GetMapping(value = "/toBusinessList")
+    public ModelAndView toBusinessList(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("analysis/business-list");
+        return mv;
+    }
+
 
     /**
      * 查询所有工时
@@ -72,4 +83,7 @@ public class AnalysisController extends BaseController {
             return LbMap.failResult("工时查询失败，"+e.getMessage());
         }
     }
+
+
+
 }
