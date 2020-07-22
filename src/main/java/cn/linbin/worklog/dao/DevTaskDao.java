@@ -23,8 +23,8 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
 
             //开发状态
             " CASE WHEN TB_DEVTASK.DEVTASK_ID IS NULL OR TB_DEVTASK.FINISHED = 2 THEN '未分配' " +
-                " WHEN TB_DEVTASK.DEVTASK_ID IS NOT NULL AND COALESCE(TB_DEVTASK.RECEIVED, 0) = 0 THEN '已分配未接收' " +
-                " WHEN TB_DEVTASK.RECEIVED = 1 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 THEN '已接收未开发完成' " +
+                " WHEN TB_DEVTASK.DEVTASK_ID IS NOT NULL AND COALESCE(TB_DEVTASK.RECEIVED, 0) = 0 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 THEN '已分配未接收' " +
+                " WHEN (TB_DEVTASK.RECEIVED = 1 OR TB_DEVTASK.DEVTASK_ID IS NOT NULL) AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 THEN '未开发完成' " +
                 " WHEN TB_DEVTASK.FINISHED = 1 THEN '已开发完成' END AS DEV_STATUS, "+
 
             "TB_AREA.AREA_NAME, TB_CUSTOMER.EMAIL, TB_FEEDBACK.ROW_VERSION, TB_FEEDBACK.REQUIRE_DATE " +
@@ -59,6 +59,10 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
                 " AND TB_FEEDBACK.PRIORITY = #{param.priority} " +
             "</if>" +
 
+            "<if test='param.status != null and param.status != &quot;&quot;'>" +
+                " AND TB_FEEDBACK.STATUS = #{param.status} " +
+            "</if>" +
+
             "<if test='param.devStatus != null and param.devStatus != &quot;&quot;'>" +
                 "<if test='param.devStatus==0'>" +
                     " AND (TB_DEVTASK.DEVTASK_ID IS NULL OR TB_DEVTASK.FINISHED = 2) " +
@@ -67,7 +71,7 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
                     " AND TB_DEVTASK.DEVTASK_ID IS NOT NULL AND COALESCE(TB_DEVTASK.RECEIVED, 0) = 0 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 " +
                 "</if>" +
                 "<if test='param.devStatus==2'>" +
-                    " AND TB_DEVTASK.RECEIVED = 1 AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 " +
+                    " AND (TB_DEVTASK.RECEIVED = 1 OR TB_DEVTASK.DEVTASK_ID IS NOT NULL) AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0 " +
                 "</if>" +
                 "<if test='param.devStatus==3'>" +
                     " AND TB_DEVTASK.FINISHED = 1 " +

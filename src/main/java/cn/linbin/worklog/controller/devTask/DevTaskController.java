@@ -160,6 +160,10 @@ public class DevTaskController extends BaseController{
     }
 
 
+    /**
+     * 查询开发数量，在首页显示
+     * @return
+     */
     @GetMapping(value = "/findDevFinishCount")
     public LbMap findDevFinishCount(){
         try {
@@ -185,7 +189,14 @@ public class DevTaskController extends BaseController{
             }else {
                 devTask.setIsProblem(0); //不是问题
             }
-            logger.info(devTask.toString());
+
+            if (devTask.getNeedTestText()!=null&&devTask.getNeedTestText().toLowerCase().equals("on")){
+                devTask.setNeedTest(1); //需要测试
+            }else {
+                devTask.setNeedTest(0); //不需要测试
+            }
+
+            logger.info("============================================================="+devTask.toString());
             devTaskService.updateDevFinish(devTask);
             logger.info("开发完成成功");
             return LbMap.successResult("开发完成成功");

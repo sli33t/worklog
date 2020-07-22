@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>工作日志</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../static/css/layui.css">
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>测试分配列表</legend>
+    </fieldset>
+
+
+    <div class="dataTable" style="margin-left: 15px !important;">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">问题类型</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="problemType" lay-verify="required" lay-search="" id="problemType">
+                        <option value="">问题类型筛选</option>
+                        <option value="0">需求</option>
+                        <option value="1">bug</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">反馈类型</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="feedbackType" lay-verify="required" lay-search="" id="feedbackType">
+                        <option value="">反馈类型筛选</option>
+                        <option value="0">内部反馈</option>
+                        <option value="1">客户反馈</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline" style="margin-left: 40px;">
+                <label>反馈单号：</label>
+                <div class="layui-inline">
+                    <input class="layui-input" name="feedbackId" id="feedbackId" autocomplete="off" placeholder="反馈单号模糊筛选" style="width: 185px;">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label>客户名称：</label>
+                <div class="layui-inline">
+                    <input class="layui-input" name="customerName" id="customerName" autocomplete="off" placeholder="客户名称模糊筛选" style="width: 185px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">优先级别</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="priority" lay-verify="required" lay-search="" id="priority">
+                        <option value="">优先级别筛选</option>
+                        <option value="0">紧急</option>
+                        <option value="1">高</option>
+                        <option value="2">中</option>
+                        <option value="3">低</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">客反状态</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="status" lay-verify="required" lay-search="" id="status">
+                        <option value="">优先级别筛选</option>
+                        <option value="5">开发完成</option>
+                        <option value="6">分配测试</option>
+                        <option value="7">测试完成</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label">测试状态</label>
+                <div class="layui-input-inline layui-form"><!--筛选条件下拉主要要有 layui-form-->
+                    <select name="testStatus" lay-verify="required" lay-search="" id="testStatus">
+                        <option value="">测试状态筛选</option>
+                        <option value="0">未分配</option>
+                        <option value="1">已分配未接收</option>
+                        <option value="2">已接收未测试完成</option>
+                        <option value="3">已测试完成</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <button class="layui-btn" data-type="reload" id="reload">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="layui-bg-black">
+
+    <div class="layui-col-xs10">
+        <table class="layui-hide" id="devTaskList" lay-filter="devTaskList"></table>
+    </div>
+
+    <div class="layui-col-xs2">
+        <label class="layui-form-label" id="labelFeedback" style="width: 180px !important; text-align: left;">反馈内容</label>
+        <div class="layui-form-item layui-form-text">
+            <textarea class="layui-textarea" id="problemText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
+        </div>
+
+        <label class="layui-form-label" id="labelDevelop" style="width: 180px !important; text-align: left;">开发内容</label>
+        <div class="layui-form-item layui-form-text">
+            <textarea class="layui-textarea" id="finishText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
+        </div>
+    </div>
+    <!--<script type="text/html" id="toolAdd">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="addCustomer">新增</button>
+        </div>
+    </script>-->
+
+    <script type="text/html" id="toolEdit">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">分配测试</a>
+        <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>-->
+    </script>
+
+    <script src="../static/layui.all.js"></script>
+    <script src="../static/layui.js"></script>
+    <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script th:inline="none">
+        layui.use(['table', 'form', 'layedit'], function(){
+            var table = layui.table;
+            var layedit = layui.layedit;
+            var layform = layui.form;
+            var util = layui.util;
+
+            table.render({
+                elem: '#devTaskList'
+                ,url:'/testTask/findAll'
+                ,toolbar: '#toolAdd' //开启头部工具栏，并为其绑定左侧模板
+                ,method: 'GET'
+                ,defaultToolbar: ['filter', 'exports', 'print']
+                ,title: '测试任务管理'
+                ,height: 'full-200'
+                ,width: '100%'
+                ,cols: [
+                    [
+                        /*{type: 'checkbox', fixed: 'left'},*/
+                        {field:'feedbackId', title:'反馈单号', width:110, fixed: 'left', unresize: true, sort: true, event: 'viewText'}
+                        ,{field:'customerName', title:'客户名称', width:200, sort: true, event: 'viewText', templet: function (res) {
+                            return '<a href="javascript:;"> '+res.customerName+' </a>';
+                        }}
+                        ,{field:'versionName', title:'程序版本', width:150, sort:true, event: 'viewText'}
+                        ,{field:'priority', title:'优先级别', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.priority==0){
+                                return '<a style="color: #A52A2A;"> 紧急 </a>';
+                            }else if (res.priority==1){
+                                return '<a style="color: #BDB76B;"> 高 </a>';
+                            }else if (res.priority==2){
+                                return '<em> 中 </em>';
+                            }else if (res.priority==3){
+                                return '<em> 低 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'status', title:'客反状态', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.status==1){
+                                return '<em> 已经登记 </em>';
+                            }else if (res.status==2){
+                                return '<em> 分配开发 </em>';
+                            }else if (res.status==3){
+                                return '<em> 开发退回 </em>';
+                            }else if (res.status==4){
+                                return '<em> 重新分配 </em>';
+                            }else if (res.status==5){
+                                return '<em> 开发完成 </em>';
+                            }else if (res.status==6){
+                                return '<em> 分配测试 </em>';
+                            }else if (res.status==7){
+                                return '<em> 测试完成 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'feedbackType', title:'反馈类型', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.feedbackType==0){
+                                return '<em> 内部反馈 </em>';
+                            }else if (res.feedbackType==1){
+                                return '<em> 客户反馈 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'problemType', title:'问题类型', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.problemType==0){
+                                return '<em> 需求 </em>';
+                            }else if (res.problemType==1){
+                                return '<em> bug </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'developer', title:'开发人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'received', title:'是否接收', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.received==1){
+                                return '<em> 已接收 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'finished', title:'是否完成', width:100, sort:true, event: 'viewText', templet: function (res) {
+                            if (res.finished==1){
+                                return '<em> 已完成 </em>';
+                            }else{
+                                return '<em> </em>';
+                            }
+                        }}
+                        ,{field:'testStatus', title:'测试状态', width:150, sort:true, event: 'viewText'}
+                        ,{field:'problemText', title:'反馈内容', width:200, sort:true, event: 'viewText', templet:function (res) {
+                            if (res.problemText==null||res.problemText==''||res.problemText==undefined){
+                                return '<em> </em>';
+                            }else {
+                                return '<a lay-event="viewText" style="color: #778899;"> '+res.problemText+' </a>';
+                            }
+                        }}
+                        ,{field:'finishText', title:'开发内容', width:200, sort:true, event: 'viewText', templet:function (res) {
+                            if (res.finishText==null||res.finishText==''||res.finishText==undefined){
+                                return '<em> </em>';
+                            }else {
+                                return '<a lay-event="finishText" style="color: #778899;"> ' + res.finishText + ' </a>';
+                            }
+                        }}
+                        ,{field:'creatorUser', title:'创建人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'planHour', title:'预计工时', width:100, sort:true, event: 'viewText'}
+                        ,{field:'realHour', title:'实际工时', width:100, sort:true, event: 'viewText'}
+                        ,{field:'finishTime', title:'完成时间', width:200, sort: true, event: 'viewText', templet: function (res) {
+                            if (res.finishTime==null){
+                                return '';
+                            }else {
+                                return util.toDateString(res.finishTime, "yyyy-MM-dd HH:mm:ss");
+                            }
+                        }}
+                        ,{field:'requireDate', title:'要求完成日期', width:200, sort: true, event: 'viewText', templet: function (res) {
+                            return util.toDateString(res.requireDate, "yyyy-MM-dd");}}
+                        ,{fixed: 'right', title:'操作', toolbar: '#toolEdit', width:150}
+                    ]
+                ]
+                ,page: true
+                ,id: 'dataTable'
+                ,done: function (res, curr, count) {
+                    /*for (var i in res.data){
+                        var item = res.data[i];
+                        if (item.priority==0){
+                            $("tr[data-index='" + i + "']").attr({"style":"background: #FFDEAD"});
+                        }else if (item.priority==1){
+                            $("tr[data-index='" + i + "']").attr({"style":"background: #FFFFE0"});
+                        }
+                    }*/
+                }
+            });
+
+            //头工具栏事件
+            /*table.on('toolbar()', function(obj){
+                if (obj.event=='addCustomer'){
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '600px'],
+                        fixed: false,
+                        maxmin: true,
+                        content: ['toAdd', 'no']
+                    });
+                };
+            });*/
+
+            var $ = layui.$, active = {
+                reload: function(){
+                    var feedbackId = $('#feedbackId').val();
+                    var customerName = $('#customerName').val();
+                    var problemType = $("#problemType").val();
+                    var feedbackType = $("#feedbackType").val();
+                    var priority = $("#priority").val();
+                    var status = $("#status").val();
+                    var testStatus = $("#testStatus").val();
+
+                    var jsonStr = JSON.stringify({feedbackId: feedbackId, customerName: customerName, problemType: problemType,
+                        feedbackType: feedbackType, priority: priority, status: status, testStatus: testStatus});
+
+                    console.log(jsonStr);
+
+                    //执行重载
+                    table.reload('dataTable', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            jsonStr: jsonStr
+                        }
+                    });
+                }
+            };
+
+            //筛选
+            $('#reload').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+            //监听行工具事件
+            table.on('tool()', function(obj){
+                var data = obj.data;
+
+                if(obj.event === 'edit'){
+                    var testtaskId = data.testtaskId;
+                    var finished = data.finished;
+                    var received = data.received;
+                    var feedbackId = data.feedbackId;
+                    var testUser = data.testUser;
+                    var devtaskId = data.devtaskId;
+
+                    if (finished==1){
+                        layer.alert("客反"+feedbackId+"已经由"+testUser+"测试完成，不能进行分配");
+                        return false;
+                    }
+
+                    if (received==1){
+                        layer.alert("客反"+feedbackId+"已经由"+testUser+"接收，不能进行分配");
+                        return false;
+                    }
+
+                    var index = layer.open({
+                        type: 2,
+                        area: ['1000px', '600px'],
+                        fixed: false,
+                        maxmin: true,
+                        content: ['toTestTaskArrange?testTaskId='+testtaskId+"&feedbackId="+feedbackId+"&devTaskId="+devtaskId, 'no']
+                    });
+                    layer.full(index);
+                } else if(obj.event === 'viewText'){
+                    $("#labelFeedback").text("客反 "+data.feedbackId+" 的反馈内容");
+                    $("#labelDevelop").text("客反 "+data.feedbackId+" 的开发内容");
+                    $("#problemText").val(data.problemText);
+                    $("#finishText").val(data.finishText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -74,6 +74,39 @@ public class DevTask implements Serializable {
     @TableField(value = "IS_PROBLEM_TEXT", exist = false)
     private String isProblemText;
 
+    @TableField(value = "NEED_TEST")
+    private Integer needTest;
+
+    @TableField(value = "NEED_TEST_TEXT", exist = false)
+    private String needTestText;
+
+    @TableField(value = "TEST_RECEIVED")
+    private Integer testReceived;
+
+    public String getNeedTestText() {
+        return needTestText;
+    }
+
+    public void setNeedTestText(String needTestText) {
+        this.needTestText = needTestText;
+    }
+
+    public Integer getNeedTest() {
+        return needTest;
+    }
+
+    public void setNeedTest(Integer needTest) {
+        this.needTest = needTest;
+    }
+
+    public Integer getTestReceived() {
+        return testReceived;
+    }
+
+    public void setTestReceived(Integer testReceived) {
+        this.testReceived = testReceived;
+    }
+
     public String getIsProblemText() {
         return isProblemText;
     }
@@ -257,6 +290,9 @@ public class DevTask implements Serializable {
                 ", importUserId='" + importUserId + '\'' +
                 ", isProblem=" + isProblem +
                 ", isProblemText='" + isProblemText + '\'' +
+                ", needTest=" + needTest +
+                ", needTestText='" + needTestText + '\'' +
+                ", testReceived=" + testReceived +
                 '}';
     }
 }

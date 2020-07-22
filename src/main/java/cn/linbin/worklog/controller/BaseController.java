@@ -49,7 +49,9 @@ public class BaseController {
             this.telNo = user.getTelNo();
             this.user = user;
 
-            this.roleList = userService.findRoleByUserId(this.userId);
+            if (this.roleList==null||this.roleList.size()==0){
+                this.roleList = userService.findRoleByUserId(this.userId);
+            }
 
             roleType = 1;
             if (roleList!=null&&roleList.size()>0){

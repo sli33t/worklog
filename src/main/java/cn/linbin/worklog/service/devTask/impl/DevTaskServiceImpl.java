@@ -3,12 +3,15 @@ package cn.linbin.worklog.service.devTask.impl;
 import cn.linbin.worklog.constant.FeedbackConstant;
 import cn.linbin.worklog.dao.DevTaskDao;
 import cn.linbin.worklog.dao.FeedbackDao;
+import cn.linbin.worklog.dao.TestTaskDao;
 import cn.linbin.worklog.domain.DevTask;
-import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.domain.TestTask;
 import cn.linbin.worklog.service.devTask.DevTaskService;
 import cn.linbin.worklog.utils.LbMap;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.jmx.snmp.tasks.TaskServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,9 @@ public class DevTaskServiceImpl implements DevTaskService{
 
     @Autowired
     private FeedbackDao feedbackDao;
+
+    @Autowired
+    private TestTaskDao testTaskDao;
 
     @Override
     public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
@@ -69,10 +75,13 @@ public class DevTaskServiceImpl implements DevTaskService{
         devTask.setFinished(1);
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        devTask.setFinishTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        devTask.setFinishDate(dateFormat.parse(dateFormat.format(new Date())));
+
+        Date time = dateTimeFormat.parse(dateTimeFormat.format(new Date()));
+        Date date = dateFormat.parse(dateFormat.format(new Date()));
+
+        devTask.setFinishTime(time);
+        devTask.setFinishDate(date);
 
         if (devTaskDao.updateById(devTask)!=1){
             throw new Exception("开发完成失败！");
@@ -83,15 +92,38 @@ public class DevTaskServiceImpl implements DevTaskService{
             throw new Exception("更新客反状态失败！");
         }
 
+        /*
+        //客反在测试完成时才算完成
         Feedback feedback = new Feedback();
         feedback.setFeedbackId(devTask.getFeedbackId());
         feedback.setFinished(1);
 
-        feedback.setFinishTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
-        feedback.setFinishDate(dateFormat.parse(dateFormat.format(new Date())));
+        feedback.setFinishTime(time);
+        feedback.setFinishDate(date);
 
         if (feedbackDao.updateById(feedback)!=1){
             throw new Exception("更新客反完成状态失败！");
+        }*/
+
+        //通知测试
+        if (devTask.getNeedTest()==1){
+
+            QueryWrapper<TestTask> wrapper = new QueryWrapper<>();
+            wrapper.eq("FEEDBACK_ID", devTask.getFeedbackId());
+            wrapper.eq("DEVTASK_ID", devTask.getDevtaskId());
+            List<TestTask> testTaskList = testTaskDao.selectList(wrapper);
+
+            if (testTaskList==null||testTaskList.size()==0){
+                TestTask testTask = new TestTask();
+                testTask.setFeedbackId(devTask.getFeedbackId());
+                testTask.setDevtaskId(devTask.getDevtaskId());
+                testTask.setFeedbackTime(devTask.getFeedbackTime());
+                if (testTaskDao.insert(testTask)!=1){
+                    throw new Exception("写入测试表时失败！");
+                }
+            }else {
+                throw  new Exception("测试任务已经写入！");
+            }
         }
     }
 
