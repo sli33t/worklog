@@ -164,7 +164,12 @@ public class DevTaskServiceImpl implements DevTaskService{
      */
     @Override
     public int findDevFinishCount(String userId) {
-        return devTaskDao.findDevFinishCount(userId);
+        LbMap map = devTaskDao.findDevFinishCount(userId);
+        if (map!=null&&map.size()>0){
+            return map.getInt("count");
+        }else {
+            return 0;
+        }
     }
 
     /**

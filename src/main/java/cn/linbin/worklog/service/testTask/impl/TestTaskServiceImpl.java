@@ -82,7 +82,11 @@ public class TestTaskServiceImpl implements TestTaskService{
 
     @Override
     public int findTestFinishCount(String userId) {
-        return testTaskDao.findTestFinishCount(userId);
+        LbMap map = testTaskDao.findTestFinishCount(userId);
+        if (map!=null&&map.size()>0){
+            return map.getInt("count");
+        }
+        return 0;
     }
 
     @Override

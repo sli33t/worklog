@@ -91,7 +91,7 @@ public interface DevTaskDao extends BaseMapper<DevTask>{
     List<LbMap> findDevFinish(@Param("param") LbMap param);
 
     @Select("SELECT COALESCE(COUNT(DEVTASK_ID), 0) AS COUNT FROM TB_DEVTASK WHERE TB_DEVTASK.DEVELOP_USER_ID = #{userId} AND COALESCE(TB_DEVTASK.FINISHED, 0) = 0")
-    int findDevFinishCount(String userId);
+    LbMap findDevFinishCount(String userId);
 
     @Select("SELECT DEVTASK_ID FROM TB_DEVTASK WHERE FEEDBACK_ID = #{feedbackId} and COALESCE(TB_DEVTASK.FINISHED, 0) != 2")
     List<LbMap> checkDevTask(Integer feedbackId);

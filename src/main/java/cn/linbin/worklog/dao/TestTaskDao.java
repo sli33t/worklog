@@ -82,7 +82,7 @@ public interface TestTaskDao extends BaseMapper<TestTask>{
     List<LbMap> findAll(@Param("param") LbMap param);
 
     @Select("SELECT COALESCE(COUNT(TESTTASK_ID), 0) AS COUNT FROM TB_TESTTASK WHERE TB_TESTTASK.TEST_USER_ID = #{userId} AND COALESCE(TB_TESTTASK.FINISHED, 0) = 0")
-    int findTestFinishCount(String userId);
+    LbMap findTestFinishCount(String userId);
 
     @Select("SELECT TB_FEEDBACK.FEEDBACK_ID, TB_TESTTASK.TESTTASK_ID, TB_FEEDBACK.REQUIRE_DATE, TB_FEEDBACK.PROBLEM_TEXT, TB_CUSTOMER.CUSTOMER_NAME, " +
             "TB_DEVTASK.FINISH_TEXT, TB_USER.USER_NAME, DEV_USER.USER_NAME AS DEVELOPER " +
