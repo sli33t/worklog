@@ -59,6 +59,20 @@ public class TestTask implements Serializable {
     @TableField(value = "TEST_TEXT")
     private String testText;
 
+    /**
+     * 是否分配测试
+     */
+    @TableField(value = "TEST_ARRANGE")
+    private Integer testArrange;
+
+    public Integer getTestArrange() {
+        return testArrange;
+    }
+
+    public void setTestArrange(Integer testArrange) {
+        this.testArrange = testArrange;
+    }
+
     public Integer getReceived() {
         return received;
     }
@@ -206,6 +220,7 @@ public class TestTask implements Serializable {
                 ", planHour=" + planHour +
                 ", realHour=" + realHour +
                 ", testText='" + testText + '\'' +
+                ", testArrange=" + testArrange +
                 '}';
     }
 }

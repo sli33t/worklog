@@ -211,13 +211,18 @@
                             }
                         }else {
                             layer.alert(data.msg, {
-                                title: '新增客户'
+                                title: '新增客户反馈单'
                             })
                         }
                     },
                     error: function (data) {
-                        layer.alert(data.msg, {
-                            title: '新增客户警告'
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
+                            title: '新增客户反馈单警告'
                         })
                     }
                 });

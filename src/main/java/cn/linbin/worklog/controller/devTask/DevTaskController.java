@@ -153,9 +153,9 @@ public class DevTaskController extends BaseController{
             param.put("developUserId", userId);
             PageInfo<LbMap> pages = devTaskService.findDevFinish(pageIndex, pageSize, param);
             logger.info("查询成功");
-            return LbMap.successResult("分配开发查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("开发完成查询成功", pages.getList(), pages.getSize());
         }catch (Exception e){
-            return LbMap.failResult("分配开发查询失败，"+e.getMessage());
+            return LbMap.failResult("开发完成查询失败，"+e.getMessage());
         }
     }
 
@@ -196,7 +196,7 @@ public class DevTaskController extends BaseController{
                 devTask.setNeedTest(0); //不需要测试
             }
 
-            logger.info("============================================================="+devTask.toString());
+            logger.info(devTask.toString());
             devTaskService.updateDevFinish(devTask);
             logger.info("开发完成成功");
             return LbMap.successResult("开发完成成功");
@@ -206,6 +206,12 @@ public class DevTaskController extends BaseController{
     }
 
 
+    /**
+     * 更新开发回退
+     * @param devtaskId
+     * @param feedbackId
+     * @return
+     */
     @PostMapping(value = "/updateDevBack")
     public LbMap updateDevBack(String devtaskId, Integer feedbackId){
         try {

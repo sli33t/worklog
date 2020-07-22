@@ -63,23 +63,56 @@ public class Feedback implements Serializable {
     @TableField(value = "STATUS")
     private Integer status;
 
-    @TableField(exist = false)
+    @TableField(value = "CUSTOMER_NAME", exist = false)
     private String customerName;
 
-    @TableField(exist = false)
+    @TableField(value = "TEL_NO", exist = false)
     private String telNo;
 
-    @TableField(exist = false)
+    @TableField(value = "ADDRESS", exist = false)
     private String address;
 
-    @TableField(exist = false)
+    @TableField(value = "EMAIL", exist = false)
     private String email;
 
-    @TableField(exist = false)
+    @TableField(value = "AREA_NAME", exist = false)
     private String areaName;
 
-    @TableField(exist = false)
+    @TableField(value = "VERSION_NAME", exist = false)
     private String versionName;
+
+    @TableField(value = "DEVELOPER", exist = false)
+    private String developer;
+
+    @TableField(value = "FINISH_TEXT", exist = false)
+    private String finishText;
+
+    @TableField(value = "CREATE_USER", exist = false)
+    private String createUser;
+
+    public String getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    public String getFinishText() {
+        return finishText;
+    }
+
+    public void setFinishText(String finishText) {
+        this.finishText = finishText;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 
     public Integer getStatus() {
         return status;
@@ -260,7 +293,7 @@ public class Feedback implements Serializable {
     @Override
     public String toString() {
         return "Feedback{" +
-                "feedbackId='" + feedbackId + '\'' +
+                "feedbackId=" + feedbackId +
                 ", problemType=" + problemType +
                 ", feedbackType=" + feedbackType +
                 ", priority=" + priority +
@@ -275,13 +308,16 @@ public class Feedback implements Serializable {
                 ", finished=" + finished +
                 ", finishDate=" + finishDate +
                 ", finishTime=" + finishTime +
+                ", status=" + status +
                 ", customerName='" + customerName + '\'' +
                 ", telNo='" + telNo + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", areaName='" + areaName + '\'' +
                 ", versionName='" + versionName + '\'' +
-                ", status='" + status + '\'' +
+                ", developer='" + developer + '\'' +
+                ", finishText='" + finishText + '\'' +
+                ", createUser='" + createUser + '\'' +
                 '}';
     }
 }

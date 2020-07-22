@@ -85,12 +85,79 @@ public class TestTaskController extends BaseController{
                 return LbMap.failResult("分配测试失败，没有找到测试编号");
             }
 
+            if (StringUtils.isEmpty(testTask.getDevtaskId())){
+                return LbMap.failResult("分配测试失败，没有找到开发编号");
+            }
+
+            if (StringUtils.isEmpty(testTask.getTestUserId())){
+                return LbMap.failResult("分配测试失败，没有找到测试人员，请刷新数据重新分配");
+            }
+
+            if (StringUtils.isEmpty(testTask.getFeedbackId())){
+                return LbMap.failResult("分配测试失败，没有找到客反编号");
+            }
+
             testTaskService.update(testTask);
 
             logger.info("更新成功");
             return LbMap.successResult("分配测试更新成功");
         }catch (Exception e){
             return LbMap.failResult("分配测试更新失败，"+e.getMessage());
+        }
+    }
+
+    /**
+     * 跳转列表页面
+     * @return
+     */
+    @GetMapping(value = "/toTestFinish")
+    public ModelAndView toTestFinish(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("testTask/testTask-finish");
+        return mv;
+    }
+
+    /**
+     * 查询测试完成列表
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/findTestFinishList")
+    public LbMap findTestFinishList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+        try {
+            LbMap param = new LbMap();
+            param.put("testUserId", userId);
+            PageInfo<LbMap> pages = testTaskService.findDevFinish(pageIndex, pageSize, param);
+            logger.info("查询成功");
+            return LbMap.successResult("测试完成查询成功", pages.getList(), pages.getSize());
+        }catch (Exception e){
+            return LbMap.failResult("测试完成查询失败，"+e.getMessage());
+        }
+    }
+
+    /**
+     * 测试退回
+     * @param testtaskId
+     * @param feedbackId
+     * @return
+     */
+    @PostMapping(value = "/updateTestBack")
+    public LbMap updateTestBack(String testtaskId, Integer feedbackId){
+        try {
+            if (StringUtils.isEmpty(testtaskId)){
+                return LbMap.failResult("测试退回失败，没有找到测试任务编号");
+            }
+
+            if (feedbackId==null||feedbackId<=0){
+                return LbMap.failResult("开发退回失败，没有找到客反单号");
+            }
+
+            testTaskService.updateTestBack(testtaskId, feedbackId);
+            logger.info("开发退回成功");
+            return LbMap.successResult("开发退回成功");
+        }catch (Exception e){
+            return LbMap.failResult("开发退回失败，"+e.getMessage());
         }
     }
 }

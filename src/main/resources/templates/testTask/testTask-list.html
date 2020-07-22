@@ -209,7 +209,9 @@
                                 return '<em> </em>';
                             }
                         }}
+                        ,{field:'testStatus', title:'测试状态', width:150, sort:true, event: 'viewText'}
                         ,{field:'developer', title:'开发人', width:100, sort:true, event: 'viewText'}
+                        ,{field:'testUser', title:'测试人', width:100, sort:true, event: 'viewText'}
                         ,{field:'received', title:'是否接收', width:100, sort:true, event: 'viewText', templet: function (res) {
                             if (res.received==1){
                                 return '<em> 已接收 </em>';
@@ -224,7 +226,6 @@
                                 return '<em> </em>';
                             }
                         }}
-                        ,{field:'testStatus', title:'测试状态', width:150, sort:true, event: 'viewText'}
                         ,{field:'problemText', title:'反馈内容', width:200, sort:true, event: 'viewText', templet:function (res) {
                             if (res.problemText==null||res.problemText==''||res.problemText==undefined){
                                 return '<em> </em>';
@@ -325,14 +326,20 @@
                     var feedbackId = data.feedbackId;
                     var testUser = data.testUser;
                     var devtaskId = data.devtaskId;
+                    var testArrange = data.testArrange;
+
+                    if (testArrange==1){
+                        layer.alert("客反["+feedbackId+"]已经分配["+testUser+"]测试，不能进行分配");
+                        return false;
+                    }
 
                     if (finished==1){
-                        layer.alert("客反"+feedbackId+"已经由"+testUser+"测试完成，不能进行分配");
+                        layer.alert("客反["+feedbackId+"]已经由["+testUser+"]测试完成，不能进行分配");
                         return false;
                     }
 
                     if (received==1){
-                        layer.alert("客反"+feedbackId+"已经由"+testUser+"接收，不能进行分配");
+                        layer.alert("客反["+feedbackId+"]已经由["+testUser+"]接收，不能进行分配");
                         return false;
                     }
 

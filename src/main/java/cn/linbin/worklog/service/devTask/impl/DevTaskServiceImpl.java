@@ -11,7 +11,6 @@ import cn.linbin.worklog.utils.LbMap;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.jmx.snmp.tasks.TaskServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +82,9 @@ public class DevTaskServiceImpl implements DevTaskService{
         devTask.setFinishTime(time);
         devTask.setFinishDate(date);
 
+        QueryWrapper<DevTask> devWrapper =  new QueryWrapper<>();
+        devWrapper.eq("DEVTASK_ID", devTask.getDevtaskId());
+        devWrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
         if (devTaskDao.updateById(devTask)!=1){
             throw new Exception("开发完成失败！");
         }
@@ -131,7 +133,7 @@ public class DevTaskServiceImpl implements DevTaskService{
     @Transactional(rollbackFor = Exception.class)
     public void updateDevBack(String devtaskId, Integer feedbackId) throws Exception {
         DevTask devTask = new DevTask();
-        devTask.setDevtaskId(devtaskId);
+        //devTask.setDevtaskId(devtaskId);
         devTask.setFinished(2); //退回
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -142,8 +144,11 @@ public class DevTaskServiceImpl implements DevTaskService{
 
         devTask.setFinishText("开发退回");
 
-        if (devTaskDao.updateById(devTask)!=1){
-            throw new Exception("开发退回失败！");
+        QueryWrapper<DevTask> wrapper = new QueryWrapper<>();
+        wrapper.eq("DEVTASK_ID", devtaskId);
+        wrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
+        if (devTaskDao.update(devTask, wrapper)!=1){
+            throw new Exception("开发退回失败，请刷新数据重试！");
         }
 
         //更新客反状态为已经开发完成

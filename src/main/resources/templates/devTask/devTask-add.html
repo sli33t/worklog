@@ -50,6 +50,13 @@
                         <input id="customerName" th:value="${feedback.customerName}" class="layui-input layui-disabled color">
                     </div>
                 </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">反馈人</label>
+                    <div class="layui-input-inline">
+                        <input th:value="${feedback.createUser}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
             </div>
 
             <div class="layui-form-item left" style="width: 70%;">
@@ -78,7 +85,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item layui-form-text left" style="width: 70%;">
+            <div class="layui-form-item layui-form-text left" style="width: 55%;">
                 <label class="layui-form-label">反馈内容</label>
                 <div class="layui-input-block">
                     <textarea class="layui-textarea layui-disabled color" style="height: 100px;" th:text="${feedback.problemText}"></textarea>
@@ -118,7 +125,7 @@
                 </div>
             </div>-->
 
-            <div class="layui-form-item layui-form-text left" style="width: 70%;">
+            <div class="layui-form-item layui-form-text left" style="width: 55%;">
                 <label class="layui-form-label font-color">分配内容</label>
                 <div class="layui-input-block">
                     <textarea placeholder="请输入分配内容" class="layui-textarea" style="height: 100px;" name="taskText"></textarea>
@@ -174,7 +181,12 @@
                         }
                     },
                     error: function (data) {
-                        layer.alert(data.msg, {
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
                             title: '开发任务分配警告'
                         })
                     }

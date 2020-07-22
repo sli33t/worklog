@@ -33,14 +33,13 @@
         <legend>开发完成</legend>
     </fieldset>
 
-    <div class="layui-col-xs10">
+    <div class="layui-form-item">
         <table class="layui-hide" id="devFinishList" lay-filter="devFinishList"></table>
     </div>
 
-    <div class="layui-col-xs2">
-        <label class="layui-form-label">反馈内容</label>
+    <div class="layui-form-item">
         <div class="layui-form-item layui-form-text">
-            <textarea class="layui-textarea" id="problemText" style="width: 90%; height: 200px; margin-left: 10px;"></textarea>
+            <textarea class="layui-textarea layui-disabled color" id="problemText" style="margin-left: 10px; width: 98%">[客户反馈]：</textarea>
         </div>
     </div>
 
@@ -158,7 +157,7 @@
                 if(obj.event === 'viewText'){
                     $("#devtaskId").val(data.devtaskId);
                     $("#feedbackId").val(data.feedbackId);
-                    $("#problemText").val(data.problemText);
+                    $("#problemText").val('[客户反馈]：'+data.problemText);
                 }else if (obj.event === 'devBack'){
                     layer.confirm('您确定要退回客反'+data.feedbackId+'？', {
                         btn: ['确认','取消'] //按钮
@@ -177,7 +176,12 @@
                                 }
                             },
                             error: function (data) {
-                                layer.alert(data.msg, {
+                                var msg = data.msg;
+                                if (msg==''||msg==null||msg==undefined){
+                                    msg = '后台连接出现异常，请重试';
+                                }
+
+                                layer.alert(msg, {
                                     title: '开发退回警告'
                                 })
                             }

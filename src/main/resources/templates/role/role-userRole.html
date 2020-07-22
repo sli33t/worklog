@@ -128,8 +128,13 @@
                             }
                         },
                         error: function (data) {
-                            layer.alert(data.msg, {
-                                title: '分配岗位警告'
+                            var msg = data.msg;
+                            if (msg==''||msg==null||msg==undefined){
+                                msg = '后台连接出现异常，请重试';
+                            }
+
+                            layer.alert(msg, {
+                                title: '分配用户警告'
                             })
                         }
                     });

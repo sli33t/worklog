@@ -131,7 +131,12 @@
                         }
                     },
                     error: function (data) {
-                        layer.alert(data.msg, {
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
                             title: '新增客户警告'
                         })
                     }

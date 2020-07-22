@@ -110,13 +110,18 @@
                             parent.layer.close(index);
                         }else {
                             layer.alert(data.msg, {
-                                title: '新增用户'
+                                title: '更新用户'
                             })
                         }
                     },
                     error: function (data) {
-                        layer.alert(data.msg, {
-                            title: '新增用户警告'
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
+                            title: '更新用户警告'
                         })
                     }
                 });

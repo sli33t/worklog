@@ -51,6 +51,13 @@
                         <input id="customerName" th:value="${feedback.customerName}" class="layui-input layui-disabled color">
                     </div>
                 </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">反馈人</label>
+                    <div class="layui-input-inline">
+                        <input th:value="${feedback.createUser}" class="layui-input layui-disabled color">
+                    </div>
+                </div>
             </div>
 
             <div class="layui-form-item left" style="width: 70%;">
@@ -65,6 +72,13 @@
                     <label class="layui-form-label">开发编号</label>
                     <div class="layui-input-inline">
                         <input id="devtaskId" th:value="${devTaskId}" name="devtaskId" class="layui-input layui-disabled color">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">开发人</label>
+                    <div class="layui-input-inline">
+                        <input th:value="${feedback.developer}" class="layui-input layui-disabled color">
                     </div>
                 </div>
             </div>
@@ -95,10 +109,23 @@
                 </div>
             </div>
 
-            <div class="layui-form-item layui-form-text left" style="width: 70%;">
-                <label class="layui-form-label">反馈内容</label>
-                <div class="layui-input-block">
-                    <textarea class="layui-textarea layui-disabled color" style="height: 100px;" th:text="${feedback.problemText}"></textarea>
+            <div class="layui-form-item">
+                <div class="layui-col-xs4">
+                    <div class="layui-form-item layui-form-text left" style="width: 80%;">
+                        <label class="layui-form-label">反馈内容</label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea layui-disabled color" style="height: 100px;" th:text="${feedback.problemText}"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-xs4">
+                    <div class="layui-form-item layui-form-text" style="margin-left: 15px;width: 80%;">
+                        <label class="layui-form-label">开发内容</label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea layui-disabled color" style="height: 100px;" th:text="${feedback.finishText}"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -182,7 +209,12 @@
                         }
                     },
                     error: function (data) {
-                        layer.alert(data.msg, {
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
                             title: '测试任务分配警告'
                         })
                     }
