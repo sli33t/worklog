@@ -59,11 +59,35 @@ public class TestTask implements Serializable {
     @TableField(value = "TEST_TEXT")
     private String testText;
 
+    //是否是问题，0-不是，1-是
+    @TableField(value = "IS_PROBLEM")
+    private Integer isProblem;
+
+    //前端传入的是 on off
+    @TableField(value = "IS_PROBLEM_TEXT", exist = false)
+    private String isProblemText;
+
     /**
      * 是否分配测试
      */
     @TableField(value = "TEST_ARRANGE")
     private Integer testArrange;
+
+    public Integer getIsProblem() {
+        return isProblem;
+    }
+
+    public void setIsProblem(Integer isProblem) {
+        this.isProblem = isProblem;
+    }
+
+    public String getIsProblemText() {
+        return isProblemText;
+    }
+
+    public void setIsProblemText(String isProblemText) {
+        this.isProblemText = isProblemText;
+    }
 
     public Integer getTestArrange() {
         return testArrange;
@@ -221,6 +245,8 @@ public class TestTask implements Serializable {
                 ", realHour=" + realHour +
                 ", testText='" + testText + '\'' +
                 ", testArrange=" + testArrange +
+                ", isProblem=" + isProblem +
+                ", isProblemText=" + isProblemText +
                 '}';
     }
 }

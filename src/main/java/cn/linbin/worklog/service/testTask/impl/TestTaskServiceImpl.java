@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +59,8 @@ public class TestTaskServiceImpl implements TestTaskService{
     @Transactional(rollbackFor = Exception.class)
     public void update(TestTask testTask) throws Exception{
         testTask.setTestArrange(1);
+        testTask.setFinished(0);
+
         QueryWrapper<TestTask> wrapper = new QueryWrapper<>();
         wrapper.eq("TESTTASK_ID", testTask.getTesttaskId());
         wrapper.and(Wrapper -> Wrapper.eq("TEST_ARRANGE", 0).or().isNull("TEST_ARRANGE"));
@@ -117,6 +120,33 @@ public class TestTaskServiceImpl implements TestTaskService{
         wrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
         if (testTaskDao.update(testTask, wrapper)!=1){
             throw new Exception("测试退回失败，请刷新重试");
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateTestFinish(TestTask testTask) throws Exception {
+        testTask.setFinished(1);
+
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date time = dateTimeFormat.parse(dateTimeFormat.format(new Date()));
+        Date date = dateFormat.parse(dateFormat.format(new Date()));
+
+        testTask.setFinishTime(time);
+        testTask.setFinishDate(date);
+
+        QueryWrapper<TestTask> testWrapper =  new QueryWrapper<>();
+        testWrapper.eq("TESTTASK_ID", testTask.getTesttaskId());
+        testWrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
+        if (testTaskDao.update(testTask, testWrapper)!=1){
+            throw new Exception("测试完成失败！");
+        }
+
+        //更新客反状态为已经测试完成
+        if (feedbackDao.updateStatus(testTask.getFeedbackId(), FeedbackConstant.FEEDBACK_STATUS_7)!=1){
+            throw new Exception("更新客反状态失败！");
         }
     }
 }

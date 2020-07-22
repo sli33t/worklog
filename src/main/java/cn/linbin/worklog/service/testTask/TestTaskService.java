@@ -53,4 +53,10 @@ public interface TestTaskService {
      * @param feedbackId
      */
     void updateTestBack(String testtaskId, Integer feedbackId) throws Exception;
+
+    /**
+     * 测试完成
+     * @param testTask
+     */
+    void updateTestFinish(TestTask testTask) throws Exception;
 }

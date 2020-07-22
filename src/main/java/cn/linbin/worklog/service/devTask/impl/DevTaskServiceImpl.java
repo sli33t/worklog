@@ -85,7 +85,7 @@ public class DevTaskServiceImpl implements DevTaskService{
         QueryWrapper<DevTask> devWrapper =  new QueryWrapper<>();
         devWrapper.eq("DEVTASK_ID", devTask.getDevtaskId());
         devWrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
-        if (devTaskDao.updateById(devTask)!=1){
+        if (devTaskDao.update(devTask, devWrapper)!=1){
             throw new Exception("开发完成失败！");
         }
 

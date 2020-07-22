@@ -161,4 +161,23 @@ public class TestTaskController extends BaseController{
             return LbMap.failResult("开发退回失败，"+e.getMessage());
         }
     }
+
+
+    @PostMapping(value = "/updateTestFinish")
+    public LbMap updateTestFinish(TestTask testTask){
+        try {
+            if (testTask.getIsProblemText()!=null&&testTask.getIsProblemText().toLowerCase().equals("on")){
+                testTask.setIsProblem(1); //是问题
+            }else {
+                testTask.setIsProblem(0); //不是问题
+            }
+
+            logger.info(testTask.toString());
+            testTaskService.updateTestFinish(testTask);
+            logger.info("测试完成成功");
+            return LbMap.successResult("测试完成成功");
+        }catch (Exception e){
+            return LbMap.failResult("测试完成失败，"+e.getMessage());
+        }
+    }
 }
