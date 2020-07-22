@@ -1,15 +1,14 @@
 package cn.linbin.worklog.utils;
 
+import com.baomidou.mybatisplus.core.toolkit.Sequence;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-
-import com.baomidou.mybatisplus.core.toolkit.Sequence;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 生成ID的工具类，通过mybatis plus抽取

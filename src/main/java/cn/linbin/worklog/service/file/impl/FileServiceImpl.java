@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(File file) throws Exception {
         file.setFileId(IdWorker.getNumId18());
         int count = fileDao.insert(file);
@@ -38,6 +40,7 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(String fileId) throws Exception {
         File file = new File();
         file.setDeleteFlag(1);

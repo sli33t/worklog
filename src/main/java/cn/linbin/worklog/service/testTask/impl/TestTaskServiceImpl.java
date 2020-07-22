@@ -93,6 +93,7 @@ public class TestTaskServiceImpl implements TestTaskService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateTestBack(String testtaskId, Integer feedbackId) throws Exception {
         TestTask testTask = new TestTask();
         //testTask.setTesttaskId(testtaskId);

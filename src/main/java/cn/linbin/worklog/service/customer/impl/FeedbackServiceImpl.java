@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class FeedbackServiceImpl implements FeedbackService{
      * @param feedback
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(Feedback feedback) throws Exception {
         int count = feedbackDao.insert(feedback);
         if (count<=0){
@@ -32,6 +34,7 @@ public class FeedbackServiceImpl implements FeedbackService{
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(Feedback feedback) throws Exception {
         QueryWrapper<Feedback> wrapper = new QueryWrapper<>();
         wrapper.eq("FEEDBACK_ID", feedback.getFeedbackId());
@@ -67,6 +70,7 @@ public class FeedbackServiceImpl implements FeedbackService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateStatus(Integer feedbackId, Integer status) {
         return feedbackDao.updateStatus(feedbackId, status);
     }
