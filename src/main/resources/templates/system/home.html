@@ -12,33 +12,373 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="../static/css/layui.css">
+    <style>
+        .height{
+            height: 150px !important;
+        }
+
+        .big-font{
+            font-size: 36px;
+            color: #666;
+            line-height: 36px;
+            padding: 5px 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+            margin: 10px 20px;
+        }
+
+        .small-font{
+            font-size: 18px;
+            color: #8D8D8D;
+            line-height: 36px;
+            padding: 15px 0px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+            margin: 10px 0px;
+            position: absolute;
+            right: 0px;
+        }
+
+        .span-color{
+            font-size: 14px;
+            position: absolute;
+            right: 35px;
+        }
+
+        .width-height{
+            width: 100%;height:300px;
+        }
+    </style>
 </head>
 <body>
-    <div class="layui-body" style="position: unset !important;">
+    <div class="layui-body" style="position: unset !important;" >
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-            欢迎使用工作日志
+        <div class="layui-form-item">
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <!--快捷面板-->
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                开发进度
+                            </div>
+                            <div class="layui-card-body height">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline">
+                                        <div class="big-font">999</div>
+                                    </div>
+                                    <div class="layui-input-inline">
+                                        <div class="small-font">完成888</div>
+                                    </div>
+                                </div>
 
-            <br><br>
+                                <div class="layui-form-item">
+                                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
+                                        <div class="layui-progress-bar layui-bg-blue" lay-percent="70%"></div>
+                                    </div>
+                                </div>
 
-            <blockquote class="layui-elem-quote">
-                注意：该页面只是简单的后台布局示例，并不是一整套后台系统方案，您可以关注 layui 官方提供后台模板解决方案：
-                <a href="https://www.layui.com/admin/" target="_blank" class="layui-btn layui-btn-danger">layuiAdmin</a>
-            </blockquote>
+                            </div>
+                        </div>
+                    </div>
 
-            <blockquote class="layui-elem-quote">
-                layui 之所以赢得如此多人的青睐，更多是在于它“前后台系统通吃”的能力。既可编织出绚丽的前台页面，又可满足繁杂的后台功能需求。
-                <br>layui 后台布局， 致力于让每一位开发者都能轻松搭建自己的后台模板。
-            </blockquote>
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header" >
+                                测试进度
+                            </div>
+                            <div class="layui-card-body height">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline">
+                                        <div class="big-font">999</div>
+                                    </div>
+                                    <div class="layui-input-inline">
+                                        <div class="small-font">通过888</div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
+                                        <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header" >
+                                整体进度
+                            </div>
+                            <div class="layui-card-body height">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline">
+                                        <div class="big-font">999</div>
+                                    </div>
+                                    <div class="layui-input-inline">
+                                        <div class="small-font">通过888</div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo" style="margin-bottom: 20px;">
+                                        <div class="layui-progress-bar layui-bg-orange" lay-percent="30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                往年BUG数对比
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="main" class="width-height"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                往年需求数对比
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="main1" class="width-height"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                需求错误占比
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="main2" class="width-height"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                优先级统计
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="main3" class="width-height"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                各版本问题数
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="main4" class="width-height"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="../static/layui.all.js"></script>
+    <script src="../static/layui.js"></script>
+    <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../static/echarts/echarts.min.js"></script>
 
     <script>
-        layui.use(['carousel'], function(){
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['product', '2015', '2016', '2017'],
+                    ['Matcha Latte', 43.3, 85.8, 93.7],
+                    ['Milk Tea', 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                    ['Walnut Brownie', 72.4, 53.9, 39.1]
+                ]
+            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        };
+        myChart.setOption(option);
 
-        });
+        var myChart1 = echarts.init(document.getElementById('main1'));
+        var option1 = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['product', '2015', '2016', '2017'],
+                    ['Matcha Latte', 43.3, 85.8, 93.7],
+                    ['Milk Tea', 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                    ['Walnut Brownie', 72.4, 53.9, 39.1]
+                ]
+            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        };
+        myChart1.setOption(option1);
+
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var option2 = {
+            title: {
+                text: '需求/错误',
+                subtext: '比率',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['内部需求', '客户需求', '内部问题', '客户问题']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '内部需求'},
+                        {value: 609, name: '客户需求'},
+                        {value: 909, name: '内部问题'},
+                        {value: 509, name: '客户问题'}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart2.setOption(option2);
+
+
+        var myChart3 = echarts.init(document.getElementById('main3'));
+        var option3 = {
+            title: {
+                text: '需求/错误',
+                subtext: '比率',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['内部需求', '客户需求', '内部问题', '客户问题']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '内部需求'},
+                        {value: 609, name: '客户需求'},
+                        {value: 909, name: '内部问题'},
+                        {value: 509, name: '客户问题'}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart3.setOption(option3);
+
+
+        var myChart4 = echarts.init(document.getElementById('main4'));
+        var option4 = {
+            title: {
+                text: '需求/错误',
+                subtext: '比率',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['内部需求', '客户需求', '内部问题', '客户问题']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '内部需求'},
+                        {value: 609, name: '客户需求'},
+                        {value: 909, name: '内部问题'},
+                        {value: 509, name: '客户问题'}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        myChart4.setOption(option4);
     </script>
 </body>
 </html>
