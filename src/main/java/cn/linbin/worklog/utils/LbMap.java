@@ -421,45 +421,49 @@ public class LbMap extends LinkedHashMap<String, Object> implements Comparator<L
 	}
 	
 	public int getPageIndex(){
-		Object o = get("pageIndex");
+		Object o = get("page");
 		if (o==null||o.equals("")){
 			return 1; //默认第一页
 		}else {
-			return this.getInt("pageIndex");			
+			return this.getInt("page");
 		}
 	}
 	
 	public int getPageSize(){
-		Object o = get("pageSize");
+		Object o = get("limit");
 		if (o==null||o.equals("")){
 			return 10000; //默认10行
 		}else {
-			return this.getInt("pageSize");			
+			return this.getInt("limit");
 		}
 	}
 
 
 	public static LbMap successResult(String msg){
-		return successResult(msg, 0);
+		return successResult(msg, (long) 0);
 	}
 
-	public static LbMap successResult(String msg, int code, int count){
+	public static LbMap successResult(String msg, int code, Long count){
 		return setResult(true, code, msg, null, count);
 	}
 
-	public static LbMap successResult(String msg, int count){
+	public static LbMap successResult(String msg, int code){
+	    return setResult(true, code, msg, null, (long) 0);
+    }
+
+	public static LbMap successResult(String msg, Long count){
 		return successResult(msg, null, count);
 	}
 
-	public static LbMap successResult(String msg, Object data, int count){
+	public static LbMap successResult(String msg, Object data, Long count){
 		return setResult(true, 0, msg, data, count);
 	}
 
 	public static LbMap failResult(String msg){
-		return setResult(false, 1, msg, null, 0);
+		return setResult(false, 1, msg, null, (long) 0);
 	}
 
-	public static LbMap setResult(boolean result, int code, String msg, Object data, int count){
+	public static LbMap setResult(boolean result, int code, String msg, Object data, Long count){
 		LbMap map = new LbMap();
 		map.put("result", result);
 		map.put("code", code);

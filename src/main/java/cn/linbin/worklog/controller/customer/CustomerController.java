@@ -46,12 +46,12 @@ public class CustomerController extends BaseController {
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = customerService.findAll(pageIndex, pageSize, map);
+            PageInfo<LbMap> pages = customerService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("客户查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("客户查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("客户查询失败，"+e.getMessage());
         }

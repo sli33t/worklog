@@ -43,13 +43,13 @@ public class RoleController extends BaseController {
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize,  @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,  @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
             logger.info(jsonStr + "||" + map.toString());
-            PageInfo<Role> pages = roleService.findAll(pageIndex, pageSize, map);
+            PageInfo<Role> pages = roleService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("岗位查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("岗位查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("岗位查询失败，"+e.getMessage());
         }

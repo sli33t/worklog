@@ -28,8 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
     private AreaDao areaDao;
 
     @Override
-    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findAll(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         /*QueryWrapper<Customer> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("CREATE_TIME");
         wrapper.eq("DELETE_FLAG", 0);

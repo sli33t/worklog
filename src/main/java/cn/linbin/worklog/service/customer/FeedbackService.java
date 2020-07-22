@@ -20,19 +20,19 @@ public interface FeedbackService {
 
     /**
      * 查询客户反馈单列表
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
-    PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
      * 通过ID查询客户反馈单
      * @param feedbackId
      * @return
      */
-    Feedback findById(Integer feedbackId);
+    Feedback findById(Integer feedbackId) throws Exception;
 
     /**
      * 更新状态

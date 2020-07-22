@@ -33,14 +33,14 @@ public class TestTaskServiceImpl implements TestTaskService{
 
     /**
      * 查询测试任务
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
     @Override
-    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findAll(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = testTaskDao.findAll(param);
         return new PageInfo(list);
     }
@@ -86,8 +86,8 @@ public class TestTaskServiceImpl implements TestTaskService{
     }
 
     @Override
-    public PageInfo<LbMap> findDevFinish(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findDevFinish(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = testTaskDao.findDevFinish(param);
         return new PageInfo(list);
     }

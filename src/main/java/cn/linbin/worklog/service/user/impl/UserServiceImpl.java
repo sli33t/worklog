@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public PageInfo<User> findAll(int pageIndex, int pageSize, LbMap param){
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<User> findAll(int page, int limit, LbMap param){
+        PageHelper.startPage(page, limit);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("CREATE_TIME");
         wrapper.eq("DELETE_FLAG", 0);
@@ -137,14 +137,14 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 通过岗位查询用户，用于分配用户时回显
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param roleId
      * @return
      */
     @Override
-    public PageInfo<LbMap> findByRoleId(int pageIndex, int pageSize, String roleId) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findByRoleId(int page, int limit, String roleId) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = userDao.findByRoleId(roleId);
         return new PageInfo(list);
     }

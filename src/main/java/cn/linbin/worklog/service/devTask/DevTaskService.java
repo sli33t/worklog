@@ -10,12 +10,12 @@ public interface DevTaskService {
 
     /**
      * 查询所有待分配的任务
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
-    PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
      * 分配开发任务
@@ -25,12 +25,12 @@ public interface DevTaskService {
 
     /**
      * 开发完成列表
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
-    PageInfo<LbMap> findDevFinish(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findDevFinish(int page, int limit, LbMap param);
 
     /**
      * 更新开发完成

@@ -47,18 +47,18 @@ public class AnalysisController extends BaseController {
 
     /**
      * 查询所有工时
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param jsonStr
      * @return
      */
     @GetMapping(value = "/workHourList")
-    public LbMap workHourList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap workHourList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap param = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = analysisService.workHourList(pageIndex, pageSize, param);
+            PageInfo<LbMap> pages = analysisService.workHourList(page, limit, param);
             logger.info("查询成功");
-            return LbMap.successResult("工时查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("工时查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("工时查询失败，"+e.getMessage());
         }
@@ -67,18 +67,18 @@ public class AnalysisController extends BaseController {
 
     /**
      * 查询明细工时
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param jsonStr
      * @return
      */
     @GetMapping(value = "/workDetailList")
-    public LbMap workDetailList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap workDetailList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap param = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = analysisService.workDetailList(pageIndex, pageSize, param);
+            PageInfo<LbMap> pages = analysisService.workDetailList(page, limit, param);
             logger.info("查询成功");
-            return LbMap.successResult("工时查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("工时查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("工时查询失败，"+e.getMessage());
         }

@@ -39,18 +39,18 @@ public class TestTaskController extends BaseController{
 
     /**
      * 查询所有客户反馈单
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param jsonStr
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap param = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = testTaskService.findAll(pageIndex, pageSize, param);
+            PageInfo<LbMap> pages = testTaskService.findAll(page, limit, param);
             logger.info("查询成功");
-            return LbMap.successResult("分配测试查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("分配测试查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("分配测试查询失败，"+e.getMessage());
         }
@@ -62,7 +62,7 @@ public class TestTaskController extends BaseController{
      * @return
      */
     @GetMapping(value = "/toTestTaskArrange")
-    public ModelAndView toTestTaskArrange(String testTaskId, Integer feedbackId, String devTaskId){
+    public ModelAndView toTestTaskArrange(String testTaskId, Integer feedbackId, String devTaskId) throws Exception {
         ModelAndView mv = new ModelAndView();
         Feedback feedback = feedbackService.findById(feedbackId);
         mv.setViewName("testTask/testTask-add");
@@ -70,6 +70,7 @@ public class TestTaskController extends BaseController{
         mv.addObject("testTaskId", testTaskId);
         mv.addObject("devTaskId", devTaskId);
         return mv;
+
     }
 
 
@@ -119,18 +120,18 @@ public class TestTaskController extends BaseController{
 
     /**
      * 查询测试完成列表
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @return
      */
     @GetMapping(value = "/findTestFinishList")
-    public LbMap findTestFinishList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+    public LbMap findTestFinishList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
         try {
             LbMap param = new LbMap();
             param.put("testUserId", userId);
-            PageInfo<LbMap> pages = testTaskService.findDevFinish(pageIndex, pageSize, param);
+            PageInfo<LbMap> pages = testTaskService.findDevFinish(page, limit, param);
             logger.info("查询成功");
-            return LbMap.successResult("测试完成查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("测试完成查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("测试完成查询失败，"+e.getMessage());
         }

@@ -12,7 +12,7 @@ public interface CustomerService {
      * 查询所有客户
      * @return
      */
-    PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
      * 通过ID查找客户信息

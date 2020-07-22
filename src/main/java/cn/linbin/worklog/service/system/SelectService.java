@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface SelectService {
 
-    PageInfo<LbMap> findArea(int pageIndex, int pageSize);
+    PageInfo<LbMap> findArea(int page, int limit);
 
-    PageInfo<LbMap> findCustomer(int pageIndex, int pageSize);
+    PageInfo<LbMap> findCustomer(int page, int limit);
 
     List<Version> findVersion();
 
-    PageInfo<LbMap> findUser(int pageIndex, int pageSize);
+    PageInfo<LbMap> findUser(int page, int limit);
 }

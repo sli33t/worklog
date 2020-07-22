@@ -45,21 +45,25 @@ public class FeedbackServiceImpl implements FeedbackService{
 
     /**
      * 查询客户反馈单列表
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
     @Override
-    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findAll(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = feedbackDao.findAll(param);
         return new PageInfo(list);
     }
 
     @Override
-    public Feedback findById(Integer feedbackId) {
-        return feedbackDao.findById(feedbackId);
+    public Feedback findById(Integer feedbackId) throws Exception {
+        Feedback feedback = feedbackDao.findById(feedbackId);
+        if (feedback==null){
+            throw new Exception("没有找到该客户反馈单，请刷新重试");
+        }
+        return feedback;
     }
 
     @Override

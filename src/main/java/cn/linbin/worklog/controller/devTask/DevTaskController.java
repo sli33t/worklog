@@ -44,18 +44,18 @@ public class DevTaskController extends BaseController{
 
     /**
      * 查询所有客户反馈单
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param jsonStr
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = devTaskService.findAll(pageIndex, pageSize, map);
+            PageInfo<LbMap> pages = devTaskService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("分配开发查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("分配开发查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("分配开发查询失败，"+e.getMessage());
         }
@@ -66,7 +66,7 @@ public class DevTaskController extends BaseController{
      * @return
      */
     @GetMapping(value = "/toDevTask")
-    public ModelAndView toDevTask(Integer feedbackId){
+    public ModelAndView toDevTask(Integer feedbackId) throws Exception {
         ModelAndView mv = new ModelAndView();
         Feedback feedback = feedbackService.findById(feedbackId);
         mv.addObject("feedback", feedback);
@@ -142,18 +142,18 @@ public class DevTaskController extends BaseController{
 
     /**
      * 开发完成列表
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @return
      */
     @GetMapping(value = "/findDevFinishList")
-    public LbMap findDevFinishList(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+    public LbMap findDevFinishList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
         try {
             LbMap param = new LbMap();
             param.put("developUserId", userId);
-            PageInfo<LbMap> pages = devTaskService.findDevFinish(pageIndex, pageSize, param);
+            PageInfo<LbMap> pages = devTaskService.findDevFinish(page, limit, param);
             logger.info("查询成功");
-            return LbMap.successResult("开发完成查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("开发完成查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("开发完成查询失败，"+e.getMessage());
         }

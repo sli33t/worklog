@@ -41,7 +41,7 @@ public class FileController extends BaseController{
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
 
@@ -53,9 +53,9 @@ public class FileController extends BaseController{
                 map.put("fileType", 1);
             }
 
-            PageInfo<LbMap> pages = fileService.findAll(pageIndex, pageSize, map);
+            PageInfo<LbMap> pages = fileService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("文件查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("文件查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("文件查询失败，"+e.getMessage());
         }

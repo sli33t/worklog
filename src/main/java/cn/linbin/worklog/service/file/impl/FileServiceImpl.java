@@ -22,8 +22,8 @@ public class FileServiceImpl implements FileService{
     private FileDao fileDao;
 
     @Override
-    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findAll(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = fileDao.findAll(param);
         return new PageInfo(list);
     }

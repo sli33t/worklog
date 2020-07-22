@@ -31,15 +31,15 @@ public class SelectServiceImpl implements SelectService {
     private UserDao userDao;
 
     @Override
-    public PageInfo findArea(int pageIndex, int pageSize) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo findArea(int page, int limit) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = areaDao.findArea();
         return new PageInfo(list);
     }
 
     @Override
-    public PageInfo<LbMap> findCustomer(int pageIndex, int pageSize) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findCustomer(int page, int limit) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = customerDao.findCustomer();
         return new PageInfo(list);
     }
@@ -53,8 +53,8 @@ public class SelectServiceImpl implements SelectService {
     }
 
     @Override
-    public PageInfo<LbMap> findUser(int pageIndex, int pageSize) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findUser(int page, int limit) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = areaDao.findUser();
         return new PageInfo(list);
     }

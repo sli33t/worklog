@@ -88,7 +88,7 @@ public class FeedbackController extends BaseController {
                 code = 200;
             }
 
-            return LbMap.successResult("客户编辑成功", code, 0);
+            return LbMap.successResult("客户编辑成功", code);
         }catch (Exception e){
             logger.info("客户编辑失败："+e.getMessage());
             return LbMap.failResult("客户编辑失败，"+e.getMessage());
@@ -109,18 +109,18 @@ public class FeedbackController extends BaseController {
 
     /**
      * 查询所有客户反馈单
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param jsonStr
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = feedbackService.findAll(pageIndex, pageSize, map);
+            PageInfo<LbMap> pages = feedbackService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("客户反馈单查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("客户反馈单查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("客户反馈单查询失败，"+e.getMessage());
         }
@@ -133,7 +133,7 @@ public class FeedbackController extends BaseController {
      * @return
      */
     @GetMapping(value = "/toUpdate")
-    public ModelAndView toUpdate(Integer feedbackId){
+    public ModelAndView toUpdate(Integer feedbackId) throws Exception {
         ModelAndView mv = new ModelAndView();
         Feedback feedback = feedbackService.findById(feedbackId);
         logger.info(feedback.toString());

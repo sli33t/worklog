@@ -12,7 +12,7 @@ public interface UserService {
      * 查询所有用户
      * @return
      */
-    PageInfo<User> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<User> findAll(int page, int limit, LbMap param);
 
     /**
      * 通过ID查找用户信息
@@ -54,12 +54,12 @@ public interface UserService {
 
     /**
      * 通过岗位查询用户，用于分配用户时回显
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param roleId
      * @return
      */
-    PageInfo<LbMap> findByRoleId(int pageIndex, int pageSize, String roleId);
+    PageInfo<LbMap> findByRoleId(int page, int limit, String roleId);
 
     /**
      * 通过用户查岗位

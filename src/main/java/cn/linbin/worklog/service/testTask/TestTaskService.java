@@ -11,12 +11,12 @@ public interface TestTaskService {
 
     /**
      * 查询测试任务
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
-    PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
      * 查询测试任务
@@ -40,12 +40,12 @@ public interface TestTaskService {
 
     /**
      * 查询测试完成
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param param
      * @return
      */
-    PageInfo<LbMap> findDevFinish(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findDevFinish(int page, int limit, LbMap param);
 
     /**
      * 更新测试退回

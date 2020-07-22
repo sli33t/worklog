@@ -43,16 +43,16 @@ public class SelectController extends BaseController{
 
     /**
      * 查询区域
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @return
      */
     @GetMapping(value = "/findArea")
-    public LbMap findArea(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+    public LbMap findArea(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
         try {
-            PageInfo<LbMap> pages = selectService.findArea(pageIndex, pageSize);
+            PageInfo<LbMap> pages = selectService.findArea(page, limit);
             logger.info("findArea查询成功");
-            return LbMap.successResult("findArea查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("findArea查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("findArea查询失败，"+e.getMessage());
         }
@@ -61,16 +61,16 @@ public class SelectController extends BaseController{
 
     /**
      * 查询用户
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @return
      */
     @GetMapping(value = "/findUser")
-    public LbMap findUser(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+    public LbMap findUser(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
         try {
-            PageInfo<LbMap> pages = selectService.findUser(pageIndex, pageSize);
+            PageInfo<LbMap> pages = selectService.findUser(page, limit);
             logger.info("findUser查询成功");
-            return LbMap.successResult("findUser查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("findUser查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("findUser查询失败，"+e.getMessage());
         }
@@ -79,16 +79,16 @@ public class SelectController extends BaseController{
 
     /**
      * 查询区域
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @return
      */
     @GetMapping(value = "/findCustomer")
-    public LbMap findCustomer(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize){
+    public LbMap findCustomer(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit){
         try {
-            PageInfo<LbMap> pages = selectService.findCustomer(pageIndex, pageSize);
+            PageInfo<LbMap> pages = selectService.findCustomer(page, limit);
             logger.info("findCustomer查询成功");
-            return LbMap.successResult("findCustomer查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("findCustomer查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("findCustomer查询失败，"+e.getMessage());
         }

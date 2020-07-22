@@ -32,8 +32,8 @@ public class DevTaskServiceImpl implements DevTaskService{
     private TestTaskDao testTaskDao;
 
     @Override
-    public PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findAll(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = devTaskDao.findAll(param);
         return new PageInfo(list);
     }
@@ -62,8 +62,8 @@ public class DevTaskServiceImpl implements DevTaskService{
     }
 
     @Override
-    public PageInfo<LbMap> findDevFinish(int pageIndex, int pageSize, LbMap param) {
-        PageHelper.startPage(pageIndex, pageSize);
+    public PageInfo<LbMap> findDevFinish(int page, int limit, LbMap param) {
+        PageHelper.startPage(page, limit);
         List<LbMap> list = devTaskDao.findDevFinish(param);
         return new PageInfo(list);
     }

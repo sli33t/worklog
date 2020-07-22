@@ -10,7 +10,7 @@ public interface FileService {
      * 查询所有文件
      * @return
      */
-    PageInfo<LbMap> findAll(int pageIndex, int pageSize, LbMap param);
+    PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
      * 保存客户信息

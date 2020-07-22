@@ -44,13 +44,13 @@ public class UserController extends BaseController {
      * @return
      */
     @GetMapping(value = "/findAll")
-    public LbMap findAll(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize,  @RequestParam(defaultValue = "") String jsonStr){
+    public LbMap findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,  @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap map = LbMap.fromObject(jsonStr);
             logger.info(jsonStr + "||" + map.toString());
-            PageInfo<User> pages = userService.findAll(pageIndex, pageSize, map);
+            PageInfo<User> pages = userService.findAll(page, limit, map);
             logger.info("查询成功");
-            return LbMap.successResult("用户查询成功", pages.getList(), pages.getSize());
+            return LbMap.successResult("用户查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("用户查询失败，"+e.getMessage());
         }
@@ -58,18 +58,18 @@ public class UserController extends BaseController {
 
     /**
      * 查询岗位用户信息
-     * @param pageIndex
-     * @param pageSize
+     * @param page
+     * @param limit
      * @param roleId
      * @return
      */
     @GetMapping(value = "/findByRoleId")
-    public LbMap findByRoleId(@RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "10") int pageSize,  String roleId){
+    public LbMap findByRoleId(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,  String roleId){
         try {
             if (roleId.equals("")){
                 return LbMap.failResult("请选择岗位");
             }
-            PageInfo<LbMap> pages = userService.findByRoleId(pageIndex, pageSize, roleId);
+            PageInfo<LbMap> pages = userService.findByRoleId(page, limit, roleId);
 
             List<LbMap> newList = pages.getList();
             for (LbMap userMap : newList) {
@@ -81,7 +81,7 @@ public class UserController extends BaseController {
             }
 
             logger.info("查询成功");
-            return LbMap.successResult("用户查询成功", newList, pages.getSize());
+            return LbMap.successResult("用户查询成功", newList, pages.getTotal());
         }catch (Exception e){
             return LbMap.failResult("用户查询失败，"+e.getMessage());
         }
