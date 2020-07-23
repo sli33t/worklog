@@ -11,7 +11,6 @@ import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -90,7 +89,7 @@ public class DevTaskController extends BaseController{
      * @return
      */
     @PostMapping(value = "/edit")
-    public LbMap edit(Integer feedbackId, String developUserId, Double planHour, String taskText){
+    public LbMap edit(Integer feedbackId, String developUserId, Double planHour, String taskText, String developer){
         try {
             if (feedbackId<=0){
                 return LbMap.failResult("分配开发任务失败，没有找到客反单号，请刷新重试！");
@@ -135,7 +134,7 @@ public class DevTaskController extends BaseController{
             queueMap.put("taskText", taskText);
             queueMap.put("requireDate", feedback.getRequireDate());
             queueMap.put("now", now);
-            queueMap.put("developer", feedback.getDeveloper());
+            queueMap.put("developer", developer);
             rabbitTemplate.convertAndSend(MQConstant.DEVELOP_EXCHANGE, MQConstant.DEVELOP_KEY, queueMap.toString());
 
             logger.info("开发任务分配成功");
