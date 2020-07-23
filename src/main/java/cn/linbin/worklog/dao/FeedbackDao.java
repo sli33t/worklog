@@ -63,12 +63,12 @@ public interface FeedbackDao extends BaseMapper<Feedback>{
             "INNER JOIN TB_USER CREATOR ON CREATOR.USER_ID = TB_FEEDBACK.CREATE_USER_ID " +
             "LEFT JOIN TB_DEVTASK ON TB_FEEDBACK.FEEDBACK_ID = TB_DEVTASK.FEEDBACK_ID "+
             "LEFT JOIN TB_USER DEV_USER ON DEV_USER.USER_ID = TB_DEVTASK.DEVELOP_USER_ID "+
-            "WHERE TB_FEEDBACK.FEEDBACK_ID = #{feedbackId} AND COALESCE(TB_DEVTASK.FINISHED, 0) != 2")
+            "WHERE TB_FEEDBACK.FEEDBACK_ID = #{feedbackId} ORDER BY TB_FEEDBACK.FINISHED limit 1")
     Feedback findById(Integer feedbackId);
 
     @Update("UPDATE TB_FEEDBACK SET STATUS = #{status} WHERE FEEDBACK_ID = #{feedbackId}")
     int updateStatus(@Param("feedbackId") Integer feedbackId, @Param("status") Integer status);
 
-    @Select("SELECT FEEDBACK_ID FROM TB_DEVTASK WHERE FEEDBACK_ID = #{feedbackId}")
+    @Select("SELECT FEEDBACK_ID FROM TB_DEVTASK WHERE FEEDBACK_ID = #{feedbackId} and FINISHED = 2")
     List<LbMap> haveDevBack(Integer feedbackId);
 }

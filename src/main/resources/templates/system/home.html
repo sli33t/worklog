@@ -66,6 +66,10 @@
         .width-height{
             width: 100%;height:300px;
         }
+
+        .width{
+            width: 30% !important;
+        }
     </style>
 </head>
 <body>
@@ -85,10 +89,10 @@
                                     <div class="layui-input-inline">
                                         <div id="devCount" class="big-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="devFinishCount" class="small-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="devRate" class="smallRate-font"></div>
                                     </div>
                                 </div>
@@ -113,10 +117,10 @@
                                     <div class="layui-input-inline">
                                         <div id="testCount" class="big-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="testFinishCount" class="small-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="testRate" class="smallRate-font"></div>
                                     </div>
                                 </div>
@@ -140,10 +144,10 @@
                                     <div class="layui-input-inline">
                                         <div id="allCount" class="big-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="allFinishCount" class="small-font"></div>
                                     </div>
-                                    <div class="layui-input-inline">
+                                    <div class="layui-input-inline width">
                                         <div id="allRate" class="smallRate-font"></div>
                                     </div>
                                 </div>
@@ -506,7 +510,7 @@
                 ]
             };
             myChart4.setOption(option4);
-        }, 800);
+        }, 500);
     </script>
 </body>
 </html>

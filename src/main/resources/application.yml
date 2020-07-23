@@ -23,9 +23,17 @@ spring:
     auto: true
     proxy-target-class: true
 
+  rabbitmq:
+      host: 127.0.0.1
+      username: admin
+      password: admin
+      port: 5672
+      virtual-host: worklog
+
 mybatis-plus:
   configuration:
     #还是把结果日志打印出来，方便查询bug
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
     #因为有LbMap，所以null的全部显示
     call-setters-on-nulls: true
+

@@ -1,5 +1,6 @@
 package cn.linbin.worklog.controller.devTask;
 
+import cn.linbin.worklog.constant.MQConstant;
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.controller.customer.FeedbackController;
 import cn.linbin.worklog.domain.DevTask;
@@ -10,6 +11,8 @@ import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,9 @@ public class DevTaskController extends BaseController{
 
     @Autowired
     private FeedbackService feedbackService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 跳转列表页面
@@ -108,7 +114,8 @@ public class DevTaskController extends BaseController{
             devTask.setTaskText(taskText);
 
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            devTask.setTaskTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
+            Date now = dateTimeFormat.parse(dateTimeFormat.format(new Date()));
+            devTask.setTaskTime(now);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             devTask.setTaskDate(dateFormat.parse(dateFormat.format(new Date())));
@@ -119,6 +126,17 @@ public class DevTaskController extends BaseController{
             devTask.setFeedbackTime(feedback.getCreateTime());
 
             devTaskService.edit(devTask);
+
+            LbMap queueMap = new LbMap();
+            queueMap.put("customerName", feedback.getCustomerName());
+            queueMap.put("version", feedback.getVersionName());
+            queueMap.put("feedbackId", feedbackId);
+            queueMap.put("developUserId", developUserId);
+            queueMap.put("taskText", taskText);
+            queueMap.put("requireDate", feedback.getRequireDate());
+            queueMap.put("now", now);
+            queueMap.put("developer", feedback.getDeveloper());
+            rabbitTemplate.convertAndSend(MQConstant.DEVELOP_EXCHANGE, MQConstant.DEVELOP_KEY, queueMap.toString());
 
             logger.info("开发任务分配成功");
             return LbMap.successResult("开发任务分配成功");
