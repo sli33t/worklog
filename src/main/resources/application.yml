@@ -14,8 +14,8 @@ spring:
     static-path-pattern: /static/**
 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///worklog
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/worklog?serverTimezone=UTC
     username: root
     password: 123456
 
