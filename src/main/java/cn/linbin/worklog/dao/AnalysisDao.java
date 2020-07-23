@@ -60,4 +60,57 @@ public interface AnalysisDao extends BaseMapper<LbMap> {
 
             "</script>")
     List<LbMap> workDetailList(@Param("param") LbMap param);
+
+    @Select("<script>" +
+            "SELECT SUM(1) AS DEV_COUNT, SUM(CASE FINISHED WHEN 1 THEN 1 ELSE 0 END) AS DEV_FINISH_COUNT, " +
+            "CASE WHEN COALESCE(SUM(1), 0) = 0 THEN 0 ELSE ROUND(SUM(CASE FINISHED WHEN 1 THEN 1 ELSE 0 END) / SUM(1), 2) * 100 END AS DEV_RATE " +
+            "FROM TB_DEVTASK WHERE COALESCE(FINISHED, 0) != 2 "+
+            "</script>")
+    LbMap queryDevCount(@Param("param") LbMap param);
+
+    @Select("<script>" +
+            "SELECT SUM(1) AS TEST_COUNT, SUM(CASE FINISHED WHEN 1 THEN 1 ELSE 0 END) AS TEST_FINISH_COUNT, " +
+            "CASE WHEN COALESCE(SUM(1), 0) = 0 THEN 0 ELSE ROUND(SUM(CASE FINISHED WHEN 1 THEN 1 ELSE 0 END) / SUM(1), 2) * 100 END AS TEST_RATE " +
+            "FROM TB_TESTTASK WHERE COALESCE(FINISHED, 0) != 2 "+
+            "</script>")
+    LbMap queryTestCount(LbMap param);
+
+    @Select("<script>" +
+            "SELECT SUM(1) AS ALL_COUNT, SUM(CASE TB_TESTTASK.FINISHED WHEN 1 THEN 1 ELSE 0 END) AS ALL_FINISH_COUNT, " +
+            "CASE WHEN COALESCE(SUM(1), 0) = 0 THEN 0 ELSE ROUND(SUM(CASE TB_TESTTASK.FINISHED WHEN 1 THEN 1 ELSE 0 END) / SUM(1), 2) * 100 END AS ALL_RATE " +
+            "FROM TB_DEVTASK LEFT JOIN TB_TESTTASK ON TB_DEVTASK.DEVTASK_ID = TB_TESTTASK.DEVTASK_ID " +
+            "WHERE TB_DEVTASK.FINISHED != 2 "+
+            "</script>")
+    LbMap queryAllCount(LbMap param);
+
+    @Select("<script>" +
+            "SELECT SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.thisYear} AND PROBLEM_TYPE = 0 THEN 1 ELSE 0 END) AS thisYear0," +
+            "SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.lastYear} AND PROBLEM_TYPE = 0 THEN 1 ELSE 0 END) AS lastYear0," +
+            "SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.beforeLastYear} AND PROBLEM_TYPE = 0 THEN 1 ELSE 0 END) AS beforeLastYear0," +
+            "SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.thisYear} AND PROBLEM_TYPE = 1 THEN 1 ELSE 0 END) AS thisYear1," +
+            "SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.lastYear} AND PROBLEM_TYPE = 1 THEN 1 ELSE 0 END) AS lastYear1," +
+            "SUM(CASE WHEN DATE_FORMAT(create_time, '%Y') = #{param.beforeLastYear} AND PROBLEM_TYPE = 1 THEN 1 ELSE 0 END) AS beforeLastYear1 " +
+            "FROM TB_FEEDBACK "+
+            "</script>")
+    LbMap queryFeedbackList(@Param("param") LbMap param);
+
+    @Select("SELECT SUM(CASE WHEN PROBLEM_TYPE = 0 AND FEEDBACK_TYPE = 0 THEN 1 ELSE 0 END) AS NEED0," +
+            "SUM(CASE WHEN PROBLEM_TYPE = 1 AND FEEDBACK_TYPE = 0 THEN 1 ELSE 0 END) AS BUG0," +
+            "SUM(CASE WHEN PROBLEM_TYPE = 0 AND FEEDBACK_TYPE = 1 THEN 1 ELSE 0 END) AS NEED1," +
+            "SUM(CASE WHEN PROBLEM_TYPE = 1 AND FEEDBACK_TYPE = 1 THEN 1 ELSE 0 END) AS BUG1 " +
+            "FROM TB_FEEDBACK")
+    LbMap queryFeedbackTypeList(LbMap param);
+
+    @Select("SELECT SUM(CASE WHEN PRIORITY = 0 THEN 1 ELSE 0 END) AS PRIORITY0, " +
+            "SUM(CASE WHEN PRIORITY = 1 THEN 1 ELSE 0 END) AS PRIORITY1, " +
+            "SUM(CASE WHEN PRIORITY = 2 THEN 1 ELSE 0 END) AS PRIORITY2, " +
+            "SUM(CASE WHEN PRIORITY = 3 THEN 1 ELSE 0 END) AS PRIORITY3 " +
+            "FROM TB_FEEDBACK")
+    LbMap queryPriority(LbMap param);
+
+    @Select("SELECT CONCAT(TB_VERSION.VERSION_NAME, CASE WHEN TB_FEEDBACK.PROBLEM_TYPE = 0 THEN '需求' ELSE '问题' END) AS NAME,  SUM(1) AS VALUE " +
+            "FROM TB_FEEDBACK INNER JOIN TB_CUSTOMER ON TB_FEEDBACK.CUSTOMER_ID = TB_CUSTOMER.CUSTOMER_ID " +
+            "INNER JOIN TB_VERSION ON TB_CUSTOMER.VERSION_ID = TB_VERSION.VERSION_ID " +
+            "GROUP BY TB_VERSION.VERSION_NAME, TB_FEEDBACK.PROBLEM_TYPE")
+    List<LbMap> queryVersionList(LbMap param);
 }

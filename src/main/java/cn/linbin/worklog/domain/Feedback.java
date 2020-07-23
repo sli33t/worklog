@@ -15,6 +15,7 @@ public class Feedback implements Serializable {
     @TableId(value = "FEEDBACK_ID", type = IdType.AUTO)
     private Integer feedbackId;
 
+    //问题类型：需求-0，bug-1
     @TableField(value = "PROBLEM_TYPE")
     private Integer problemType;
 
