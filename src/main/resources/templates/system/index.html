@@ -154,14 +154,16 @@
 
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://127.0.0.1:9090/webSocket");
+            var host = window.location.host;
+            var url = "ws://"+host+"/webSocket";
+            websocket = new WebSocket(url);
         }else {
-            layer.alert('当前浏览器 不支持WebSocket')
+            layer.alert('当前浏览器不支持消息通知，但是不影响您的使用')
         }
 
         //连接发生错误的回调方法
         websocket.onerror = function () {
-            setMessageInnerHTML("连接发生错误");
+            setMessageInnerHTML("消息通知连接发生错误");
         };
 
         //连接成功建立的回调方法

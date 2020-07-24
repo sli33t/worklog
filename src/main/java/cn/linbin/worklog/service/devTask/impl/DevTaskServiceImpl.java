@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -180,5 +181,27 @@ public class DevTaskServiceImpl implements DevTaskService{
     @Override
     public List<LbMap> checkDevTask(Integer feedbackId) {
         return devTaskDao.checkDevTask(feedbackId);
+    }
+
+
+    /**
+     * 更新当前用户的接收状态
+     * @param userId
+     */
+    @Override
+    public void updateDevReceived(String userId) throws Exception {
+        DevTask devTask = new DevTask();
+
+        devTask.setReceived(1);
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        devTask.setReceiveTime(dateTimeFormat.parse(dateTimeFormat.format(new Date())));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        devTask.setReceiveDate(dateFormat.parse(dateFormat.format(new Date())));
+
+        QueryWrapper<DevTask> wrapper = new QueryWrapper<>();
+        wrapper.eq("DEVELOP_USER_ID", userId);
+        wrapper.and(Wrapper -> Wrapper.eq("FINISHED", 0).or().isNull("FINISHED"));
+        devTaskDao.update(devTask, wrapper);
     }
 }

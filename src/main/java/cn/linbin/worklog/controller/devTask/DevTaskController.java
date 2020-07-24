@@ -248,4 +248,19 @@ public class DevTaskController extends BaseController{
         }
     }
 
+    /**
+     * 接收当前所有消息
+     * @return
+     */
+    @PostMapping(value = "/updateDevReceived")
+    public LbMap updateDevReceived(){
+        try {
+            devTaskService.updateDevReceived(userId);
+            logger.info("开发接收成功");
+            return LbMap.successResult("开发接收成功");
+        }catch (Exception e){
+            return LbMap.failResult("开发接收失败，"+e.getMessage());
+        }
+    }
+
 }

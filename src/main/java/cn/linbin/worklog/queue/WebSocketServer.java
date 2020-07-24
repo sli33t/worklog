@@ -1,16 +1,17 @@
 package cn.linbin.worklog.queue;
 
+import cn.linbin.worklog.config.GetHttpSessionConfigurator;
 import cn.linbin.worklog.constant.MQConstant;
+import cn.linbin.worklog.domain.User;
 import cn.linbin.worklog.utils.DateUtil;
 import cn.linbin.worklog.utils.LbMap;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -21,14 +22,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @ServerEndpoint 注解是一个类层次的注解，它的功能主要是将目前的类定义成一个websocket服务器端,
  * 注解的值将被用于监听用户连接的终端访问URL地址,客户端可以通过这个URL来连接到WebSocket服务器端
  */
-@ServerEndpoint("/webSocket")
+@ServerEndpoint(value = "/webSocket", configurator = GetHttpSessionConfigurator.class)
 @Component
 public class WebSocketServer {
 
-    @Autowired
-    private Environment env;
-
-    @Value("${spring.rabbitmq.host}")
+    /*@Value("${spring.rabbitmq.host}")
     private String host;
 
     @Value("${spring.rabbitmq.port}")
@@ -41,7 +39,7 @@ public class WebSocketServer {
     private String password;
 
     @Value("${spring.rabbitmq.virtualhost}")
-    private String virtualhost;
+    private String virtualhost;*/
 
     private final static Logger logger = (Logger) LoggerFactory.getLogger(WebSocketServer.class);
 
@@ -69,8 +67,13 @@ public class WebSocketServer {
     }*/
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, EndpointConfig config) {
         this.session = session;
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+
+        /*User user = (User) httpSession1.getAttribute("user");
+        System.out.println(user.toString());*/
+
         sessions.add(session);
         webSocketSet.add(this);     //加入set中
         addOnlineCount();
@@ -99,11 +102,14 @@ public class WebSocketServer {
             factory.setPassword(password);
             factory.setVirtualHost(virtualhost);*/
 
-            factory.setHost("127.0.0.1");
-            factory.setPort(5672);
-            factory.setUsername("admin");
-            factory.setPassword("admin");
-            factory.setVirtualHost("worklog");
+            String rabbitSetting = (String) httpSession.getAttribute(MQConstant.RABBIT_MQ_SETTING);
+            LbMap rabbitMap = LbMap.fromObject(rabbitSetting);
+
+            factory.setHost(rabbitMap.getString("rbHost"));
+            factory.setPort(rabbitMap.getInt("rbPort"));
+            factory.setUsername(rabbitMap.getString("rbUsername"));
+            factory.setPassword(rabbitMap.getString("rbPassword"));
+            factory.setVirtualHost(rabbitMap.getString("rbVirtualHost"));
 
             //3.创建新的连接
             Connection connection = factory.newConnection();
@@ -124,32 +130,51 @@ public class WebSocketServer {
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                     //处理监听得到的消息
                     String message = null;
+                    boolean needSend = false;
                     try {
                         message = new String(body, "UTF-8");
 
                         if (message!=null){
                             LbMap receiveMap = LbMap.fromObject(message);
 
-                            String developer = receiveMap.getString("developer");
-                            String customerName = receiveMap.getString("customerName");
-                            String feedbackId = receiveMap.getString("feedbackId");
-                            String requireDate = receiveMap.getString("requireDate");
+                            if (httpSession!=null){
+                                User user = (User) httpSession.getAttribute("user");
+                                String developUserId = receiveMap.getString("developUserId");
 
-                            String date = DateUtil.timeStamp2Date(requireDate, "yyyy-MM-dd");
+                                if (user.getUserId().equals(developUserId)){
+                                    needSend = true;
 
-                            String msg = developer + "，您好 <br><br> 您有一项开发任务需要处理<br>["+customerName+"]客户反馈["+feedbackId+"]<br>要求完成日期["+date+"]<br>请在[开发完成]中查看并按要求开发";
-                            logger.info(requireDate+"发送消息到客户端："+msg);
-                            //消息处理逻辑
-                            sendMessage(msg);
+                                    String developer = receiveMap.getString("developer");
+                                    String customerName = receiveMap.getString("customerName");
+                                    String feedbackId = receiveMap.getString("feedbackId");
+                                    String requireDate = receiveMap.getString("requireDate");
+
+                                    String date = DateUtil.timeStamp2Date(requireDate, "yyyy-MM-dd");
+
+                                    String msg = developer + "，您好 <br><br> 您有一项开发任务需要处理<br>["+customerName+"]客户反馈["+feedbackId+"]<br>要求完成日期["+date+"]<br>请在[开发完成]中查看并按要求开发";
+                                    logger.info(requireDate+"发送消息到客户端："+msg);
+                                    //消息处理逻辑
+                                    sendMessage(msg);
+                                }
+                            }
+
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                         channel.abort();
                     } finally {
-                        logger.info("Message Send Done.");
-                        channel.basicAck(envelope.getDeliveryTag(), false);
+                        if (needSend){
+                            logger.info("Message Send Done.");
+                            //发送了才进行回执
+                            channel.basicAck(envelope.getDeliveryTag(), false);
+                        }else{
+                            //执行拒绝策略
+                            channel.basicReject(envelope.getDeliveryTag(), true);
+                        }
                     }
-                    logger.info("Received '" + message + "'");
+                    if (needSend){
+                        logger.info("Received '" + message + "'");
+                    }
                 }
             };
 

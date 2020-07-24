@@ -4,6 +4,7 @@ import cn.linbin.worklog.domain.DevTask;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface DevTaskService {
@@ -57,4 +58,11 @@ public interface DevTaskService {
      * @return
      */
     List<LbMap> checkDevTask(Integer feedbackId);
+
+
+    /**
+     * 接收当前用户所有消息
+     * @param userId
+     */
+    void updateDevReceived(String userId) throws Exception;
 }

@@ -1,5 +1,6 @@
 package cn.linbin.worklog.controller;
 
+import cn.linbin.worklog.constant.MQConstant;
 import cn.linbin.worklog.domain.User;
 import cn.linbin.worklog.utils.LbMap;
 import cn.linbin.worklog.utils.MD5Util;
@@ -8,6 +9,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,9 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final static Logger logger = (Logger) LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired
+    private Environment environment;
 
     /**
      * 跳转登录页面
@@ -55,6 +61,24 @@ public class LoginController {
             User user = (User) subject.getPrincipal();
             if (user!=null){
                 session.setAttribute("user", user);
+
+                if (environment!=null){
+                    LbMap rabbitMap = new LbMap();
+                    String rbHost = environment.getProperty("spring.rabbitmq.host");
+                    String rbPort = environment.getProperty("spring.rabbitmq.port");
+                    String rbUsername = environment.getProperty("spring.rabbitmq.username");
+                    String rbPassword = environment.getProperty("spring.rabbitmq.password");
+                    String rbVirtualHost = environment.getProperty("spring.rabbitmq.virtual-host");
+
+                    rabbitMap.put("rbHost", rbHost);
+                    rabbitMap.put("rbPort", rbPort);
+                    rabbitMap.put("rbUsername", rbUsername);
+                    rabbitMap.put("rbPassword", rbPassword);
+                    rabbitMap.put("rbVirtualHost", rbVirtualHost);
+
+                    session.setAttribute(MQConstant.RABBIT_MQ_SETTING, rabbitMap.toString());
+                }
+
                 logger.info("登录成功："+user.toString());
                 return LbMap.successResult("");
             }else {
