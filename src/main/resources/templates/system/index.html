@@ -151,6 +151,7 @@
         }
 
         var websocket = null;
+        var $ = layui.$;
 
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
@@ -198,7 +199,30 @@
                 ,btnAlign: 'c' //按钮居中
                 ,shade: 0 //不显示遮罩
                 ,yes: function(){
-                    layer.closeAll();
+                    //这里不能使用 $.ajax
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: '/devTask/updateDevReceived',
+                        success: function(data){
+                            if (data.result){
+                                layer.closeAll();
+                            }else {
+                                layer.alert(data.msg, {
+                                    title: '开发消息接收'
+                                })
+                            }
+                        },
+                        error: function (data) {
+                            var msg = data.msg;
+                            if (msg==''||msg==null||msg==undefined){
+                                msg = '后台连接出现异常，请重试';
+                            }
+
+                            layer.alert(msg, {
+                                title: '开发消息接收警告'
+                            })
+                        }
+                    });
                 }
             });
         }

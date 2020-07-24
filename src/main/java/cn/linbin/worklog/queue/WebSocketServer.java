@@ -8,7 +8,6 @@ import cn.linbin.worklog.utils.LbMap;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -141,6 +140,7 @@ public class WebSocketServer {
                                 User user = (User) httpSession.getAttribute("user");
                                 String developUserId = receiveMap.getString("developUserId");
 
+                                //登录用户是开发人员时，才发送消息
                                 if (user.getUserId().equals(developUserId)){
                                     needSend = true;
 
