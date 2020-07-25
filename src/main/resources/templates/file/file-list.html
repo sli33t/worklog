@@ -61,7 +61,10 @@
                     [
                         /*{type: 'checkbox', fixed: 'left'},*/
                         {field:'fileId', title:'文件编号', width:350, fixed: 'left', unresize: true, sort: true}
-                        ,{field:'fileName', title:'文件名称', width:200, sort: true}
+                        ,{field:'fileName', title:'文件名称', width:200, sort: true, templet: function (res){
+                            // return '<a style="color: #0000FF;"> '+res.fileName+' </a>';
+                            return '<div><span title="双击可以下载文件" style="color: #0000FF;">'+res.fileName+'</span></div>';
+                        }}
                         ,{field:'userName', title:'创建用户', width:180, sort:true}
                         ,{field:'fileType', title:'文件类型', width:150, templet: function (res) {
                             if (res.fileType==0){
@@ -79,6 +82,29 @@
                 ]
                 ,page: true
                 ,id: 'dataTable'
+            });
+
+            //监听行单击事件（双击事件为：rowDouble）
+            table.on('rowDouble(fileList)', function(obj){
+                var data = obj.data;
+
+                //标注选中样式
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+                layer.confirm('您确定要下载['+data.fileName+']？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    //模拟表单提交
+                    var url = '/file/downloadFile?fileId='+data.fileId;
+                    var exportForm = $("<form id='fileForm' method='post'></form>");
+                    $(document.body).append(exportForm);
+                    exportForm.attr("action", url);
+                    exportForm.submit();
+                    exportForm.remove();
+                    layer.closeAll();
+                }, function(){
+                    layer.closeAll();
+                });
             });
 
             //头工具栏事件
@@ -157,6 +183,14 @@
                 }
             });
         });
+
+        /*function downloadFile(fileId) {
+            alert(fileId);
+            var exportForm = $("<form action='/file/downloadFile/fileId='+fileId method='post'></form>")
+            $(document.body).append(exportForm);
+            exportForm.submit();
+            exportForm.remove();
+        }*/
     </script>
 </body>
 </html>

@@ -97,11 +97,12 @@
 
     <table class="layui-hide" id="feedbackList" lay-filter="feedbackList"></table>
 
-    <!--<script type="text/html" id="toolAdd">
+    <script type="text/html" id="toolAdd">
         <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="addCustomer">新增</button>
+            <button class="layui-btn layui-btn-sm" lay-event="feedbackToExcel">导出EXCEL模板</button>
+            <button class="layui-btn layui-btn-sm" lay-event="excelToFeedback">EXCEL导入</button>
         </div>
-    </script>-->
+    </script>
 
     <script type="text/html" id="toolEdit">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -113,11 +114,28 @@
     <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
 
     <script th:inline="none">
-        layui.use(['table', 'form', 'layedit'], function(){
+        layui.use(['upload', 'table', 'form', 'layedit'], function(){
             var table = layui.table;
             var layedit = layui.layedit;
             var layform = layui.form;
             var util = layui.util;
+            var upload = layui.upload;
+
+            //指定允许上传的文件类型
+            /*upload.render({
+                elem: '#excelToFeedback'
+                //,url: '/feedback/excelToFeedback'
+                ,accept: 'file' //普通文件
+                ,exts: 'xls|xlsx'
+                ,done: function(res){
+                    if (res.result){
+                        window.location.reload();
+                        layer.alert('上传成功，请点击提交');
+                    }else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });*/
 
             table.render({
                 elem: '#feedbackList'
@@ -138,15 +156,20 @@
                         ,{field:'versionName', title:'程序版本', width:150, sort:true}
                         ,{field:'priority', title:'优先级别', width:100, sort:true, templet: function (res) {
                             if (res.priority==0){
-                                return '<a style="color: #A52A2A;"> 紧急 </a>';
+                                // return '<a style="color: #A52A2A;"> 紧急 </a>';
+                                return '<div><span title="双击可以查看反馈内容" style="color: #FF0000"> 紧急 </span></div>';
                             }else if (res.priority==1){
-                                return '<a style="color: #BDB76B;"> 高 </a>';
+                                // return '<a style="color: #BDB76B;"> 高 </a>';
+                                return '<div><span title="双击可以查看反馈内容" style="color: #BDB76B;"> 高 </span></div>';
                             }else if (res.priority==2){
-                                return '<em> 中 </em>';
+                                // return '<em> 中 </em>';
+                                return '<div><span title="双击可以查看反馈内容"> 中 </span></div>';
                             }else if (res.priority==3){
-                                return '<em> 低 </em>';
+                                // return '<em> 低 </em>';
+                                return '<div><span title="双击可以查看反馈内容"> 低 </span></div>';
                             }else{
-                                return '<em> </em>';
+                                // return '<em> </em>';
+                                return '<div><span title="双击可以查看反馈内容">  </span></div>';
                             }
                         }}
                         ,{field:'status', title:'客反状态', width:100, sort:true, templet: function (res) {
@@ -187,7 +210,8 @@
                             }
                         }}
                         ,{field:'problemText', title:'反馈内容', width:200, sort:true, templet:function (res) {
-                            return '<a lay-event="viewText" style="color: #778899; cursor=\'pointer !important\';"> '+res.problemText+' </a>';
+                            // return '<a lay-event="viewText" style="color: #778899; cursor=\'pointer !important\';"> '+res.problemText+' </a>';
+                            return '<div><span title="双击可以查看反馈内容" style="color: #778899;">'+res.problemText+'</span></div>';
                         }}
                         ,{field:'createUser', title:'创建人', width:100, sort:true}
                         ,{field:'requireDate', title:'要求完成日期', width:200, sort: true, templet: function (res) {
@@ -219,18 +243,72 @@
                 }
             });
 
+            //监听行单击事件（双击事件为：rowDouble）
+            table.on('rowDouble(feedbackList)', function(obj){
+                var data = obj.data;
+                var msg = '客反['+data.feedbackId+']反馈内容<br><br>'+data.problemText;
+                layer.alert(msg, {
+                    title: '客户反馈内容：'
+                });
+
+                //标注选中样式
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+            });
+
             //头工具栏事件
-            /*table.on('toolbar()', function(obj){
-                if (obj.event=='addCustomer'){
-                    layer.open({
-                        type: 2,
-                        area: ['1000px', '600px'],
-                        fixed: false,
-                        maxmin: true,
-                        content: ['toAdd', 'no']
-                    });
-                };
-            });*/
+            table.on('toolbar()', function(obj){
+                if (obj.event=='excelToFeedback'){
+                    // 定义一个全局变量，为一个文本选择器。
+                    var file;
+
+                    // 这样file就是jquery创建的一个文本选择器，但是因为我们并没有把它加载到页面山，所以是不可见的。
+                    file = $('<input type="file" data-options="required:true" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>');
+
+                    // 启动文件选择
+                    file.click();
+
+                    // 选择好文件后，获取选择的内容
+                    file.change(function(e){
+                        var select_file = file[0].files[0];
+                        var formData = new FormData();
+                        formData.append("file", select_file);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/feedback/excelToFeedback',
+                            data: formData,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success: function(data){
+                                if (data.result){
+                                    window.location.reload();
+                                }else {
+                                    layer.alert(data.msg, {
+                                        title: '导入客户反馈'
+                                    })
+                                }
+                            },
+                            error: function (data) {
+                                var msg = data.msg;
+                                if (msg==''||msg==null||msg==undefined){
+                                    msg = '后台连接出现异常，请重试';
+                                }
+
+                                layer.alert(msg, {
+                                    title: '导入客户反馈单警告'
+                                })
+                            }
+                        });
+                    })
+                }else if (obj.event=='feedbackToExcel'){
+                    //模拟表单提交
+                    var exportForm = $("<form action='/feedback/feedbackToExcel' method='post'></form>")
+                    $(document.body).append(exportForm);
+                    exportForm.submit();
+                    exportForm.remove();
+                }
+            });
 
             var $ = layui.$, active = {
                 reload: function(){
@@ -309,12 +387,12 @@
                         content: ['toUpdate?feedbackId='+data.feedbackId]
                     });
                     layer.full(index);
-                } else if(obj.event === 'viewText'){
-                    layer.msg(data.problemText,  {
+                } /*else if(obj.event === 'viewText'){
+                    layer.alert(data.problemText,  {
                         time: 60000, //20s后自动关闭
                         btn: ['关闭']
                     });
-                }
+                }*/
             });
         });
     </script>

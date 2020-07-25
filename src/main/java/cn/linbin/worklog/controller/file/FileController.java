@@ -2,8 +2,11 @@ package cn.linbin.worklog.controller.file;
 
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.domain.File;
+import cn.linbin.worklog.domain.FileBo;
 import cn.linbin.worklog.service.file.FileService;
+import cn.linbin.worklog.utils.DownloadFileUtil;
 import cn.linbin.worklog.utils.LbMap;
+import cn.linbin.worklog.utils.UploadFileUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -82,20 +86,43 @@ public class FileController extends BaseController{
     public LbMap fileUpload(@RequestParam(name = "file") MultipartFile file){
         try {
             LbMap resultMap = new LbMap();
-            String fileName = file.getOriginalFilename();
+            //String fileName = file.getOriginalFilename();
 
             //这里上传文件
+            FileBo fileBo = UploadFileUtil.upload(file);
 
             resultMap.put("result", true);
             resultMap.put("msg", "");
-            resultMap.put("fileName", fileName);
-            resultMap.put("fileUrl", "http://www.baidu.com");
+            resultMap.put("fileName", fileBo.getFileName());
+            //resultMap.put("fileUrl", "http://www.baidu.com");
+            resultMap.put("fileFolder", fileBo.getFolder());
+            resultMap.put("fileUUID", fileBo.getFileUUID());
             return resultMap;
         }catch (Exception e){
             logger.info("文件上传失败："+e.getMessage());
             return LbMap.failResult("文件上传失败，"+e.getMessage());
         }
     }
+
+
+    /**
+     * 文件下载
+     * @param fileId
+     */
+    @PostMapping(value = "/downloadFile")
+    public void downloadFile(String fileId) throws IOException {
+        File file = fileService.findById(fileId);
+        if (file!=null){
+            String folder = file.getFileFolder();
+            String newName = file.getFileName();
+            String oldName = file.getFileUUID() + "_" + file.getFileName();
+            DownloadFileUtil.download(response, folder, newName, oldName);
+        }else {
+            throw new IOException("没有找到文件信息");
+        }
+    }
+
+
 
     /**
      * 新增和修改
@@ -118,14 +145,13 @@ public class FileController extends BaseController{
                 return LbMap.failResult("文件编辑失败，文件名称不能为空，请重新上传");
             }
 
-            if (file.getFileUrl().equals("")){
+            if (file.getFileFolder().equals("")){
                 return LbMap.failResult("文件编辑失败，文件路径不能为空，请重新上传");
             }
 
 
             //新增
             if (StringUtils.isEmpty(file.getFileId())){
-
                 //初始化的行版本号为0
                 file.setDeleteFlag(0);
                 //ID为空的为新增

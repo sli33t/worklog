@@ -149,7 +149,17 @@
                         <input type="text" name="requireDate" id="requireDate" lay-verify="date" placeholder="请选择要求完成日期" autocomplete="off" class="layui-input" th:value="${#dates.format(feedback.requireDate, 'yyyy-MM-dd')}">
                     </div>
                 </div>
+
+                <!--<div class="layui-upload">
+                    <button type="button" class="layui-btn" id="uploadImg">多图片上传</button>
+                    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px; width: 70%">
+                        预览图：
+                        <div class="layui-upload-list" id="showImg" style="height: 120px;"></div>
+                    </blockquote>
+                </div>-->
             </div>
+
+
 
             <div class="layui-form-item layui-form-text left" style="width: 70%;">
                 <label class="layui-form-label font-color">反馈内容</label>
@@ -171,14 +181,31 @@
     <script src="../static/jQuery/jquery-2.2.3.min.js"></script>
 
     <script>
-        layui.use(['form', 'layedit', 'laydate'], function(){
+        layui.use(['form', 'layedit', 'laydate', 'upload'], function(){
             var form = layui.form;
             var layer = layui.layer;
             var $ = layui.$;
             var laydate = layui.laydate;
+            var upload = layui.upload;
 
             laydate.render({
                 elem: '#requireDate'
+            });
+
+            //多图片上传
+            upload.render({
+                elem: '#uploadImg'
+                //,url: 'https://httpbin.org/post' //改成您自己的上传接口
+                ,multiple: true
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#showImg').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img layui-input-inline" style="width: 100px; height: 100px;">')
+                    });
+                }
+                ,done: function(res){
+                    //上传完毕
+                }
             });
 
             //监听提交

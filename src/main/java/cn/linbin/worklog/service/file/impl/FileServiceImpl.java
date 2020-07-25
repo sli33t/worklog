@@ -56,4 +56,9 @@ public class FileServiceImpl implements FileService{
             throw new Exception("文件删除失败，请刷新数据！");
         }
     }
+
+    @Override
+    public File findById(String fileId) {
+        return fileDao.selectById(fileId);
+    }
 }

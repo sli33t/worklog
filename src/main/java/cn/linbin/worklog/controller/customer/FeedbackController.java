@@ -2,19 +2,35 @@ package cn.linbin.worklog.controller.customer;
 
 import cn.linbin.worklog.constant.FeedbackConstant;
 import cn.linbin.worklog.controller.BaseController;
+import cn.linbin.worklog.domain.Customer;
 import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.service.customer.FeedbackService;
+import cn.linbin.worklog.utils.DownloadUtil;
+import cn.linbin.worklog.utils.ExcelExportUtil;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/feedback")
@@ -24,6 +40,9 @@ public class FeedbackController extends BaseController {
 
     @Autowired
     private FeedbackService feedbackService;
+
+    @Autowired
+    private CustomerService customerService;
 
     /**
      * 跳转列表页面
@@ -65,24 +84,14 @@ public class FeedbackController extends BaseController {
 
             //新增
             if (StringUtils.isEmpty(feedback.getFeedbackId())){
-                //初始化的行版本号为0
+
                 feedback.setCreateUserId(userId);
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                feedback.setCreateTime(dateFormat.parse(dateFormat.format(new Date())));
-
-                feedback.setRowVersion(0);
-                feedback.setStatus(FeedbackConstant.FEEDBACK_STATUS_1);
-
                 //ID为空的为新增
                 feedbackService.save(feedback);
                 code = 100;
             }else {
                 //ID不为空的为修改
                 feedback.setModifyUserId(userId);
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                feedback.setModifyTime(dateFormat.parse(dateFormat.format(new Date())));
 
                 feedbackService.update(feedback);
                 code = 200;
@@ -140,5 +149,92 @@ public class FeedbackController extends BaseController {
         mv.setViewName("customer/customer-feedback");
         mv.addObject("feedback", feedback);
         return mv;
+    }
+
+    /**
+     * 导入数据
+     * @return
+     */
+    @PostMapping(value = "/excelToFeedback")
+    public LbMap excelToFeedback(@RequestParam("file") MultipartFile file){
+        try {
+            LbMap result = feedbackService.excelToFeedback(file, userId);
+            return result;
+        }catch (Exception e){
+            return LbMap.failResult("导入失败");
+        }
+    }
+
+
+    /**
+     * 导出模板
+     * @throws IOException
+     */
+    @PostMapping(value = "/feedbackToExcel")
+    public void feedbackToExcel() throws IOException {
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet("客户反馈模板");
+
+        //设置列宽
+        sheet.setColumnWidth(0, 30*256);
+        sheet.setColumnWidth(1, 15*256);
+        sheet.setColumnWidth(2, 15*256);
+        sheet.setColumnWidth(3, 15*256);
+        sheet.setColumnWidth(4, 20*256);
+        sheet.setColumnWidth(5, 60*256);
+
+        //合并大标题
+        CellRangeAddress cellAddresses = new CellRangeAddress(0,0,0,5);
+        sheet.addMergedRegion(cellAddresses);
+
+        //第一行，大标题
+        Row row = sheet.createRow(0);
+        Cell cell = row.createCell(0);
+        row.setHeightInPoints(36);
+        cell.setCellStyle(ExcelExportUtil.bigTitle(wb));
+        cell.setCellValue("客户反馈单导入模板");
+
+        //第二行，小标题
+        row = sheet.createRow(1);
+        row.setHeightInPoints(26);
+
+        String[] titles = {"客户名称", "问题类型", "反馈类型", "优先级别", "要求完成日期", "反馈内容"};
+
+        int index = 0;
+        for (String title : titles) {
+            cell = row.createCell(index);
+            cell.setCellValue(title);
+            cell.setCellStyle(ExcelExportUtil.title(wb));
+
+            if (title.equals("客户名称")){
+                List<Customer> customerList = customerService.findAll();
+                String[] strings = new String[customerList.size()];
+                int i=0;
+                for (Customer customer : customerList) {
+                    strings[i] = customer.getCustomerName();
+                    i++;
+                }
+                sheet.addValidationData(ExcelExportUtil.createDataValidation(wb, index, strings));
+            }
+            if (title.equals("问题类型")){
+                String[] list = {"需求", "bug"};
+                /*ExcelExportUtil.createDataValidation(sheet, list, index);*/
+                sheet.addValidationData(ExcelExportUtil.createDataValidation(wb, index, list));
+            }else if (title.equals("反馈类型")){
+                String[] list = {"内部反馈", "客户反馈"};
+                /*ExcelExportUtil.createDataValidation(sheet, list, index);*/
+                sheet.addValidationData(ExcelExportUtil.createDataValidation(wb, index, list));
+            }else if (title.equals("优先级别")){
+                String[] list = {"紧急", "高", "中", "低"};
+                /*ExcelExportUtil.createDataValidation(sheet, list, index);*/
+                sheet.addValidationData(ExcelExportUtil.createDataValidation(wb, index, list));
+            }
+
+            index++;
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        wb.write(outputStream);
+        DownloadUtil.download(outputStream, response, "客户反馈单导入模板.xlsx");
     }
 }

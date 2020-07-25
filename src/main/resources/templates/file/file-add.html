@@ -18,6 +18,10 @@
 
         }
 
+        .color{
+            color: #666666 !important;
+        }
+
         .left{
             margin-left: 100px;
         }
@@ -55,8 +59,10 @@
                 <label class="layui-form-label font-color">上传文件</label>
                 <div class="layui-input-inline" style="width: 400px; margin-right: -1px;">
                     <span>
-                        <input type="text" name="fileName" id="fileName" placeholder="请点击选择文件" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly="readonly">
-                        <input type="hidden" name="fileUrl" id="fileUrl">
+                        <input type="text" name="fileName" id="fileName" placeholder="请点击选择文件" lay-verify="required" autocomplete="off" class="layui-input layui-disabled color" readonly="readonly">
+                        <!--<input type="hidden" name="fileUrl" id="fileUrl">-->
+                        <input type="hidden" name="fileFolder" id="fileFolder">
+                        <input type="hidden" name="fileUUID" id="fileUUID">
                     </span>
                 </div>
                 <div class="layui-input-inline">
@@ -80,7 +86,6 @@
                         <tbody id="fileList"></tbody>
                     </table>
                 </div>
-
             </div>-->
 
             <div class="layui-form-item">
@@ -111,11 +116,13 @@
                 ,done: function(res){
                     if (res.result){
                         $("#fileName").val(res.fileName);
-                        $("#fileUrl").val(res.fileUrl);
+                        /*$("#fileUrl").val(res.fileUrl);*/
+                        $("#fileFolder").val(res.fileFolder);
+                        $("#fileUUID").val(res.fileUUID);
                         console.log(res);
-                        layer.msg('上传成功，请点击提交');
+                        layer.alert('上传成功，请点击提交');
                     }else {
-                        layer.msg(res.msg);
+                        layer.alert(res.msg);
                     }
                 }
             });
@@ -164,11 +171,11 @@
             //多文件列表示例
             var fileListView = $('#fileList'), uploadListIns = upload.render({
                 elem: '#btnFileSelect'
-                , url: '/file/edit' //改成您自己的上传接口
+                //, url: '/file/edit1' //改成您自己的上传接口
                 , accept: 'file'
                 , multiple: true
                 , auto: false
-                , bindAction: '#btnFileUpload'
+                //, bindAction: '#btnFileUpload'
                 , choose: function (obj) {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                     //读取本地文件
@@ -213,6 +220,38 @@
                     tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
                     tds.eq(3).find('.file-reload').removeClass('layui-hide'); //显示重传
                 }
+            });
+
+            //监听提交
+            form.on('submit(file)', function(data){
+                var json = data.field;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/file/edit',
+                    data: json,
+                    success: function(data){
+                        if (data.result){
+                            window.parent.location.reload();
+                        }else {
+                            layer.alert(data.msg, {
+                                title: '新增文件'
+                            })
+                        }
+                    },
+                    error: function (data) {
+                        var msg = data.msg;
+                        if (msg==''||msg==null||msg==undefined){
+                            msg = '后台连接出现异常，请重试';
+                        }
+
+                        layer.alert(msg, {
+                            title: '新增文件警告'
+                        })
+                    }
+                });
+
+                return false;
             });
         });*/
 

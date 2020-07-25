@@ -20,6 +20,12 @@ public class File implements Serializable{
     @TableField(value = "FILE_URL")
     private String fileUrl;
 
+    @TableField(value = "FILE_FOLDER")
+    private String fileFolder;
+
+    @TableField(value = "FILE_UUID")
+    private String fileUUID;
+
     @TableField(value = "USER_ID")
     private String userId;
 
@@ -37,6 +43,26 @@ public class File implements Serializable{
 
     @TableField(value = "CREATE_TIME")
     private Date createTime;
+
+    public String getFileFolder() {
+        return fileFolder;
+    }
+
+    public void setFileFolder(String fileFolder) {
+        this.fileFolder = fileFolder;
+    }
+
+    public String getFileUUID() {
+        return fileUUID;
+    }
+
+    public void setFileUUID(String fileUUID) {
+        this.fileUUID = fileUUID;
+    }
+
+    public Integer getFileType() {
+        return fileType;
+    }
 
     public String getFileId() {
         return fileId;
@@ -108,6 +134,8 @@ public class File implements Serializable{
                 "fileId='" + fileId + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileUrl='" + fileUrl + '\'' +
+                ", fileFolder='" + fileFolder + '\'' +
+                ", fileUUID='" + fileUUID + '\'' +
                 ", userId='" + userId + '\'' +
                 ", fileType=" + fileType +
                 ", deleteFlag=" + deleteFlag +

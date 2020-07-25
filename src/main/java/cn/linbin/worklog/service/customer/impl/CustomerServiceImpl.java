@@ -6,6 +6,7 @@ import cn.linbin.worklog.domain.Area;
 import cn.linbin.worklog.domain.Customer;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.utils.LbMap;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -110,5 +111,23 @@ public class CustomerServiceImpl implements CustomerService {
         }else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        QueryWrapper<Customer> wrapper = new QueryWrapper<>();
+        wrapper.and(Wrapper->Wrapper.eq("DELETE_FLAG", 0).or().isNull("DELETE_FLAG"));
+        return customerDao.selectList(wrapper);
+    }
+
+    @Override
+    public String findIdByName(String customerName) {
+        QueryWrapper<Customer> wrapper = new QueryWrapper<>();
+        wrapper.eq("CUSTOMER_NAME", customerName);
+        List<Customer> customerList = customerDao.selectList(wrapper);
+        if (customerList!=null&&customerList.size()>0){
+            return customerList.get(0).getCustomerId();
+        }
+        return "";
     }
 }

@@ -3,6 +3,9 @@ package cn.linbin.worklog.service.customer;
 import cn.linbin.worklog.domain.Feedback;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface FeedbackService {
 
@@ -41,4 +44,10 @@ public interface FeedbackService {
      * @return
      */
     int updateStatus(Integer feedbackId, Integer status);
+
+    /**
+     * EXCEL导入客户反馈单
+     * @param file
+     */
+    LbMap excelToFeedback(MultipartFile file, String userId) throws Exception;
 }

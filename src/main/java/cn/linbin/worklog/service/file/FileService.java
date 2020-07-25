@@ -13,16 +13,23 @@ public interface FileService {
     PageInfo<LbMap> findAll(int page, int limit, LbMap param);
 
     /**
-     * 保存客户信息
+     * 保存文件信息
      * @param file
      * @return
      */
     void save(File file) throws Exception;
 
     /**
-     * 删除客户信息
+     * 删除文件信息
      * @param fileId
      * @return
      */
     void delete(String fileId) throws Exception;
+
+    /**
+     * 查找单个文件信息
+     * @param fileId
+     * @return
+     */
+    File findById(String fileId);
 }

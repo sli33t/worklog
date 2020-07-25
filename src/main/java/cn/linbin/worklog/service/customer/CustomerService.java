@@ -48,5 +48,16 @@ public interface CustomerService {
      * @return
      */
     List<Customer> checkCustomerInfo(String customerName);
-    
+
+    /**
+     * 查询所有
+     */
+    List<Customer> findAll();
+
+    /**
+     * 根据客户名称查询客户编号
+     * @param customerName
+     * @return
+     */
+    String findIdByName(String customerName);
 }
