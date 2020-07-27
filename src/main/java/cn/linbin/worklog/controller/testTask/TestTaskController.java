@@ -7,8 +7,6 @@ import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.service.testTask.TestTaskService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/testTask")
 public class TestTaskController extends BaseController{
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(TestTaskController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(TestTaskController.class);
 
     @Autowired
     private TestTaskService testTaskService;

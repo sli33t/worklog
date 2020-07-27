@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<configuration status="WARN" monitorInterval="30">
+    &lt;!&ndash;定义所有的appender &ndash;&gt;
+    <appenders>
+        &lt;!&ndash;这个输出控制台的配置 &ndash;&gt;
+        <console name="Console" target="SYSTEM_OUT">
+            &lt;!&ndash;输出日志的格式 &ndash;&gt;
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l -%n%m%n" />
+        </console>
+        &lt;!&ndash; 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 &ndash;&gt;
+        <RollingFile name="RollingFileInfo"
+                     fileName="D://code//log4j2/info.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            &lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） &ndash;&gt;
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn" fileName="D://code//log4j2/warn.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            &lt;!&ndash; DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10 &ndash;&gt;
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+        <RollingFile name="RollingFileError" fileName="D://code//log4j2/error.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
+    </appenders>
+    &lt;!&ndash;然后定义logger，只有定义了logger并引入的appender，appender才会生效 &ndash;&gt;
+    <loggers>
+        &lt;!&ndash;过滤掉spring和mybatis的一些无用的DEBUG信息 &ndash;&gt;
+         <logger name="org.springframework" level="INFO"></logger>
+         <logger name="org.mybatis" level="INFO"></logger>
+        <root level="all">
+            <appender-ref ref="Console" />
+            <appender-ref ref="RollingFileInfo" />
+            <appender-ref ref="RollingFileWarn" />
+            <appender-ref ref="RollingFileError" />
+        </root>
+    </loggers>
+</configuration>-->
+
+
+<Configuration status="INFO" monitorInterval="1800">
+    <appenders>
+        <!--<Console name="consolePrint" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>-->
+
+        <console name="consolePrint" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <!--<PatternLayout pattern="[%d{HH:mm:ss}] [%p] - %l -%n%m%n" />-->
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%t] [%-5level] [%logger{36}] --- %msg%n" />
+        </console>
+        <!--这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileInfo"
+                     fileName="D://code//log4j2/info.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn" fileName="D://code//log4j2/warn.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <!--DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10-->
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+        <RollingFile name="RollingFileError" fileName="D://code//log4j2/error.log"
+                     filePattern="D://code//log4j2/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <!-- dao用控制台输出，debug为显示语句和参数，如果要显示结果集，可以使用TRACE -->
+        <logger name="cn.linbin.worklog.dao" level="DEBUG" additivity="false">
+            <appender-ref ref="consolePrint"/>
+        </logger>
+        <!--下面的spring日志和mybatis日志可以去掉-->
+        <!--<logger name="org.springframework" level="INFO"></logger>
+        <logger name="org.mybatis" level="INFO"></logger>-->
+        <root level="info">
+            <appender-ref ref="consolePrint" />
+        </root>
+    </loggers>
+</Configuration>

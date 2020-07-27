@@ -6,8 +6,6 @@ import cn.linbin.worklog.service.user.UserService;
 import cn.linbin.worklog.utils.LbMap;
 import cn.linbin.worklog.utils.MD5Util;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController extends BaseController {
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;

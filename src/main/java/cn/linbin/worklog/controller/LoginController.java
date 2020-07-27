@@ -4,11 +4,11 @@ import cn.linbin.worklog.constant.MQConstant;
 import cn.linbin.worklog.domain.User;
 import cn.linbin.worklog.utils.LbMap;
 import cn.linbin.worklog.utils.MD5Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
@@ -25,7 +25,9 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class LoginController {
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(LoginController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(LoginController.class);
+
+    protected static Logger logger = LogManager.getLogger(BaseController.class);
 
     @Autowired
     private Environment environment;

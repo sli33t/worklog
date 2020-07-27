@@ -1,6 +1,5 @@
 package cn.linbin.worklog.controller.customer;
 
-import cn.linbin.worklog.constant.FeedbackConstant;
 import cn.linbin.worklog.controller.BaseController;
 import cn.linbin.worklog.domain.Customer;
 import cn.linbin.worklog.domain.Feedback;
@@ -12,13 +11,9 @@ import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/feedback")
 public class FeedbackController extends BaseController {
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(FeedbackController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(FeedbackController.class);
 
     @Autowired
     private FeedbackService feedbackService;

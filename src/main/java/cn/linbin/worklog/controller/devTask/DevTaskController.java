@@ -2,15 +2,12 @@ package cn.linbin.worklog.controller.devTask;
 
 import cn.linbin.worklog.constant.MQConstant;
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.controller.customer.FeedbackController;
 import cn.linbin.worklog.domain.DevTask;
 import cn.linbin.worklog.domain.Feedback;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.service.devTask.DevTaskService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -25,7 +22,7 @@ import java.util.List;
 @RequestMapping(value = "/devTask")
 public class DevTaskController extends BaseController{
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(FeedbackController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(FeedbackController.class);
 
     @Autowired
     private DevTaskService devTaskService;

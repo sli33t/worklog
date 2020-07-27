@@ -5,8 +5,6 @@ import cn.linbin.worklog.domain.Role;
 import cn.linbin.worklog.service.role.RoleService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/role")
 public class RoleController extends BaseController {
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(RoleController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(RoleController.class);
 
     @Autowired
     private RoleService roleService;

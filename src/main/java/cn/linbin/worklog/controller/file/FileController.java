@@ -8,8 +8,6 @@ import cn.linbin.worklog.utils.DownloadFileUtil;
 import cn.linbin.worklog.utils.LbMap;
 import cn.linbin.worklog.utils.UploadFileUtil;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +25,7 @@ public class FileController extends BaseController{
     @Autowired
     private FileService fileService;
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(FileController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(FileController.class);
 
     /**
      * 跳转列表页面

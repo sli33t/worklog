@@ -7,8 +7,6 @@ import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.service.system.SelectService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = "/customer")
 public class CustomerController extends BaseController {
 
-    private final static Logger logger = (Logger) LoggerFactory.getLogger(CustomerController.class);
+    //private final static Logger logger = (Logger) LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private CustomerService customerService;

@@ -37,7 +37,8 @@ public class MultipartConfig {
             folder.mkdirs();
         }
 
-        System.out.println(tempFilePath + "||" + folderPath);
+        System.out.println("存放临时文件的文件夹："+tempFilePath);
+        System.out.println("存放文件的文件夹：" + folderPath);
 
         return factory.createMultipartConfig();
 
