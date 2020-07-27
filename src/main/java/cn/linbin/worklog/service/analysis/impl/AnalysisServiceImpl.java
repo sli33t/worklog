@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -178,10 +179,13 @@ public class AnalysisServiceImpl implements AnalysisService{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public LbMap workHourDoJob() throws Exception {
         try {
             List<LbMap> list = analysisDao.workHourList(new LbMap());
             for (LbMap map : list) {
+                workHourDao.delete(null);
+
                 WorkHour workHour = new WorkHour();
                 workHour.setUserId(map.getString("userId"));
                 workHour.setDevelopUser(map.getString("developUser"));
