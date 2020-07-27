@@ -38,7 +38,7 @@ public class BaseController {
         this.response = response;
         this.session = session;
 
-        logger.info("请求的地址："+request.getContextPath()+"||"+request.getServletPath());
+        logger.info("请求的地址："+request.getContextPath()+"||"+request.getServletPath()+"||"+request.getMethod());
 
         User user = (User) session.getAttribute("user");
         if (user==null){

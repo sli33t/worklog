@@ -52,7 +52,7 @@ public class DownloadFileUtil {
 		File file = new File(folderPath + fullName);
 		if (file.exists()){
 			response.setContentType("application/octet-stream;charset=utf-8");
-            newName = response.encodeURL(new String(newName.getBytes(),"iso8859-1"));
+			newName = response.encodeURL(new String(newName.getBytes(),"iso8859-1"));
 			response.addHeader("Content-Disposition",   "attachment;filename=" + newName);
 
 			byte[] buffer = new byte[1024];
@@ -77,6 +77,8 @@ public class DownloadFileUtil {
 				bis.close();
 				fis.close();
 			}
+		}else {
+			throw new IOException("在文件服务中没有找到[ "+newName+" ]这个文件");
 		}
 	}
 

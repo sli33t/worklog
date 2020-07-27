@@ -39,5 +39,5 @@ mybatis-plus:
 
 
 myfile:
-  tempFilePath: D:/Code/fileRepository/temp
-  myFolderPath: D:/Code/fileRepository/
+  tempFilePath: D:/fileRepository/temp
+  myFolderPath: D:/fileRepository/file

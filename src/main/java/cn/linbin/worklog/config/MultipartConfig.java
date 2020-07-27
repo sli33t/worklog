@@ -26,11 +26,16 @@ public class MultipartConfig {
         /// 设置总上传数据总大小
         factory.setMaxRequestSize(DataSize.parse("1024MB"));
         //设置临时文件路径，以防长时间不操作后删除临时文件导致报错
-        File f = new File(tempFilePath);
-        if (!f.exists()){
-            f.mkdirs();
+        File tempFile = new File(tempFilePath);
+        if (!tempFile.exists()){
+            tempFile.mkdirs();
         }
         factory.setLocation(tempFilePath);
+
+        File folder = new File(folderPath);
+        if (!folder.exists()){
+            folder.mkdirs();
+        }
 
         System.out.println(tempFilePath + "||" + folderPath);
 

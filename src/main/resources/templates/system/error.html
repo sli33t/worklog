@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>工作日志</title>
@@ -18,7 +18,20 @@
 <div class="layui-body" style="position: unset !important;">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
-        出错了
+        页面不存在
     </div>
+    <blockquote class="layui-elem-quote">
+        注意：你访问的页面发生错误, 你可以 <a href="/home">返回到后台首页</a>
+        <!--<a href="https://www.layui.com/admin/" target="_blank" class="layui-btn layui-btn-danger">layuiAdmin</a>-->
+    </blockquote>
+
+    <blockquote class="layui-elem-quote">
+        <div class="layui-card">
+            <div class="layui-card-header">错误内容：</div>
+            <div class="layui-card-body">
+                <div th:text="${errorMsg}"></div>
+            </div>
+        </div>
+    </blockquote>
 </div>
 </body>
