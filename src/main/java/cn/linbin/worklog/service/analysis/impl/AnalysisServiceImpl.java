@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -201,5 +202,21 @@ public class AnalysisServiceImpl implements AnalysisService{
         }catch (Exception e){
             return LbMap.failResult("自动任务执行失败"+e.getMessage());
         }
+    }
+
+    @Override
+    public List<WorkHour> queryWorkHourList(LbMap param) {
+        List<LbMap> list = analysisDao.workHourList(param);
+        List<WorkHour> newList = new ArrayList<>();
+        for (LbMap map : list) {
+            WorkHour workHour = new WorkHour();
+            workHour.setDevelopUser(map.getString("developUser"));
+            workHour.setWorkCount(map.getDouble("workCount"));
+            workHour.setPlanHour(map.getDouble("planHour"));
+            workHour.setRealHour(map.getDouble("realHour"));
+            workHour.setDelayHour(map.getDouble("delayHour"));
+            newList.add(workHour);
+        }
+        return newList;
     }
 }

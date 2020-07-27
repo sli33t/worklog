@@ -1,5 +1,6 @@
 package cn.linbin.worklog.service.analysis;
 
+import cn.linbin.worklog.domain.WorkHour;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 
@@ -61,4 +62,11 @@ public interface AnalysisService {
     List<LbMap> queryVersionList(LbMap param);
 
     LbMap workHourDoJob() throws Exception;
+
+    /**
+     * PDF导出
+     * @param param
+     * @return
+     */
+    List<WorkHour> queryWorkHourList(LbMap param);
 }

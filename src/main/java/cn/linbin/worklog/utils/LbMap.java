@@ -1,19 +1,15 @@
 package cn.linbin.worklog.utils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cglib.beans.BeanMap;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.StringUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 自定义Map集合，以求实Qs开头
@@ -473,12 +469,23 @@ public class LbMap extends LinkedHashMap<String, Object> implements Comparator<L
 		return map;
 	}
 	
-	
-	/**
-	 * //测试map与bean的转换
-	 * @param args
-	 * @throws Exception
-	 */
+	public static Map<String, Object> lbMapToMap(LbMap source){
+	    Map<String, Object> result = new HashMap<>();
+        for (Entry<String, Object> entry: source.entrySet()){
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    public static LbMap mapToLbMap(Map<String, Object> source){
+        LbMap result = new LbMap();
+        for (Entry<String, Object> entry: source.entrySet()){
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+
 	public static void main(String[] args) throws Exception {
 
 	}
