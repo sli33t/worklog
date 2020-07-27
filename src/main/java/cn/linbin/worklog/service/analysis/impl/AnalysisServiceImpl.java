@@ -1,6 +1,8 @@
 package cn.linbin.worklog.service.analysis.impl;
 
 import cn.linbin.worklog.dao.AnalysisDao;
+import cn.linbin.worklog.dao.WorkHourDao;
+import cn.linbin.worklog.domain.WorkHour;
 import cn.linbin.worklog.service.analysis.AnalysisService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageHelper;
@@ -8,7 +10,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +20,9 @@ public class AnalysisServiceImpl implements AnalysisService{
 
     @Autowired
     private AnalysisDao analysisDao;
+
+    @Autowired
+    private WorkHourDao workHourDao;
 
     /**
      * 查询工时
@@ -171,5 +175,27 @@ public class AnalysisServiceImpl implements AnalysisService{
     @Override
     public List<LbMap> queryVersionList(LbMap param) {
         return analysisDao.queryVersionList(param);
+    }
+
+    @Override
+    public LbMap workHourDoJob() throws Exception {
+        try {
+            List<LbMap> list = analysisDao.workHourList(new LbMap());
+            for (LbMap map : list) {
+                WorkHour workHour = new WorkHour();
+                workHour.setUserId(map.getString("userId"));
+                workHour.setDevelopUser(map.getString("developUser"));
+                workHour.setWorkCount(map.getDouble("workCount"));
+                workHour.setPlanHour(map.getDouble("planHour"));
+                workHour.setRealHour(map.getDouble("realHour"));
+                workHour.setDelayHour(map.getDouble("delayHour"));
+                if (workHourDao.insert(workHour)!=1){
+                    return LbMap.failResult("写入临时表时出错");
+                }
+            }
+            return LbMap.successResult("自动任务执行成功");
+        }catch (Exception e){
+            return LbMap.failResult("自动任务执行失败"+e.getMessage());
+        }
     }
 }

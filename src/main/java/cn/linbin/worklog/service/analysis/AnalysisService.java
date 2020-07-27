@@ -3,7 +3,6 @@ package cn.linbin.worklog.service.analysis;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 
-import java.text.ParseException;
 import java.util.List;
 
 public interface AnalysisService {
@@ -60,4 +59,6 @@ public interface AnalysisService {
      * @return
      */
     List<LbMap> queryVersionList(LbMap param);
+
+    LbMap workHourDoJob() throws Exception;
 }
