@@ -36,15 +36,6 @@ spring:
       charset: utf-8
       force: true
 
-#  http:
-#    encoding:
-#      charset: UTF-8
-#    encoding:
-#      force: true
-#    encoding:
-#      enabled: true
-
-
 mybatis-plus:
   configuration:
     #还是把结果日志打印出来，方便查询bug
