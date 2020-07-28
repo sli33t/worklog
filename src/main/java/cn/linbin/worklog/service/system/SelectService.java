@@ -1,6 +1,6 @@
 package cn.linbin.worklog.service.system;
 
-import cn.linbin.worklog.domain.Version;
+import cn.linbin.worklog.domain.po.Version;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 

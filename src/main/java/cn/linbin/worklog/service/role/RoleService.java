@@ -1,6 +1,6 @@
 package cn.linbin.worklog.service.role;
 
-import cn.linbin.worklog.domain.Role;
+import cn.linbin.worklog.domain.po.Role;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 

@@ -29,6 +29,7 @@ spring:
     password: admin
     port: 5672
     virtual-host: worklog
+
   http:
     encoding:
       enabled: true

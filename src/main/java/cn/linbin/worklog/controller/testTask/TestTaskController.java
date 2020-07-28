@@ -1,8 +1,8 @@
 package cn.linbin.worklog.controller.testTask;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.Feedback;
-import cn.linbin.worklog.domain.TestTask;
+import cn.linbin.worklog.domain.po.Feedback;
+import cn.linbin.worklog.domain.po.TestTask;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.service.testTask.TestTaskService;
 import cn.linbin.worklog.utils.LbMap;

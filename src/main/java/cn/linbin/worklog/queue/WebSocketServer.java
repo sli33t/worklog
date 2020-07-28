@@ -2,7 +2,7 @@ package cn.linbin.worklog.queue;
 
 import cn.linbin.worklog.config.GetHttpSessionConfigurator;
 import cn.linbin.worklog.constant.MQConstant;
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import cn.linbin.worklog.utils.DateUtil;
 import cn.linbin.worklog.utils.LbMap;
 import com.rabbitmq.client.*;

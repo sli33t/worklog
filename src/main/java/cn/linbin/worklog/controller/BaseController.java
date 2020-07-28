@@ -1,7 +1,7 @@
 package cn.linbin.worklog.controller;
 
 import cn.linbin.worklog.common.LoginException;
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import cn.linbin.worklog.service.user.UserService;
 import cn.linbin.worklog.utils.DBUtil;
 import cn.linbin.worklog.utils.LbMap;

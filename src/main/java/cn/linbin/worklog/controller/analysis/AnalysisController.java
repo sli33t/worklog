@@ -1,6 +1,7 @@
 package cn.linbin.worklog.controller.analysis;
 
 import cn.linbin.worklog.controller.BaseController;
+import cn.linbin.worklog.domain.vo.WorkHourDetailVo;
 import cn.linbin.worklog.service.analysis.AnalysisService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
@@ -75,7 +76,7 @@ public class AnalysisController extends BaseController {
     public LbMap workDetailList(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "") String jsonStr){
         try {
             LbMap param = LbMap.fromObject(jsonStr);
-            PageInfo<LbMap> pages = analysisService.workDetailList(page, limit, param);
+            PageInfo<WorkHourDetailVo> pages = analysisService.workDetailList(page, limit, param);
             logger.info("查询成功");
             return LbMap.successResult("工时查询成功", pages.getList(), pages.getTotal());
         }catch (Exception e){

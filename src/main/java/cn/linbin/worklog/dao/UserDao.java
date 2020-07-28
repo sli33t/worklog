@@ -1,6 +1,6 @@
 package cn.linbin.worklog.dao;
 
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import cn.linbin.worklog.utils.LbMap;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

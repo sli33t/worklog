@@ -1,7 +1,7 @@
 package cn.linbin.worklog.shiro;
 
 import cn.linbin.worklog.dao.UserDao;
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

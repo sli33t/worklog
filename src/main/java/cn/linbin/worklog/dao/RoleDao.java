@@ -1,6 +1,6 @@
 package cn.linbin.worklog.dao;
 
-import cn.linbin.worklog.domain.Role;
+import cn.linbin.worklog.domain.po.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

@@ -1,4 +1,4 @@
-package cn.linbin.worklog.domain;
+package cn.linbin.worklog.domain.bo;
 
 public class FileBo {
 

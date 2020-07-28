@@ -1,8 +1,8 @@
 package cn.linbin.worklog.controller.customer;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.Customer;
-import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.domain.po.Customer;
+import cn.linbin.worklog.domain.po.Feedback;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.utils.DownloadUtil;

@@ -1,6 +1,6 @@
 package cn.linbin.worklog.controller;
 
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import cn.linbin.worklog.service.analysis.AnalysisService;
 import cn.linbin.worklog.service.devTask.DevTaskService;
 import cn.linbin.worklog.service.testTask.TestTaskService;

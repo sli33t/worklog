@@ -1,6 +1,7 @@
 package cn.linbin.worklog.service.analysis;
 
-import cn.linbin.worklog.domain.WorkHour;
+import cn.linbin.worklog.domain.po.WorkHour;
+import cn.linbin.worklog.domain.vo.WorkHourDetailVo;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 
@@ -10,7 +11,7 @@ public interface AnalysisService {
 
     PageInfo<LbMap> workHourList(int page, int limit, LbMap param);
 
-    PageInfo<LbMap> workDetailList(int page, int limit, LbMap param);
+    PageInfo<WorkHourDetailVo> workDetailList(int page, int limit, LbMap param);
 
     /**
      * 查询开发总数及开发完成数
@@ -64,9 +65,16 @@ public interface AnalysisService {
     LbMap workHourDoJob() throws Exception;
 
     /**
-     * PDF导出
+     * PDF导出工时统计
      * @param param
      * @return
      */
     List<WorkHour> queryWorkHourList(LbMap param);
+
+    /**
+     * PDF导出工时统计明细
+     * @param param
+     * @return
+     */
+    List<WorkHourDetailVo> queryWorkHourDetailList(LbMap param);
 }

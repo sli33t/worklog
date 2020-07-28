@@ -2,7 +2,8 @@ package cn.linbin.worklog.service.analysis.impl;
 
 import cn.linbin.worklog.dao.AnalysisDao;
 import cn.linbin.worklog.dao.WorkHourDao;
-import cn.linbin.worklog.domain.WorkHour;
+import cn.linbin.worklog.domain.po.WorkHour;
+import cn.linbin.worklog.domain.vo.WorkHourDetailVo;
 import cn.linbin.worklog.service.analysis.AnalysisService;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageHelper;
@@ -48,9 +49,9 @@ public class AnalysisServiceImpl implements AnalysisService{
      * @return
      */
     @Override
-    public PageInfo<LbMap> workDetailList(int page, int limit, LbMap param) {
+    public PageInfo<WorkHourDetailVo> workDetailList(int page, int limit, LbMap param) {
         PageHelper.startPage(page, limit);
-        List<LbMap> list = analysisDao.workDetailList(param);
+        List<WorkHourDetailVo> list = analysisDao.workDetailList(param);
         return new PageInfo<>(list);
     }
 
@@ -218,5 +219,10 @@ public class AnalysisServiceImpl implements AnalysisService{
             newList.add(workHour);
         }
         return newList;
+    }
+
+    @Override
+    public List<WorkHourDetailVo> queryWorkHourDetailList(LbMap param){
+        return analysisDao.workDetailList(param);
     }
 }

@@ -2,11 +2,10 @@ package cn.linbin.worklog.service.customer.impl;
 
 import cn.linbin.worklog.dao.AreaDao;
 import cn.linbin.worklog.dao.CustomerDao;
-import cn.linbin.worklog.domain.Area;
-import cn.linbin.worklog.domain.Customer;
+import cn.linbin.worklog.domain.po.Area;
+import cn.linbin.worklog.domain.po.Customer;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.utils.LbMap;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

@@ -2,7 +2,7 @@ package cn.linbin.worklog.service.customer.impl;
 
 import cn.linbin.worklog.constant.FeedbackConstant;
 import cn.linbin.worklog.dao.FeedbackDao;
-import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.domain.po.Feedback;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.utils.DBUtil;

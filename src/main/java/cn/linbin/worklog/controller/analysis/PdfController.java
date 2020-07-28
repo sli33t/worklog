@@ -1,7 +1,7 @@
 package cn.linbin.worklog.controller.analysis;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.WorkHour;
+import cn.linbin.worklog.domain.vo.WorkHourDetailVo;
 import cn.linbin.worklog.service.analysis.AnalysisService;
 import cn.linbin.worklog.utils.LbMap;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -30,7 +30,7 @@ public class PdfController extends BaseController {
     @Autowired
     private AnalysisService analysisService;
 
-    @GetMapping(value = "/workHourToPdf")
+    @GetMapping(value = "/workHourToPdf", name = "工时统计")
     public void workHourToPdf(@RequestParam(defaultValue = "") String beginDate, @RequestParam(defaultValue = "") String endDate,
                               @RequestParam(defaultValue = "") String developUser) throws Exception {
         /*LbMap lbMap = LbMap.fromObject(jsonStr);
@@ -46,7 +46,7 @@ public class PdfController extends BaseController {
         map.put("developUser", developUser);
         LbMap param = LbMap.mapToLbMap(map);
 
-        List<WorkHour> list = analysisService.queryWorkHourList(param);
+        List<WorkHourDetailVo> list = analysisService.queryWorkHourDetailList(param);
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, dataSource);

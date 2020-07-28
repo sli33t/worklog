@@ -1,8 +1,8 @@
 package cn.linbin.worklog.controller.customer;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.Customer;
-import cn.linbin.worklog.domain.Version;
+import cn.linbin.worklog.domain.po.Customer;
+import cn.linbin.worklog.domain.po.Version;
 import cn.linbin.worklog.service.customer.CustomerService;
 import cn.linbin.worklog.service.system.SelectService;
 import cn.linbin.worklog.utils.LbMap;

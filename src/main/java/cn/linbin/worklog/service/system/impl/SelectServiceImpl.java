@@ -4,7 +4,7 @@ import cn.linbin.worklog.dao.AreaDao;
 import cn.linbin.worklog.dao.CustomerDao;
 import cn.linbin.worklog.dao.UserDao;
 import cn.linbin.worklog.dao.VersionDao;
-import cn.linbin.worklog.domain.Version;
+import cn.linbin.worklog.domain.po.Version;
 import cn.linbin.worklog.service.system.SelectService;
 import cn.linbin.worklog.utils.LbMap;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

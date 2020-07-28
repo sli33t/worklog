@@ -1,5 +1,6 @@
 package cn.linbin.worklog.dao;
 
+import cn.linbin.worklog.domain.vo.WorkHourDetailVo;
 import cn.linbin.worklog.utils.LbMap;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -60,7 +61,7 @@ public interface AnalysisDao extends BaseMapper<LbMap> {
             "</if>" +
 
             "</script>")
-    List<LbMap> workDetailList(@Param("param") LbMap param);
+    List<WorkHourDetailVo> workDetailList(@Param("param") LbMap param);
 
     @Select("<script>" +
             "SELECT SUM(1) AS DEV_COUNT, SUM(CASE FINISHED WHEN 1 THEN 1 ELSE 0 END) AS DEV_FINISH_COUNT, " +

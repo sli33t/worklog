@@ -1,6 +1,6 @@
 package cn.linbin.worklog.service.user;
 
-import cn.linbin.worklog.domain.User;
+import cn.linbin.worklog.domain.po.User;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 

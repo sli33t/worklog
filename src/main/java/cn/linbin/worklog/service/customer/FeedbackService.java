@@ -1,11 +1,9 @@
 package cn.linbin.worklog.service.customer;
 
-import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.domain.po.Feedback;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 public interface FeedbackService {
 

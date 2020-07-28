@@ -1,8 +1,8 @@
 package cn.linbin.worklog.controller.file;
 
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.File;
-import cn.linbin.worklog.domain.FileBo;
+import cn.linbin.worklog.domain.po.File;
+import cn.linbin.worklog.domain.bo.FileBo;
 import cn.linbin.worklog.service.file.FileService;
 import cn.linbin.worklog.utils.DownloadFileUtil;
 import cn.linbin.worklog.utils.LbMap;

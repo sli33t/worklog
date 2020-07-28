@@ -1,10 +1,8 @@
 package cn.linbin.worklog.service.testTask;
 
-import cn.linbin.worklog.domain.TestTask;
+import cn.linbin.worklog.domain.po.TestTask;
 import cn.linbin.worklog.utils.LbMap;
 import com.github.pagehelper.PageInfo;
-
-import java.text.ParseException;
 
 public interface TestTaskService {
 

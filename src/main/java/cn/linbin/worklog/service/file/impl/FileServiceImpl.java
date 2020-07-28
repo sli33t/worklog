@@ -1,7 +1,7 @@
 package cn.linbin.worklog.service.file.impl;
 
 import cn.linbin.worklog.dao.FileDao;
-import cn.linbin.worklog.domain.File;
+import cn.linbin.worklog.domain.po.File;
 import cn.linbin.worklog.service.file.FileService;
 import cn.linbin.worklog.utils.IdWorker;
 import cn.linbin.worklog.utils.LbMap;

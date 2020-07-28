@@ -1,7 +1,7 @@
 package cn.linbin.worklog.service.role.impl;
 
 import cn.linbin.worklog.dao.RoleDao;
-import cn.linbin.worklog.domain.Role;
+import cn.linbin.worklog.domain.po.Role;
 import cn.linbin.worklog.service.role.RoleService;
 import cn.linbin.worklog.utils.LbMap;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

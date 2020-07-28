@@ -2,8 +2,8 @@ package cn.linbin.worklog.controller.devTask;
 
 import cn.linbin.worklog.constant.MQConstant;
 import cn.linbin.worklog.controller.BaseController;
-import cn.linbin.worklog.domain.DevTask;
-import cn.linbin.worklog.domain.Feedback;
+import cn.linbin.worklog.domain.po.DevTask;
+import cn.linbin.worklog.domain.po.Feedback;
 import cn.linbin.worklog.service.customer.FeedbackService;
 import cn.linbin.worklog.service.devTask.DevTaskService;
 import cn.linbin.worklog.utils.LbMap;
